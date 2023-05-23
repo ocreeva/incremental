@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { GlyphGlobalStyle } from '@/components/Glyph';
+
 const GlobalStyles = createGlobalStyle`
 /*  Use a more intuitive box-sizing model.  */
 *, *::before, *::after {
@@ -46,6 +48,8 @@ body > main {
 #root {
     isolation: isolate;
 }
+
+${GlyphGlobalStyle};
 `;
 
 export default GlobalStyles;
