@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="24" height="24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <g fill="currentColor">
+        <path d="
+            M 13 2
+            A 5 5 0 0 0 8 7
+            A 1 1 0 0 0 10 7
+            A 3 3 0 0 1 13 4
+            H 17
+            A 3 3 0 0 1 20 7
+            V 17
+            A 3 3 0 0 1 17 20
+            H 13
+            A 3 3 0 0 1 10 17
+            A 1 1 0 0 0 8 17
+            A 5 5 0 0 0 13 22
+            H 17
+            A 5 5 0 0 0 22 17
+            V 7
+            A 5 5 0 0 0 17 2
+            Z"></path>
+        <path d="
+            M 15 12
+            l -2.02 -3.5
+            c -0.5 -.86 -2.23 0.14 -1.73 1
+            L 12.11 11
+            H 3
+            A 1 1 0 0 0 3 13
+            H 12.11
+            l -0.86 1.5
+            c -0.5 0.86 1.23 1.86 1.73 1
+            Z"></path>
+    </g>
+</svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: invert(100%); } }
+</style></svg>
