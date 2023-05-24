@@ -2,22 +2,22 @@ import { css } from 'styled-components';
 
 import { useGlyph } from '@/hooks';
 
-import ActionId from '@/model/ActionId';
+import CommandId from '@/data/CommandId';
 import { CSSProperties } from 'react';
 
 export enum GlyphSize {
-    small = 30,  // 42px circle
-    medium = 42, // 60px circle
-    large = 51   // 72px circle
+    small = 35,  // 42px circle
+    medium = 50, // 60px circle
+    large = 60   // 72px circle
 };
 
-interface IGlyphProps {
-    action: ActionId,
+interface GlyphProps {
+    command: CommandId,
     size: GlyphSize,
 }
 
-const Glyph: React.FC<IGlyphProps> = ({ action, size }) => {
-    const { GlyphComponent } = useGlyph(action as string);
+const Glyph: React.FC<GlyphProps> = ({ command, size }) => {
+    const { GlyphComponent } = useGlyph(command as string);
 
     return (
         <>

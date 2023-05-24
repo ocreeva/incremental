@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
 }
 
 /*  Enable percentage-based heights.  */
-html, body {
+html, body, #root {
     height: 100%;
 }
 
@@ -41,10 +41,6 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 /*  Create a root stacking context.  */
-body > main {
-    isolation: isolate;
-}
-
 #root {
     isolation: isolate;
 }
