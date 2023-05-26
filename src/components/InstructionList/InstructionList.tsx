@@ -16,7 +16,6 @@ const InstructionList: React.FC = () => {
 };
 
 const Container = styled.div`
-    align-items: flex-start;
     display: flex;
     flex-direction: column;
     gap: 12px;

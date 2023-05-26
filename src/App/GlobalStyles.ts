@@ -20,7 +20,7 @@ html, body, #root {
 
 /*  Typography tweaks for accessibility and text rendering.  */
 body {
-    line-height: 1.5;
+    line-height: 1.2;
     -webkit-font-smoothing: antialiased;
 }
 

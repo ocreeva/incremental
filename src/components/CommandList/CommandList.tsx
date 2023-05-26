@@ -19,7 +19,6 @@ const CommandList: React.FC = () => {
 };
 
 const Container = styled.div`
-    align-items: flex-end;
     display: flex;
     flex-direction: column;
     gap: 12px;

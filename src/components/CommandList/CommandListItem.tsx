@@ -18,23 +18,49 @@ const CommandListItem: React.FC<CommandListItemProps> = ({ command }) => {
 
     return (
         <Container onClick={handleClick}>
-            <Glyph command={command} size={GlyphSize.medium} />
+            <GlyphContainer>
+                <Glyph command={command} size={GlyphSize.medium} />
+            </GlyphContainer>
+            <Title>{command as string}</Title>
         </Container>
     );
 };
 
 const Container = styled.button`
     height: 60px;
-    width: 60px;
+    width: 100%;
 
     background: none;
     border: 2px solid black;
     border-inline-end: 0;
     border-radius: 15px 0 0 15px;
-    margin-inline-end: -4px;
+    padding: 0;
+    padding-inline-end: 8px;
+
+    display: grid;
+    gap: 4px;
+    grid-template-columns: 56px 1fr;
+    grid-template-areas:
+        'glyph title'
+        'glyph progress'
+        'glyph other'
+    ;
+    place-content: center;
+`;
+
+const GlyphContainer = styled.div`
+    grid-area: glyph;
 
     display: grid;
     place-content: center;
+`;
+
+const Title = styled.div`
+    grid-area: title;
+    justify-self: start;
+
+    font-size: 1.25rem;
+    font-weight: 600;
 `;
 
 export default CommandListItem;
