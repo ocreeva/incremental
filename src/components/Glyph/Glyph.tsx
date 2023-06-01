@@ -1,9 +1,7 @@
-import { css } from 'styled-components';
-
-import { useGlyph } from '@/hooks';
+import * as S from './Glyph.styles';
 
 import CommandId from '@/data/CommandId';
-import { CSSProperties } from 'react';
+import { useGlyph } from '@/hooks';
 
 export enum GlyphSize {
     small = 35,  // 42px circle
@@ -20,17 +18,10 @@ const Glyph: React.FC<GlyphProps> = ({ command, size }) => {
     const { GlyphComponent } = useGlyph(command as string);
 
     return (
-        <>
-            <GlyphComponent className='glyph' style={{ '--size': `${size as number}px` } as CSSProperties} />
-        </>
+        <S.Container style={{ '--size': `${size as number}px`} as React.CSSProperties}>
+            <GlyphComponent />
+        </S.Container>
     );
 };
-
-export const GlyphGlobalStyle = css`
-    svg.glyph {
-        height: var(--size);
-        width: var(--size);
-    }
-`;
 
 export default Glyph;

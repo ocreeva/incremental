@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
-import { GlyphGlobalStyle } from '@/components/Glyph';
+import FontStyles from './FontStyles';
+import ThemeStyles from './ThemeStyles';
 
 const GlobalStyles = createGlobalStyle`
 /*  Use a more intuitive box-sizing model.  */
@@ -45,7 +46,8 @@ p, h1, h2, h3, h4, h5, h6 {
     isolation: isolate;
 }
 
-${GlyphGlobalStyle};
+${FontStyles}
+${ThemeStyles}
 `;
 
 export default GlobalStyles;

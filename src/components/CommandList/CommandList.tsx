@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import * as S from './CommandList.styles';
 
+import CommandButton from '@/components/CommandButton';
+import { GlyphSize } from '@/components/Glyph';
 import CommandId from '@/data/CommandId';
-import CommandListItem from './CommandListItem';
 
 const commands: CommandId[] = [
     CommandId.Login,
@@ -10,18 +11,16 @@ const commands: CommandId[] = [
 
 const CommandList: React.FC = () => {
     return (
-        <Container>
+        <S.Container>
             { commands.map(command => (
-                <CommandListItem key={command as string} command={command} />
+                <CommandButton key={command as string} command={command} glyphSize={GlyphSize.medium}>
+                    <S.ButtonContent>
+                        <S.Title>{command as string}</S.Title>
+                    </S.ButtonContent>
+                </CommandButton>
             )) }
-        </Container>
+        </S.Container>
     );
 };
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-`;
 
 export default CommandList;

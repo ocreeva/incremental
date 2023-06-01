@@ -10,8 +10,7 @@ interface InstructionIdPayload {
     id: string;
 }
 
-export const addInstructionToProgram: (state: ProgramState, action: PayloadAction<InstructionPayload>) => void =
-(state, { payload: { command } }) => {
+export const addInstructionToProgram = (state: ProgramState, { payload: { command } }: PayloadAction<InstructionPayload>): void => {
     const id = crypto.randomUUID();
     state.instructions.push({ id, command });
 }

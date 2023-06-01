@@ -1,1 +1,1 @@
-export { default, GlyphSize, GlyphGlobalStyle } from './Glyph';
+export { default, GlyphSize } from './Glyph';

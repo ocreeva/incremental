@@ -16,9 +16,12 @@ const InstructionList: React.FC = () => {
 };
 
 const Container = styled.div`
+    min-height: 100%;
+
     display: flex;
     flex-direction: column;
     gap: 12px;
+    justify-content: center;
 `;
 
 export default InstructionList;

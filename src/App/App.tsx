@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-import GlobalStyles from './GlobalStyles';
+import GlobalStyles from '@/styles/GlobalStyles';
 import CommandId from '@/data/CommandId';
 import Glyph, { GlyphSize } from '@/components/Glyph';
-import ProgramBuilder from '@/components/ProgramBuilder/ProgramBuilder';
+import ProgramIDE from '@/components/ProgramIDE';
 
 const App: React.FC = () => {
     return (
@@ -12,7 +12,7 @@ const App: React.FC = () => {
             <OperationContainer>
                 <Glyph command={CommandId.Login} size={GlyphSize.small} />
             </OperationContainer>
-            <ProgramBuilder />
+            <ProgramIDE />
             <MenuContainer>
                 <Glyph command={CommandId.Login} size={GlyphSize.small} />
             </MenuContainer>
@@ -21,33 +21,44 @@ const App: React.FC = () => {
 };
 
 const Container = styled.div`
+    --app-section-gap-width: 12px;
+    --app-section-filter:
+        drop-shadow(0 0 2px var(--color-background))
+        drop-shadow(0 0 4px var(--color-background))
+    ;
+
     height: 100%;
     width: 100%;
     overflow: hidden;
 
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--app-section-gap-width);
 `;
 
 const OperationContainer = styled.header`
+    flex: 0 0 42px;
+    width: 100%;
+
+    background: var(--color-background);
+    filter: var(--app-section-filter);
+
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-block-end: 1px solid black;
-    min-height: 42px;
-    width: 100%;
 `;
 
 const MenuContainer = styled.footer`
+    flex: 0 0 42px;
+    height: 100%;
+    width: 100%;
+
+    background: var(--color-background);
+    filter: var(--app-section-filter);
+
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-block-start: 1px solid black;
-    min-height: 42px;
-    width: 100%;
 `;
 
 export default App
