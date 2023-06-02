@@ -1,6 +1,6 @@
 enum CommandId {
     Login = 'login',
-    Test = 'test'
+    Scan = 'scan'
 }
 
 export default CommandId;

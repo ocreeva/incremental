@@ -1,0 +1,67 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g fill="currentColor">
+        <path d="
+            M 35 5
+            A 4 4 0 0 1 35 13
+            H 21
+            A 8 8 0 0 0 13 21
+            V 35
+            A 4 4 0 0 1 5 35
+            V 21
+            A 16 16 0 0 1 21 5
+            Z" />
+        <path d="
+            M 95 35
+            A 4 4 0 0 1 87 35
+            V 21
+            A 8 8 0 0 0 79 13
+            H 65
+            A 4 4 0 0 1 65 5
+            H 79
+            A 16 16 0 0 1 95 21
+            Z" />
+        <path d="
+            M 65 95
+            A 4 4 0 0 1 65 87
+            H 79
+            A 8 8 0 0 0 87 79
+            V 65
+            A 4 4 0 0 1 95 65
+            V 79
+            A 16 16 0 0 1 79 95
+            Z" />
+        <path d="
+            M 5 65
+            A 4 4 0 0 1 13 65
+            V 79
+            A 8 8 0 0 0 21 87
+            H 35
+            A 4 4 0 0 1 35 95
+            H 21
+            A 16 16 0 0 1 5 79
+            Z" />
+        <g fill-opacity=".5">
+            <path>
+                <animate attributeName="d" dur="1s" repeatCount="indefinite"
+                    values="
+                        M 30 40 A 4 4 0 0 1 38 40 V 60 A 4 4 0 0 1 30 60 Z;
+                        M 30 30 A 4 4 0 0 1 38 30 V 70 A 4 4 0 0 1 30 70 Z;
+                        M 30 40 A 4 4 0 0 1 38 40 V 60 A 4 4 0 0 1 30 60 Z" />
+            </path>
+            <path>
+                <animate attributeName="d" dur="1s" repeatCount="indefinite"
+                    values="
+                        M 46 30 A 4 4 0 0 1 54 30 V 70 A 4 4 0 0 1 46 70 Z;
+                        M 46 40 A 4 4 0 0 1 54 40 V 60 A 4 4 0 0 1 46 60 Z;
+                        M 46 30 A 4 4 0 0 1 54 30 V 70 A 4 4 0 0 1 46 70 Z" />
+            </path>
+            <path>
+                <animate attributeName="d" dur="1s" repeatCount="indefinite"
+                    values="
+                        M 62 40 A 4 4 0 0 1 70 40 V 60 A 4 4 0 0 1 62 60 Z;
+                        M 62 30 A 4 4 0 0 1 70 30 V 70 A 4 4 0 0 1 62 70 Z;
+                        M 62 40 A 4 4 0 0 1 70 40 V 60 A 4 4 0 0 1 62 60 Z" />
+            </path>
+        </g>
+    </g>
+</svg>

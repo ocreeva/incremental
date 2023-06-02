@@ -6,7 +6,7 @@ import CommandId from '@/data/CommandId';
 
 const commands: CommandId[] = [
     CommandId.Login,
-    CommandId.Test,
+    CommandId.Scan,
 ];
 
 const CommandList: React.FC = () => {
