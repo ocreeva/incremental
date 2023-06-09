@@ -46,6 +46,14 @@ p, h1, h2, h3, h4, h5, h6 {
     isolation: isolate;
 }
 
+/*  Reset default button styling.  */
+button {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    padding: 0;
+}
+
 ${FontStyles}
 ${ThemeStyles}
 `;

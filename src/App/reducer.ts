@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 
-import programReducer from "@/features/program";
+import gameReducer from '@/features/game';
+import programReducer from '@/features/program';
 
 const rootReducer = combineReducers({
+    game: gameReducer,
     program: programReducer,
 });
 
