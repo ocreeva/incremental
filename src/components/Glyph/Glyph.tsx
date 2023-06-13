@@ -1,6 +1,6 @@
 import * as S from './Glyph.styles';
 
-import CommandId from '@/data/CommandId';
+import { CommandId } from '@/types';
 import { useGlyph } from '@/hooks';
 
 export enum GlyphSize {
@@ -10,12 +10,12 @@ export enum GlyphSize {
 };
 
 interface GlyphProps {
-    command: CommandId,
+    commandId: CommandId,
     size: GlyphSize,
 }
 
-const Glyph: React.FC<GlyphProps> = ({ command, size }) => {
-    const { GlyphComponent } = useGlyph(command as string);
+const Glyph: React.FC<GlyphProps> = ({ commandId, size }) => {
+    const { GlyphComponent } = useGlyph(commandId as string);
 
     return (
         <S.Container style={{ '--size': `${size as number}px`} as React.CSSProperties}>

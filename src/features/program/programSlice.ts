@@ -1,10 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+
 import * as reducers from './programSlice.reducers';
 
-import type { ProgramState } from "./programSlice.types";
+import type { ProgramState } from './programSlice.types';
 
 const initialState: ProgramState = {
-    instructions: [],
+    currentScript: {
+        id: crypto.randomUUID(),
+        instructions: [],
+    },
 };
 
 export default createSlice({

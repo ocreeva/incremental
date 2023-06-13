@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
-import { selectProgramInstructions } from '@/features/program';
+import { selectCurrentScript } from '@/features/program';
 import { useAppSelector } from '@/hooks';
 
 import InstructionListItem from './InstructionListItem';
 
 const InstructionList: React.FC = () => {
-    const instructions = useAppSelector(selectProgramInstructions);
+    const { instructions } = useAppSelector(selectCurrentScript);
 
     return (
         <Container>

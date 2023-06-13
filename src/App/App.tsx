@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import ControlPanel from '@/components/ControlPanel';
 import Glyph, { GlyphSize } from '@/components/Glyph';
 import ProgramIDE from '@/components/ProgramIDE';
-import CommandId from '@/data/CommandId';
 import { useGameLoopWorker } from '@/hooks';
 import GlobalStyles from '@/styles/GlobalStyles';
+import { CommandId } from "@/types";
 
 const App: React.FC = () => {
     useGameLoopWorker();
@@ -14,7 +14,7 @@ const App: React.FC = () => {
         <Container>
             <GlobalStyles />
             <OperationContainer>
-                <Glyph command={CommandId.Login} size={GlyphSize.small} />
+                <Glyph commandId={CommandId.Login} size={GlyphSize.small} />
             </OperationContainer>
             <ProgramIDE />
             <ControlPanel />

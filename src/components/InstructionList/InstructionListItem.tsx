@@ -2,26 +2,27 @@ import styled from 'styled-components';
 import { ReactComponent as RemoveIcon } from '@/assets/remove.svg';
 
 import Glyph, { GlyphSize } from '@/components/Glyph/Glyph';
-import { ProgramInstruction, removeInstructionFromProgram } from '@/features/program';
+import { removeInstruction } from '@/features/program';
 import { useAppDispatch } from '@/hooks';
+import { Instruction } from '@/types';
 
 interface InstructionListItemProps {
-    instruction: ProgramInstruction;
+    instruction: Instruction;
 }
 
 const InstructionListItem: React.FC<InstructionListItemProps> = ({ instruction }) => {
     const dispatch = useAppDispatch();
 
-    const { id, command } = instruction;
+    const { id, commandId } = instruction;
 
     const handleRemoveInstruction: React.MouseEventHandler<HTMLButtonElement> = () => {
-        dispatch(removeInstructionFromProgram({ id }));
+        dispatch(removeInstruction({ instructionId: id }));
     };
 
     return (
         <Container>
-            <Glyph command={command} size={GlyphSize.medium} />
-            <Title>{command as string}</Title>
+            <Glyph commandId={commandId} size={GlyphSize.medium} />
+            <Title>{commandId as string}</Title>
             <ControlsContainer>
                 <RemoveInstruction onClick={handleRemoveInstruction}>
                     <RemoveIcon className='glyph' />

@@ -1,8 +1,8 @@
-import { RootState } from "@/App/store";
-import { ProgramInstruction } from "./programSlice.types";
+import { RootState } from '@/App/store';
+import { Script } from '@/types';
 
-export const selectProgramInstructions: (state: RootState) => ProgramInstruction[] =
-    ({ program: { instructions } }) => instructions;
+export const selectCurrentScript: (state: RootState) => Script =
+    ({ program: { currentScript } }) => currentScript;
 
-export const selectProgramHasInstructions: (state: RootState) => boolean =
-    ({ program: { instructions } }) => instructions.length > 0;
+export const selectCurrentScriptHasInstructions: (state: RootState) => boolean =
+    ({ program: { currentScript: { instructions }}}) => instructions.length > 0;

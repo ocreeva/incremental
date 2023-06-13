@@ -1,10 +1,5 @@
-import CommandId from "@/data/CommandId";
-
-export interface ProgramInstruction {
-    id: string;
-    command: CommandId;
-}
+import { Script } from "@/types";
 
 export interface ProgramState {
-    instructions: ProgramInstruction[];
+    currentScript: Script;
 }

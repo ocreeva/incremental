@@ -1,10 +1,10 @@
 import * as S from './CommandButton.styles';
 
 import Glyph, { GlyphSize } from '@/components/Glyph';
-import CommandId from '@/data/CommandId';
+import { CommandId } from '@/types';
 
 interface CommandButtonProps {
-    command: CommandId;
+    commandId: CommandId;
     glyphSize: GlyphSize;
 }
 
@@ -14,7 +14,7 @@ const buttonSizeByGlyphSize = {
     [GlyphSize.large]: '72px',
 };
 
-const CommandButton: React.FC<React.PropsWithChildren<CommandButtonProps>> = ({ children, command, glyphSize }) => {
+const CommandButton: React.FC<React.PropsWithChildren<CommandButtonProps>> = ({ children, commandId, glyphSize }) => {
     const commandButtonStyles = {
         '--command-button_border-color': 'var(--color-highlight)',
         '--command-button_glyph-size': buttonSizeByGlyphSize[glyphSize],
@@ -23,7 +23,7 @@ const CommandButton: React.FC<React.PropsWithChildren<CommandButtonProps>> = ({ 
     return (
         <S.Container style={commandButtonStyles}>
             <S.CommandButton>
-                <Glyph command={command} size={glyphSize} />
+                <Glyph commandId={commandId} size={glyphSize} />
                 <S.ContentContainer>
                     { children }
                 </S.ContentContainer>

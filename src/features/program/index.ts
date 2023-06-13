@@ -1,6 +1,6 @@
 import programSlice from './programSlice';
 
-export const { addInstructionToProgram, removeInstructionFromProgram } = programSlice.actions;
+export const { addInstruction, removeInstruction } = programSlice.actions;
 export * from './programSlice.selectors';
 export * from './programSlice.types';
 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import CommandList from '@/components/CommandList';
 import InstructionList from '@/components/InstructionList';
 import { useAppSelector } from '@/hooks';
-import { selectProgramHasInstructions } from '@/features/program';
+import { selectCurrentScriptHasInstructions } from '@/features/program';
 
 import * as S from './ProgramIDE.styles';
 
@@ -20,10 +20,10 @@ const FocusTargetContainer = {
 };
 
 const ProgramIDE: React.FC = () => {
-    const programHasInstructions = useAppSelector(selectProgramHasInstructions);
+    const currentScriptHasInstructions = useAppSelector(selectCurrentScriptHasInstructions);
     const [focusTarget, setFocusTarget] = useState(FocusTarget.Unspecified);
 
-    // if (!programHasInstructions && (focusTarget === FocusTarget.Instructions)) setFocusTarget(FocusTarget.Commands);
+    // if (!currentScriptHasInstructions && (focusTarget === FocusTarget.Instructions)) setFocusTarget(FocusTarget.Commands);
 
     const handleCommandsFocus: React.MouseEventHandler<HTMLDivElement> = () => {
         // if (focusTarget !== FocusTarget.Instructions) return;
@@ -31,7 +31,7 @@ const ProgramIDE: React.FC = () => {
     }
 
     const handleInstructionsFocus: React.MouseEventHandler<HTMLDivElement> = () => {
-        // if (!programHasInstructions || (focusTarget === FocusTarget.Instructions)) return;
+        // if (!currentScriptHasInstructions || (focusTarget === FocusTarget.Instructions)) return;
         setFocusTarget(FocusTarget.Instructions);
     }
 
