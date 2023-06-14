@@ -1,27 +1,22 @@
-import styled from 'styled-components';
-
 import { selectCurrentScript } from '@/features/program';
 import { useAppSelector } from '@/hooks';
+import { InstructionId } from '@/types';
 
+import * as S from './InstructionList.styles';
 import InstructionListItem from './InstructionListItem';
 
-const InstructionList: React.FC = () => {
+interface InstructionListProps {
+    existingInstructionIds: InstructionId[];
+}
+
+const InstructionList: React.FC<InstructionListProps> = ({ existingInstructionIds }) => {
     const { instructions } = useAppSelector(selectCurrentScript);
 
     return (
-        <Container>
-            { instructions.map(instruction => <InstructionListItem key={instruction.id} instruction={instruction} />) }
-        </Container>
+        <S.Container>
+            { instructions.map(instruction => <InstructionListItem key={instruction.id} instruction={instruction} shouldAnimate={existingInstructionIds.includes(instruction.id)} />) }
+        </S.Container>
     );
 };
-
-const Container = styled.div`
-    min-height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    justify-content: center;
-`;
 
 export default InstructionList;

@@ -6,6 +6,7 @@ import { CommandId } from '@/types';
 interface CommandButtonProps {
     commandId: CommandId;
     glyphSize: GlyphSize;
+    shouldAnimate?: boolean;
 }
 
 const buttonSizeByGlyphSize = {
@@ -14,21 +15,23 @@ const buttonSizeByGlyphSize = {
     [GlyphSize.large]: '72px',
 };
 
-const CommandButton: React.FC<React.PropsWithChildren<CommandButtonProps>> = ({ children, commandId, glyphSize }) => {
+const CommandButton: React.FC<React.PropsWithChildren<CommandButtonProps>> = ({ children, commandId, glyphSize, shouldAnimate = true }) => {
     const commandButtonStyles = {
         '--command-button_border-color': 'var(--color-highlight)',
         '--command-button_glyph-size': buttonSizeByGlyphSize[glyphSize],
     } as React.CSSProperties;
 
+    const Container = shouldAnimate ? S.AnimatedContainer : S.Container;
+
     return (
-        <S.Container style={commandButtonStyles}>
+        <Container style={commandButtonStyles}>
             <S.CommandButton>
                 <Glyph commandId={commandId} size={glyphSize} />
                 <S.ContentContainer>
                     { children }
                 </S.ContentContainer>
             </S.CommandButton>
-        </S.Container>
+        </Container>
     );
 };
 

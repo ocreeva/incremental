@@ -4,7 +4,7 @@ import { CommandId } from '@/types';
 import { useGlyph } from '@/hooks';
 
 export enum GlyphSize {
-    small = 35,  // 42px circle
+    small = 34,  // 42px circle
     medium = 50, // 60px circle
     large = 60   // 72px circle
 };
