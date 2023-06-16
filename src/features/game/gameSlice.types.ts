@@ -1,3 +1,3 @@
 export interface GameState {
-    isPaused: boolean;
+    isPlaying: boolean;
 }

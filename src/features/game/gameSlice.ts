@@ -4,7 +4,7 @@ import * as reducers from './gameSlice.reducers';
 import type { GameState } from './gameSlice.types';
 
 const initialState: GameState = {
-    isPaused: true,
+    isPlaying: false,
 };
 
 export default createSlice({

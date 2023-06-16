@@ -1,3 +1,4 @@
 import { RootState } from '@/App/store';
 
-export const selectGameIsPaused = ({ game: { isPaused } }: RootState): boolean => isPaused;
+export const selectGameIsPlaying: (state: RootState) => boolean
+= ({ game: { isPlaying } }) => isPlaying;

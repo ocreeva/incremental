@@ -1,6 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { GameState } from './gameSlice.types';
 
-export const setGameIsPaused = (state: GameState, { payload: gameIsPaused }: PayloadAction<boolean>): void => {
-    state.isPaused = gameIsPaused;
-};
+export const setGameIsPlaying: (state: GameState, action: PayloadAction<boolean>) => void
+= (state, { payload: isPlaying }) => { state.isPlaying = isPlaying; };

@@ -47,4 +47,4 @@ const OperationContainer = styled.header`
     justify-content: center;
 `;
 
-export default App
+export default App;

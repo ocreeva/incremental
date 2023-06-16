@@ -27,6 +27,9 @@ self.onmessage = ({ data: { action, payload = undefined, requestId = undefined }
         case GameLoopAction.Start:
             break;
 
+        case GameLoopAction.Stop:
+            break;
+
         case GameLoopAction.Tick:
             const { deltaTime } = payload;
             routineProcessor.update(deltaTime);
