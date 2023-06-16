@@ -4,18 +4,26 @@ import { useSelector } from 'react-redux';
 import { selectGameIsPaused } from '@/features/game';
 
 export interface GameAnimationFrameCallback {
-    (): void;
+    (deltaTime: number): void;
 }
 
-const useGameAnimationFrame = (callback: GameAnimationFrameCallback): void => {
-    const requestId = useRef(0);
+const useGameAnimationFrame: (callback: GameAnimationFrameCallback) => void
+= (callback) => {
+    const previousTime = useRef<number>();
+    const requestId = useRef<number>();
     const gameIsPaused = useSelector(selectGameIsPaused);
 
-    const animate = (): void => {
+    const animate: (time: DOMHighResTimeStamp) => void
+    = (time) => {
         try {
-            callback();
+            if (previousTime.current !== undefined)
+            {
+                const deltaTime = time - previousTime.current;
+                callback(deltaTime);
+            }
         }
         finally {
+            previousTime.current = time;
             requestId.current = requestAnimationFrame(animate);
         }
     };
@@ -23,8 +31,15 @@ const useGameAnimationFrame = (callback: GameAnimationFrameCallback): void => {
     useEffect(() => {
         if (gameIsPaused) return;
 
+        previousTime.current = undefined;
+
         requestId.current = requestAnimationFrame(animate);
-        return () => { cancelAnimationFrame(requestId.current); }
+        return () => {
+            if (requestId.current === undefined) return;
+
+            cancelAnimationFrame(requestId.current);
+            requestId.current = undefined;
+        }
     }, [gameIsPaused]);
 };
 

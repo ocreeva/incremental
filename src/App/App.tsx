@@ -3,13 +3,10 @@ import styled from 'styled-components';
 import ControlPanel from '@/components/ControlPanel';
 import Glyph, { GlyphSize } from '@/components/Glyph';
 import ProgramIDE from '@/components/ProgramIDE';
-import { useGameLoopWorker } from '@/hooks';
 import GlobalStyles from '@/styles/GlobalStyles';
 import { CommandId } from "@/types";
 
 const App: React.FC = () => {
-    useGameLoopWorker();
-
     return (
         <Container>
             <GlobalStyles />

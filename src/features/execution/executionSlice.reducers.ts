@@ -1,3 +1,10 @@
+import { PayloadAction } from '@reduxjs/toolkit';
 import { ExecutionState } from './executionSlice.types';
+import { Routine } from '@/types';
 
-export const executeScript = (state: ExecutionState): void => { };
+interface RoutinePayload {
+    routine: Routine;
+}
+
+export const setCurrentRoutine: (state: ExecutionState, action: PayloadAction<RoutinePayload>) => void
+= (state, { payload: { routine } }) => { state.currentRoutine = routine; };

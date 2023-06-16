@@ -1,4 +1,4 @@
-import { InstructionId } from './Instruction';
+import { CommandId } from './Command';
 
 export type OperationId = string;
 
@@ -9,11 +9,11 @@ export type OperationId = string;
  * 
  * @interface Operation
  * @id {OperationId} The operation's ID.
- * @instruction {InstructionId} The instruction's ID.
+ * @instructionId {InstructionId} The command's ID.
  */
 interface Operation {
     id: OperationId;
-    instruction: InstructionId;
+    commandId: CommandId;
 }
 
 export default Operation;
