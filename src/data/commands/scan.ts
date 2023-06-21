@@ -1,4 +1,6 @@
-import { type CommandData, type CommandDesign, CommandId } from "@/types";
+import { CommandId } from '@/types';
+
+import type { CommandData, CommandDesign } from '@/types';
 
 const design: CommandDesign = {
     name: "Scan",

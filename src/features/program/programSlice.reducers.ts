@@ -1,22 +1,22 @@
-import { PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { CommandId } from '@/types';
+import type { ProgramState } from './programSlice.types';
 
-import { CommandId, InstructionId } from '@/types';
-
-import { ProgramState } from './programSlice.types';
-
-interface CommandIdPayload {
+type CommandIdPayload = {
     commandId: CommandId;
-}
+};
 
-interface InstructionIdPayload {
-    instructionId: InstructionId;
-}
+type InstructionKeyPayload = {
+    key: string;
+};
 
-export const addInstruction = ({ currentScript }: ProgramState, { payload: { commandId } }: PayloadAction<CommandIdPayload>): void => {
-    const id = crypto.randomUUID();
-    currentScript.instructions.push({ id, commandId });
-}
+export const addInstruction: (state: ProgramState, payload: PayloadAction<CommandIdPayload>) => void
+= ({ currentScript }, { payload: { commandId } }) => {
+    const key = crypto.randomUUID();
+    currentScript.instructions.push({ key, commandId });
+};
 
-export const removeInstruction = ({ currentScript }: ProgramState, { payload: { instructionId } }: PayloadAction<InstructionIdPayload>): void => {
-    currentScript.instructions = currentScript.instructions.filter(instruction => instruction.id !== instructionId);
-}
+export const removeInstruction: (state: ProgramState, payload: PayloadAction<InstructionKeyPayload>) => void
+= ({ currentScript }, { payload: { key } }) => {
+    currentScript.instructions = currentScript.instructions.filter(instruction => instruction.key !== key);
+};

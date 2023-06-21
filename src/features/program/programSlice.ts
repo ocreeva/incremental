@@ -6,7 +6,7 @@ import type { ProgramState } from './programSlice.types';
 
 const initialState: ProgramState = {
     currentScript: {
-        id: crypto.randomUUID(),
+        key: crypto.randomUUID(),
         instructions: [],
     },
 };

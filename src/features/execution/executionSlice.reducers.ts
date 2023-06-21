@@ -1,9 +1,9 @@
-import { PayloadAction } from '@reduxjs/toolkit';
-import { ExecutionState } from './executionSlice.types';
-import { Routine } from '@/types';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RoutineState } from '@/types';
+import type { ExecutionState } from './executionSlice.types';
 
-interface RoutinePayload {
-    routine: Routine;
+type RoutinePayload = {
+    routine: RoutineState;
 }
 
 export const setCurrentRoutine: (state: ExecutionState, action: PayloadAction<RoutinePayload>) => void

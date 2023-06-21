@@ -1,8 +1,9 @@
-import CommandId from './CommandId';
-import ConceptData from './ConceptData';
-import ConceptDesign from './ConceptDesign';
 import ConceptModel from './ConceptModel';
-import ConceptState from './ConceptState';
+
+import type CommandId from './CommandId';
+import type ConceptData from './ConceptData';
+import type ConceptDesign from './ConceptDesign';
+import type ConceptState from './ConceptState';
 
 /**
  * Provides the UI design data for a Command.
@@ -11,7 +12,7 @@ import ConceptState from './ConceptState';
  */
 export type CommandDesign = ConceptDesign & {
     readonly name: string;
-}
+};
 
 /**
  * Provides the gameplay data for a Command.
@@ -20,14 +21,14 @@ export type CommandDesign = ConceptDesign & {
  */
 export type CommandData = ConceptData<CommandDesign> & {
     readonly id: CommandId;
-}
+};
 
 /**
- * Provides the UI model for a Command.
+ * Provides the UI state for a Command.
  */
-export type CommandModel = ConceptModel & { }
+export type CommandState = ConceptState & { };
 
 /**
- * Provides the gameplay state for a Command.
+ * Provides the gameplay model for a Command.
  */
-export class CommandState extends ConceptState<CommandModel> { }
+export class CommandModel extends ConceptModel<CommandState> { }

@@ -1,16 +1,16 @@
-import { AsyncRequestProvider } from "@/services/AsyncWorkerService";
-import { Instruction, Operation, Routine, Script, Subroutine } from "@/types";
+import type { AsyncRequestProvider } from "@/services/AsyncWorkerService";
+import type { InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
 
 class RoutineProcessor {
     private _asyncRequestProvider: AsyncRequestProvider;
     private _deltaTime: number = 0;
-    private _routine: Routine | undefined;
+    private _routine: RoutineState | undefined;
 
     constructor(asyncRequestProvider: AsyncRequestProvider) {
         this._asyncRequestProvider = asyncRequestProvider;
     }
 
-    createRoutine: (script: Script) => Routine
+    createRoutine: (script: ScriptState) => RoutineState
     = (script) => this._routine = RoutineProcessor._createRoutine(script);
 
     update: (deltaTime: number) => void
@@ -25,33 +25,34 @@ class RoutineProcessor {
         console.log('delta time:', deltaTime, this._deltaTime);
     }
 
-    private static _createOperation: (instruction: Instruction) => Operation
+    private static _createOperation: (instruction: InstructionState) => OperationState
     = ({ commandId }) => {
         return {
-            id: crypto.randomUUID(),
+            key: crypto.randomUUID(),
             commandId,
-            executionTime: 1,
+            duration: 1,
             progress: 0,
         };
     };
 
-    private static _createSubroutine: (script: Script) => Subroutine
+    private static _createSubroutine: (script: ScriptState) => SubroutineState
     = ({ instructions }) => {
         const operations = instructions.map(RoutineProcessor._createOperation);
         return {
-            id: crypto.randomUUID(),
+            key: crypto.randomUUID(),
             operations,
             // TODO: move this elsewhere
-            executionTime: operations.reduce((value, operation) => value + operation.executionTime, 0.16),
+            duration: operations.reduce((value, operation) => value + operation.duration, 0.16),
         }
     };
 
-    private static _createRoutine: (script: Script) => Routine
+    private static _createRoutine: (script: ScriptState) => RoutineState
     = (script) => {
         const subroutine = this._createSubroutine(script);
         return {
+            key: '',
             subroutines: [ subroutine ],
-            executionTime: subroutine.executionTime,
+            duration: subroutine.duration,
         };
     }
 }

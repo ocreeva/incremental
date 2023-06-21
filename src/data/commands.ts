@@ -1,7 +1,9 @@
-import { type CommandData, CommandId, CommandDesign } from "@/types";
+import { CommandId } from '@/types';
 
 import login from './commands/login';
 import scan from './commands/scan';
+
+import type { CommandData, CommandDesign } from '@/types';
 
 const commandDataById: Record<CommandId, CommandData> = {
     [CommandId.Login]: login,

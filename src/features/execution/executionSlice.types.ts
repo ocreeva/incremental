@@ -1,5 +1,5 @@
-import { Routine } from '@/types';
+import type { RoutineState } from '@/types';
 
-export interface ExecutionState {
-    currentRoutine?: Routine;
-}
+export type ExecutionState = {
+    currentRoutine: RoutineState;
+};

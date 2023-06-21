@@ -1,4 +1,4 @@
-import ConceptDesign from './ConceptDesign';
+import type ConceptDesign from './ConceptDesign';
 
 /**
  * Provides the gameplay data for a game concept.
@@ -8,6 +8,6 @@ import ConceptDesign from './ConceptDesign';
  */
 type ConceptData<TDesign extends ConceptDesign> = {
     readonly design: TDesign;
-}
+};
 
 export default ConceptData;

@@ -1,3 +1,3 @@
-export interface GameState {
+export type GameState = {
     isPlaying: boolean;
-}
+};

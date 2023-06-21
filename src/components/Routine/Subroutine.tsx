@@ -1,11 +1,10 @@
-import { CSSProperties } from 'react';
-
-import { SubroutineModel } from '@/types';
-
 import * as S from './Subroutine.styles';
 import Operation from './Operation';
 
-const Subroutine: React.FC<SubroutineModel> = ({ operations, duration }) => {
+import type { CSSProperties } from 'react';
+import type { SubroutineState } from '@/types';
+
+const Subroutine: React.FC<SubroutineState> = ({ operations, duration }) => {
     const style = {
         '--subroutine_duration': `${duration}`,
     } as CSSProperties;

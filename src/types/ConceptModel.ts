@@ -1,9 +1,22 @@
+import type ConceptState from './ConceptState';
+
 /**
- * Provides the UI model for an instance of a game concept.
+ * Provides the gameplay model for an instance of a game concept.
  */
-type ConceptModel = {
-    /** The model's unique key. */
-    readonly key: string;
+abstract class ConceptModel<TState extends ConceptState> {
+    public readonly state: TState;
+
+    /**
+     * @param {TState} state - The instance's UI state.
+     */
+    constructor(state: TState) {
+        this.state = state;
+    }
+
+    /**
+     * @returns {string} The state's unique ID.
+     */
+    public get id(): string { return this.state.key; }
 }
 
 export default ConceptModel;

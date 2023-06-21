@@ -1,9 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import * as reducers from './executionSlice.reducers';
-import { ExecutionState } from './executionSlice.types';
 
-const initialState: ExecutionState = { };
+import type { ExecutionState } from './executionSlice.types';
+
+const initialState: ExecutionState = {
+    currentRoutine: {
+        key: '',
+        subroutines: [],
+        duration: 0,
+    }
+};
 
 export default createSlice({
     name: 'execution',

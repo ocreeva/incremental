@@ -22,7 +22,7 @@ const ProgramIDE: React.FC = () => {
     const currentScriptHasInstructions = currentScriptInstructions.length > 0;
 
     const { instructions } = useAppSelector(selectCurrentScript);
-    const [existingInstructionIds, setExistingInstructionIds] = useState(instructions.map(instruction => instruction.id));
+    const [existingInstructionKeys, setExistingInstructionKeys] = useState(instructions.map(instruction => instruction.key));
 
     const [focusTarget, setFocusTarget] = useState(FocusTarget.Commands);
 
@@ -31,14 +31,14 @@ const ProgramIDE: React.FC = () => {
     const handleCommandsFocus: React.MouseEventHandler<HTMLDivElement> = () => {
         if (focusTarget !== FocusTarget.Instructions) return;
 
-        setExistingInstructionIds(instructions.map(instruction => instruction.id));
+        setExistingInstructionKeys(instructions.map(instruction => instruction.key));
         setFocusTarget(FocusTarget.Commands);
     }
 
     const handleInstructionsFocus: React.MouseEventHandler<HTMLDivElement> = () => {
         if (!currentScriptHasInstructions || (focusTarget === FocusTarget.Instructions)) return;
 
-        setExistingInstructionIds(instructions.map(instruction => instruction.id));
+        setExistingInstructionKeys(instructions.map(instruction => instruction.key));
         setFocusTarget(FocusTarget.Instructions);
     }
 
@@ -51,7 +51,7 @@ const ProgramIDE: React.FC = () => {
                 <CommandList />
             </S.CommandsContainer>
             <S.InstructionsContainer onClick={handleInstructionsFocus}>
-                <InstructionList existingInstructionIds={existingInstructionIds} />
+                <InstructionList existingInstructionKeys={existingInstructionKeys} />
             </S.InstructionsContainer>
         </Container>
     );

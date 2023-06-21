@@ -1,11 +1,12 @@
-import { CSSProperties } from 'react';
-
-import { CommandId, RoutineModel } from "@/types";
+import { CommandId } from '@/types';
 
 import * as S from './Routine.styles';
 import Subroutine from './Subroutine';
 
-const routine: RoutineModel = {
+import type { CSSProperties } from 'react';
+import type { RoutineState } from '@/types';
+
+const routine: RoutineState = {
     key: '',
     duration: 452,
     subroutines: [

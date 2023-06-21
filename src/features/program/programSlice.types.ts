@@ -1,5 +1,5 @@
-import { Script } from "@/types";
+import type { ScriptState } from '@/types';
 
-export interface ProgramState {
-    currentScript: Script;
-}
+export type ProgramState = {
+    currentScript: ScriptState;
+};

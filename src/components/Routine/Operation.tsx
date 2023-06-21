@@ -1,11 +1,10 @@
-import { CSSProperties } from 'react';
-
-import { OperationModel } from '@/types';
-
 import * as S from './Operation.styles';
 import { useGlyph } from '@/hooks';
 
-const Operation: React.FC<OperationModel> = ({ commandId, duration, progress }) => {
+import type { CSSProperties } from 'react';
+import type { OperationState } from '@/types';
+
+const Operation: React.FC<OperationState> = ({ commandId, duration, progress }) => {
     const { GlyphComponent } = useGlyph(commandId as string);
 
     const style = {

@@ -2,22 +2,20 @@ import CommandButton from '@/components/CommandButton';
 import { GlyphSize } from '@/components/Glyph';
 import { removeInstruction } from '@/features/program';
 import { useAppDispatch } from '@/hooks';
-import { Instruction } from '@/types';
 
 import * as S from './InstructionListItem.styles';
 
-interface InstructionListItemProps {
-    instruction: Instruction;
-    shouldAnimate: boolean;
-}
+import type { InstructionState } from '@/types';
 
-const InstructionListItem: React.FC<InstructionListItemProps> = ({ instruction, shouldAnimate }) => {
+type InstructionListItemProps = InstructionState & {
+    shouldAnimate: boolean;
+};
+
+const InstructionListItem: React.FC<InstructionListItemProps> = ({ key, commandId, shouldAnimate }) => {
     const dispatch = useAppDispatch();
 
-    const { id, commandId } = instruction;
-
     const handleRemoveInstruction: React.MouseEventHandler<HTMLButtonElement> = () => {
-        dispatch(removeInstruction({ instructionId: id }));
+        dispatch(removeInstruction({ key }));
     };
 
     return (
