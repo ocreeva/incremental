@@ -1,4 +1,4 @@
-import type { CommandId } from './Command';
+import type { CommandId } from './CommandData';
 
 export type InstructionId = string;
 

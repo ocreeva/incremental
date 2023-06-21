@@ -1,5 +1,5 @@
 import { AsyncRequestProvider } from "@/services/AsyncWorkerService";
-import { Instruction, Operation, Routine, Script } from "@/types";
+import { Instruction, Operation, Routine, Script, Subroutine } from "@/types";
 
 class RoutineProcessor {
     private _asyncRequestProvider: AsyncRequestProvider;
@@ -30,18 +30,28 @@ class RoutineProcessor {
         return {
             id: crypto.randomUUID(),
             commandId,
+            executionTime: 1,
+            progress: 0,
         };
     };
 
-    private static _createRoutine: (script: Script) => Routine
+    private static _createSubroutine: (script: Script) => Subroutine
     = ({ instructions }) => {
+        const operations = instructions.map(RoutineProcessor._createOperation);
         return {
-            subroutines: [
-                {
-                    id: crypto.randomUUID(),
-                    operations: instructions.map(RoutineProcessor._createOperation),
-                }
-            ]
+            id: crypto.randomUUID(),
+            operations,
+            // TODO: move this elsewhere
+            executionTime: operations.reduce((value, operation) => value + operation.executionTime, 0.16),
+        }
+    };
+
+    private static _createRoutine: (script: Script) => Routine
+    = (script) => {
+        const subroutine = this._createSubroutine(script);
+        return {
+            subroutines: [ subroutine ],
+            executionTime: subroutine.executionTime,
         };
     }
 }

@@ -19,6 +19,7 @@ const ThemeStyles = css`
         --color-highlight: gray;
         --color-background: white;
         --color-empty: lightgray;
+        --color-progress: hsl(120deg 100% 25%);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -27,6 +28,7 @@ const ThemeStyles = css`
             --color-highlight: var(--color-gray-900);
             --color-empty: var(--color-gray-100);
             --color-background: var(--color-gray-50);
+            --color-progress: hsl(120deg 100% 25%);
         }
     }
 

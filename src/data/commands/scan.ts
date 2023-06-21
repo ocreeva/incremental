@@ -1,8 +1,12 @@
-import { Command, CommandId } from "@/types";
+import { type CommandData, type CommandDesign, CommandId } from "@/types";
 
-const command: Command = {
-    id: CommandId.Scan,
-    name: 'Scan',
+const design: CommandDesign = {
+    name: "Scan",
 };
 
-export default command;
+const data: CommandData = {
+    id: CommandId.Scan,
+    design,
+};
+
+export default data;

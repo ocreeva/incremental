@@ -1,18 +1,15 @@
 import styled from 'styled-components';
 
 import ControlPanel from '@/components/ControlPanel';
-import Glyph, { GlyphSize } from '@/components/Glyph';
 import ProgramIDE from '@/components/ProgramIDE';
 import GlobalStyles from '@/styles/GlobalStyles';
-import { CommandId } from "@/types";
+import Routine from '@/components/Routine';
 
 const App: React.FC = () => {
     return (
         <Container>
             <GlobalStyles />
-            <OperationContainer>
-                <Glyph commandId={CommandId.Login} size={GlyphSize.small} />
-            </OperationContainer>
+            <Routine />
             <ProgramIDE />
             <ControlPanel />
         </Container>
@@ -33,18 +30,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: var(--app-section-gap-width);
-`;
-
-const OperationContainer = styled.header`
-    flex: 0 0 42px;
-    width: 100%;
-
-    background: var(--color-background);
-    filter: var(--app-section-filter);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 `;
 
 export default App;

@@ -54,6 +54,12 @@ button {
     padding: 0;
 }
 
+/*  Default glyph sizing through CSS variables.  */
+svg {
+    height: var(--glyph_size);
+    width: var(--glyph_size);
+}
+
 ${FontStyles}
 ${ThemeStyles}
 `;

@@ -1,9 +1,9 @@
-import { getAllCommandIds } from '@/data';
+import { Commands } from '@/data';
 
 import * as S from './CommandList.styles';
 import CommandListItem from './CommandListItem';
 
-const commandIds = getAllCommandIds();
+const commandIds = Commands.getAllCommandIds();
 
 const CommandList: React.FC = () => {
     return (

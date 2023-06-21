@@ -1,1 +1,1 @@
-export * from './commands';
+export { default as Commands } from './Commands';

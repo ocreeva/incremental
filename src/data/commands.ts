@@ -1,14 +1,24 @@
-import { Command, CommandId } from "@/types";
+import { type CommandData, CommandId, CommandDesign } from "@/types";
 
 import login from './commands/login';
 import scan from './commands/scan';
 
-const commandsById: Record<CommandId, Command> = {
+const commandDataById: Record<CommandId, CommandData> = {
     [CommandId.Login]: login,
     [CommandId.Scan]: scan,
 };
 
 const allCommandIds: CommandId[] = Object.values(CommandId);
-export const getAllCommandIds: () => CommandId[] = () => allCommandIds;
 
-export const getCommand: (commandId: CommandId) => Command = (commandId) => commandsById[commandId];
+abstract class Commands {
+    public static getAllCommandIds: () => CommandId[]
+    = () => allCommandIds;
+
+    public static getCommandData: (commandId: CommandId) => CommandData
+    = (commandId) => commandDataById[commandId];
+
+    public static getCommandDesign: (commandId: CommandId) => CommandDesign
+    = (commandId) => commandDataById[commandId].design;
+};
+
+export default Commands;

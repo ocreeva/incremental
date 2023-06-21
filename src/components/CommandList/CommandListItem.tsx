@@ -1,6 +1,6 @@
 import CommandButton from '@/components/CommandButton';
 import { GlyphSize } from '@/components/Glyph';
-import { getCommand } from '@/data';
+import { Commands } from '@/data';
 import { useAppDispatch } from '@/hooks';
 import { CommandId } from '@/types';
 
@@ -14,7 +14,7 @@ interface CommandListItemProps {
 const CommandListItem: React.FC<CommandListItemProps> = ({ commandId }) => {
     const dispatch = useAppDispatch();
 
-    const { name } = getCommand(commandId);
+    const { name } = Commands.getCommandDesign(commandId);
 
     const handleAddCommand: React.MouseEventHandler<HTMLButtonElement> = () => {
         dispatch(addInstruction({ commandId }));
