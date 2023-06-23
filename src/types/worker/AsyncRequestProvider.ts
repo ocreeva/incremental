@@ -7,13 +7,12 @@ declare interface AsyncRequestProvider {
      * 
      * @typeParam TResponse - The type of the response.
      * @typeParam TPayload - The type of the request's payload.
-     * @typeParam TType - The type of the requests's message type.
      * 
      * @param type - The request's message type.
      * @param payload - The requests's payload.
      * @returns The asynchronous response, as a Promise.
      */
-    requestAsync: <TResponse = void, TPayload = void, TType extends string = string>(type: TType, payload: TPayload) => Promise<TResponse>;
+    requestAsync: <TResponse = void, TPayload = void>(type: string, payload: TPayload) => Promise<TResponse>;
 };
 
 export default AsyncRequestProvider;

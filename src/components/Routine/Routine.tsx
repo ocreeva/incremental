@@ -20,7 +20,7 @@ const Routine: React.FC = () => {
     return (
         <S.Container style={style}>
             <S.ScrollRegion>
-                { subroutines.map(id => <Subroutine key={id} id={id} />) }
+                { subroutines.map(subroutineId => <Subroutine key={subroutineId} id={subroutineId} />) }
             </S.ScrollRegion>
         </S.Container>
     );
