@@ -8,7 +8,7 @@ import type { CSSProperties } from 'react';
 
 const Routine: React.FC = () => {
     const currentRoutine = useAppSelector(selectCurrentRoutine);
-    if (currentRoutine === undefined) return (<></>);
+    if (currentRoutine === undefined) return (<S.Container />);
 
     const { duration, subroutines } = currentRoutine;
 
