@@ -4,7 +4,7 @@ import type { InstructionState } from './InstructionTypes';
 /**
  * Provides the UI state for a Script.
  * 
- * @key {string} The script's unique key.
+ * @id {string} The script's unique ID.
  * @instructions {InstructionState[]} The script's instructions' states.
  */
 export type ScriptState = ConceptState & {

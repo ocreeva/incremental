@@ -12,11 +12,6 @@ abstract class ConceptModel<TState extends ConceptState> {
     constructor(state: TState) {
         this.state = state;
     }
-
-    /**
-     * @returns {string} The state's unique ID.
-     */
-    public get id(): string { return this.state.key; }
 }
 
 export default ConceptModel;

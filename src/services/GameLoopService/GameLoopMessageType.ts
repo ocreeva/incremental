@@ -1,4 +1,4 @@
-enum GameLoopAction {
+enum GameLoopMessageType {
     // main -> worker
     CreateRoutineAsync = 'GameLoop/CreateRoutine',
     Start = 'GameLoop/Start',
@@ -7,6 +7,7 @@ enum GameLoopAction {
 
     // worker -> main
     GetScript = 'GameLoop/GetScript',
+    UpdateState = 'GameLoop/UpdateState',
 }
 
-export default GameLoopAction;
+export default GameLoopMessageType;

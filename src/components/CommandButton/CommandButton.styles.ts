@@ -100,8 +100,6 @@ export const ContentContainer = styled.div`
 
     ${FocusOnCommands} ${InstructionList} &,
     ${FocusOnInstructions} ${CommandList} & {
-        margin-inline-start: -25px;
-        opacity: 0;
-        transform: translate(-50%) scaleX(5%);
+        display: none;
     }
 `;

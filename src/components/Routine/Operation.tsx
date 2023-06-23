@@ -1,10 +1,16 @@
+import { selectOperation } from '@/features/operations';
+import { useAppSelector, useGlyph } from '@/hooks';
+
 import * as S from './Operation.styles';
-import { useGlyph } from '@/hooks';
 
 import type { CSSProperties } from 'react';
-import type { OperationState } from '@/types';
 
-const Operation: React.FC<OperationState> = ({ commandId, duration, progress }) => {
+type OperationProps = {
+    id: string;
+}
+
+const Operation: React.FC<OperationProps> = ({ id }) => {
+    const { commandId, duration, progress } = useAppSelector(state => selectOperation(state, id));
     const { GlyphComponent } = useGlyph(commandId as string);
 
     const style = {

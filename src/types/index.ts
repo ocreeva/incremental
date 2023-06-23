@@ -4,6 +4,7 @@ export { OperationModel } from './OperationTypes';
 export { RoutineModel } from './RoutineTypes';
 export { SubroutineModel } from './SubroutineTypes';
 
+export type { default as Action } from './Action';
 export type * from './CommandTypes';
 export type * from './InstructionTypes';
 export type * from './OperationTypes';

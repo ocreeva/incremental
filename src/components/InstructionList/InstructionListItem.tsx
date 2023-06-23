@@ -8,14 +8,15 @@ import * as S from './InstructionListItem.styles';
 import type { InstructionState } from '@/types';
 
 type InstructionListItemProps = InstructionState & {
+    $key: string;
     shouldAnimate: boolean;
 };
 
-const InstructionListItem: React.FC<InstructionListItemProps> = ({ key, commandId, shouldAnimate }) => {
+const InstructionListItem: React.FC<InstructionListItemProps> = ({ $key, commandId, shouldAnimate }) => {
     const dispatch = useAppDispatch();
 
     const handleRemoveInstruction: React.MouseEventHandler<HTMLButtonElement> = () => {
-        dispatch(removeInstruction({ key }));
+        dispatch(removeInstruction({ key: $key }));
     };
 
     return (

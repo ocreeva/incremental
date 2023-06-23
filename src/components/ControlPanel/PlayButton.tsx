@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 
-import { setCurrentRoutine } from '@/features/execution';
+// import { setCurrentRoutine } from '@/features/execution';
 import { selectGameIsPlaying } from '@/features/game';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import GameLoopService from '@/services/GameLoopService';
+// import GameLoopService from '@/services/GameLoopService';
 
 import * as S from './PlayButton.styles';
 
 const PlayButton: React.FC = () => {
-    const dispatch = useAppDispatch();
+    // const dispatch = useAppDispatch();
     const gameIsPlaying = useAppSelector(selectGameIsPlaying);
 
     const [gameIsPlayingState, setGameIsPlayingState] = useState({ hasChanged: false, initial: gameIsPlaying });
@@ -22,21 +22,21 @@ const PlayButton: React.FC = () => {
     const [isDisabled, setIsDisabled] = useState(false);
 
     const handlePlay: React.MouseEventHandler<HTMLButtonElement> = () => {
-        setIsDisabled(true);
-        const animationDelayPromise = new Promise<void>(resolve => setTimeout(resolve, 100));
+        // setIsDisabled(true);
+        // const animationDelayPromise = new Promise<void>(resolve => setTimeout(resolve, 100));
 
-        if (gameIsPlaying) {
-            GameLoopService.stop();
-            animationDelayPromise.then(() => setIsDisabled(false));
-        }
-        else {
-            const startPromise = GameLoopService.createRoutineAsync()
-                .then(routine => {
-                    dispatch(setCurrentRoutine({ routine }))
-                    GameLoopService.start();
-                });
-            Promise.all([ animationDelayPromise, startPromise ]).then(() => setIsDisabled(false));
-        }
+        // if (gameIsPlaying) {
+        //     GameLoopService.stop();
+        //     animationDelayPromise.then(() => setIsDisabled(false));
+        // }
+        // else {
+        //     const startPromise = GameLoopService.createRoutineAsync()
+        //         .then(({ routineState }) => {
+        //             dispatch(setCurrentRoutine({ routineState }))
+        //             GameLoopService.start();
+        //         });
+        //     Promise.all([ animationDelayPromise, startPromise ]).then(() => setIsDisabled(false));
+        // }
     };
 
     const Icon = gameIsPlayingState.hasChanged

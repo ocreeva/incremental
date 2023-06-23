@@ -13,7 +13,7 @@ const InstructionList: React.FC<InstructionListProps> = ({ existingInstructionKe
 
     return (
         <S.Container>
-            { instructions.map(instruction => <InstructionListItem {...instruction} shouldAnimate={existingInstructionKeys.includes(instruction.key)} />) }
+            { instructions.map(instruction => <InstructionListItem {...instruction} $key={instruction.key} shouldAnimate={existingInstructionKeys.includes(instruction.key)} />) }
         </S.Container>
     );
 };

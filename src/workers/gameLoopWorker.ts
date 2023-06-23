@@ -1,42 +1,45 @@
-import AsyncWorkerService, { AsyncWorkerAction } from '@/services/AsyncWorkerService';
-import GameLoopAction from '@/services/GameLoopService/GameLoopAction';
+import { crash } from '@/core';
+import AsyncWorkerService from '@/services/AsyncWorkerService';
+import GameLoopMessageType from '@/services/GameLoopService/GameLoopMessageType';
 
-import RoutineProcessor from './RoutineProcessor';
+// import RoutineProcessor from './RoutineProcessor';
+
+import type { PayloadMessage } from '@/types/worker';
 
 const asyncWorkerService = new AsyncWorkerService(self.postMessage);
-const routineProcessor = new RoutineProcessor(asyncWorkerService);
+// const routineProcessor = new RoutineProcessor(asyncWorkerService);
 
-const postAction: (action: AsyncWorkerAction | GameLoopAction, payload?: any, requestId?: string) => void
-= (action, payload = undefined, requestId = undefined) => self.postMessage({ action, payload, requestId });
+// const postAction: (action: GameLoopMessageType, payload?: any) => void
+// = (action, payload = undefined) => self.postMessage({ action, payload });
 
-const respondToRequest: (requestId: string, payload: any) => void
-= (requestId, payload) => postAction(AsyncWorkerAction.RespondToAsyncRequest, payload, requestId);
+self.onmessage = ({ data: message }) => {
+    // give the AsyncWorkerService a chance to handle any asynchronous responses
+    if (asyncWorkerService.tryResolveMessage(message)) return;
 
-self.onmessage = ({ data: { action, payload = undefined, requestId = undefined } }) => {
-    switch (action as AsyncWorkerAction | GameLoopAction) {
-        case AsyncWorkerAction.RespondToAsyncRequest:
-            asyncWorkerService.resolveRequest(requestId, payload);
-            break;
+    const { type } = message as PayloadMessage;
+    switch (type as GameLoopMessageType) {
+        // case GameLoopMessageType.CreateRoutineAsync:
+        //     const { script } = payload;
+        //     const routineState = routineProcessor.createRoutine(script);
+        //     respondToRequest(requestId, { routineState });
+        //     break;
 
-        case GameLoopAction.CreateRoutineAsync:
-            const { script } = payload;
-            const routine = routineProcessor.createRoutine(script);
-            respondToRequest(requestId, { routine });
-            break;
+        // case GameLoopMessageType.Start:
+        //     break;
 
-        case GameLoopAction.Start:
-            break;
+        // case GameLoopMessageType.Stop:
+        //     break;
 
-        case GameLoopAction.Stop:
-            break;
+        // case GameLoopMessageType.Tick:
+        //     const { deltaTime } = payload;
+        //     const routineStateUpdate = routineProcessor.update(deltaTime);
+        //     if (routineStateUpdate !== undefined) {
+        //         postAction(GameLoopMessageType.UpdateState, { routineStateUpdate });
+        //     }
 
-        case GameLoopAction.Tick:
-            const { deltaTime } = payload;
-            routineProcessor.update(deltaTime);
-            break;
+        //     break;
 
         default:
-            console.warn('Unhandled action in worker:', action);
-            break;
+            crash(`gameLoopWorker.onmessage received message with unhandled type (${type}).`);
     }
 }
