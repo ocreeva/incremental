@@ -1,11 +1,13 @@
 import { useState } from 'react';
 
 import CommandList from '@/components/CommandList';
-import InstructionList from '@/components/InstructionList';
+// import InstructionList from '@/components/InstructionList';
+import Script from '@/components/Script';
 import { useAppSelector } from '@/hooks';
-import { selectCurrentScript, selectCurrentScriptInstructions } from '@/features/program';
+//import { selectCurrentScript, selectCurrentScriptInstructions } from '@/features/program';
 
 import * as S from './ProgramIDE.styles';
+import { selectCurrentScriptId, selectScript } from '@/features/scripts';
 
 enum FocusTarget {
     Commands,
@@ -18,27 +20,27 @@ const FocusTargetContainer: Record<FocusTarget, typeof S.ContainerBase> = {
 };
 
 const ProgramIDE: React.FC = () => {
-    const currentScriptInstructions = useAppSelector(selectCurrentScriptInstructions);
-    const currentScriptHasInstructions = currentScriptInstructions.length > 0;
+    const currentScriptId = useAppSelector(selectCurrentScriptId);
 
-    const { instructions } = useAppSelector(selectCurrentScript);
-    const [existingInstructionKeys, setExistingInstructionKeys] = useState(instructions.map(instruction => instruction.key));
+    const { instructions } = useAppSelector(state => selectScript(state, currentScriptId));
+    const hasInstructions = instructions.length > 0;
+    const [existingInstructionIds, setExistingInstructionIds] = useState(instructions);
 
     const [focusTarget, setFocusTarget] = useState(FocusTarget.Commands);
 
-    if (!currentScriptHasInstructions && (focusTarget === FocusTarget.Instructions)) setFocusTarget(FocusTarget.Commands);
+    if (!hasInstructions && (focusTarget === FocusTarget.Instructions)) setFocusTarget(FocusTarget.Commands);
 
     const handleCommandsFocus: React.MouseEventHandler<HTMLDivElement> = () => {
         if (focusTarget !== FocusTarget.Instructions) return;
 
-        setExistingInstructionKeys(instructions.map(instruction => instruction.key));
+        setExistingInstructionIds(instructions);
         setFocusTarget(FocusTarget.Commands);
     }
 
     const handleInstructionsFocus: React.MouseEventHandler<HTMLDivElement> = () => {
-        if (!currentScriptHasInstructions || (focusTarget === FocusTarget.Instructions)) return;
+        if (!hasInstructions || (focusTarget === FocusTarget.Instructions)) return;
 
-        setExistingInstructionKeys(instructions.map(instruction => instruction.key));
+        setExistingInstructionIds(instructions);
         setFocusTarget(FocusTarget.Instructions);
     }
 
@@ -51,7 +53,7 @@ const ProgramIDE: React.FC = () => {
                 <CommandList />
             </S.CommandsContainer>
             <S.InstructionsContainer onClick={handleInstructionsFocus}>
-                <InstructionList existingInstructionKeys={existingInstructionKeys} />
+                <Script id={currentScriptId} existingInstructionIds={existingInstructionIds} />
             </S.InstructionsContainer>
         </Container>
     );

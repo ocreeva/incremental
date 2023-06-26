@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { Container as CommandList } from '@/components/CommandList/CommandList.styles';
-import { Container as InstructionList } from '@/components/InstructionList/InstructionList.styles';
-import { ContainerBase as IDE, FocusOnCommands, FocusOnInstructions } from '@/components/ProgramIDE/ProgramIDE.styles';
+import { Container as ScriptContainer } from '@/components/Script/Script.styles';
+import { FocusOnCommands, FocusOnInstructions } from '@/components/ProgramIDE/ProgramIDE.styles';
 
 const resizeGlyphOnly = keyframes`
     from { width: 100%; }
@@ -22,11 +22,11 @@ export const Container = styled.article`
     padding: var(--program-ide_button-border-size);
 
     ${FocusOnCommands} ${CommandList} &,
-    ${FocusOnInstructions} ${InstructionList} & {
+    ${FocusOnInstructions} ${ScriptContainer} & {
         width: 100%;
     }
 
-    ${FocusOnCommands} ${InstructionList} &,
+    ${FocusOnCommands} ${ScriptContainer} &,
     ${FocusOnInstructions} ${CommandList} & {
         width: calc(var(--command-button_glyph-size) + 2*var(--program-ide_button-border-size));
     }
@@ -34,13 +34,13 @@ export const Container = styled.article`
 
 export const AnimatedContainer = styled(Container)`
     ${FocusOnCommands} ${CommandList} &,
-    ${FocusOnInstructions} ${InstructionList} & {
+    ${FocusOnInstructions} ${ScriptContainer} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${resizeAllContent} var(--program-ide_focus-animation-duration) ease-in-out;
         }
     }
 
-    ${FocusOnCommands} ${InstructionList} &,
+    ${FocusOnCommands} ${ScriptContainer} &,
     ${FocusOnInstructions} ${CommandList} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${resizeGlyphOnly} calc(var(--program-ide_unfocus-animation-duration) - 50ms) cubic-bezier(0.175, 0.885, 0.320, 1);
@@ -85,20 +85,20 @@ export const ContentContainer = styled.div`
     transform: none;
 
     ${FocusOnCommands} ${CommandList} &,
-    ${FocusOnInstructions} ${InstructionList} & {
+    ${FocusOnInstructions} ${ScriptContainer} & {
         margin-inline-start: 0;
         opacity: 1;
         transform: none;
     }
 
     ${FocusOnCommands} ${CommandList} ${AnimatedContainer} &,
-    ${FocusOnInstructions} ${InstructionList} ${AnimatedContainer} & {
+    ${FocusOnInstructions} ${ScriptContainer} ${AnimatedContainer} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${fadeIn} calc(var(--program-ide_focus-animation-duration) - 50ms) 200ms backwards, ${scaleIn} var(--program-ide_focus-animation-duration) 50ms backwards;
         }
     }
 
-    ${FocusOnCommands} ${InstructionList} &,
+    ${FocusOnCommands} ${ScriptContainer} &,
     ${FocusOnInstructions} ${CommandList} & {
         display: none;
     }

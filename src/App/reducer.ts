@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 
 import game from '@/features/game';
+import instructions from '@/features/instructions';
 import operations from '@/features/operations';
-import program from '@/features/program';
 import routines from '@/features/routines';
+import scripts from '@/features/scripts';
 import subroutines from '@/features/subroutines';
 
 const rootReducer = combineReducers({
     game,
+    instructions,
     operations,
-    program,
     routines,
+    scripts,
     subroutines,
 });
 

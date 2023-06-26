@@ -1,7 +1,5 @@
-import { createEntityAdapter } from '@reduxjs/toolkit';
+import { createConceptStateEntityAdapter } from '@/features/_utility';
 
-import { RoutineState } from '@/types';
+import type { RoutineState } from '@/types';
 
-export default createEntityAdapter<RoutineState>({
-    selectId: ({ id }) => id,
-});
+export default createConceptStateEntityAdapter<RoutineState>();
