@@ -1,5 +1,4 @@
-import CommandButton from '@/components/CommandButton';
-import { GlyphSize } from '@/components/Glyph';
+import GlyphPanel from '@/components/GlyphPanel';
 import { removeInstruction } from '@/features/instructions';
 import { removeInstructionFromCurrentScript } from '@/features/scripts';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -22,13 +21,13 @@ const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
     };
 
     return (
-        <CommandButton commandId={commandId} glyphSize={GlyphSize.small} shouldAnimate={shouldAnimate}>
+        <GlyphPanel commandId={commandId} shouldAnimate={shouldAnimate}>
             <S.ButtonContent>
                 <S.RemoveButton onClick={handleRemoveInstruction}>
                     <S.RemoveIcon />
                 </S.RemoveButton>
             </S.ButtonContent>
-        </CommandButton>
+        </GlyphPanel>
     );
 };
 

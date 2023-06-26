@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { ReactComponent as AddSvg } from '@/assets/add.svg';
-
 export const ButtonContent = styled.div`
     display: grid;
     justify-content: start;
@@ -34,9 +32,4 @@ export const AddButton = styled.button`
 
     display: grid;
     place-content: center;
-`;
-
-export const AddIcon = styled(AddSvg)`
-    height: 35px;
-    width: 35px;
 `;

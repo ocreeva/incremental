@@ -1,19 +1,19 @@
-import CommandButton from '@/components/CommandButton';
-import { GlyphSize } from '@/components/Glyph';
+import GlyphPanel from '@/components/GlyphPanel';
 import { addInstruction, createInstruction } from '@/features/instructions';
 import { addInstructionToCurrentScript } from '@/features/scripts';
 import { Commands } from '@/data';
 import { useAppDispatch } from '@/hooks';
 
-import * as S from './CommandListItem.styles';
+import * as S from './Command.styles';
+import { ReactComponent as AddIcon } from '@/assets/add.svg';
 
 import type { CommandId } from '@/types';
 
-interface CommandListItemProps {
+interface CommandProps {
     commandId: CommandId;
 }
 
-const CommandListItem: React.FC<CommandListItemProps> = ({ commandId }) => {
+const Command: React.FC<CommandProps> = ({ commandId }) => {
     const dispatch = useAppDispatch();
 
     const { name } = Commands.getCommandDesign(commandId);
@@ -25,17 +25,17 @@ const CommandListItem: React.FC<CommandListItemProps> = ({ commandId }) => {
     }
 
     return (
-        <CommandButton commandId={commandId} glyphSize={GlyphSize.medium}>
+        <GlyphPanel commandId={commandId}>
             <S.ButtonContent>
                 <S.Name>{name}</S.Name>
                 <S.AddContainer>
                     <S.AddButton onClick={handleAddCommand}>
-                        <S.AddIcon />
+                        <AddIcon className='glyph' />
                     </S.AddButton>
                 </S.AddContainer>
             </S.ButtonContent>
-        </CommandButton>
+        </GlyphPanel>
     );
 };
 
-export default CommandListItem;
+export default Command;

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    --glyph_size: 34px;
     /* --routine_duration: 42; */
     /* --routine_subroutine-count: 1; */
 

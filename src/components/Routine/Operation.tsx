@@ -22,7 +22,7 @@ const Operation: React.FC<OperationProps> = ({ id }) => {
         <S.ProgressBorder style={style}>
             <S.Container>
                 <S.GlyphContainer>
-                    <GlyphComponent />
+                    <GlyphComponent className='glyph' />
                 </S.GlyphContainer>
             </S.Container>
         </S.ProgressBorder>

@@ -55,9 +55,9 @@ button {
 }
 
 /*  Default glyph sizing through CSS variables.  */
-svg {
-    height: var(--glyph_size);
-    width: var(--glyph_size);
+svg.glyph {
+    height: calc(34px + 16px * var(--glyph_size, 0));
+    width: calc(34px + 16px * var(--glyph_size, 0));
 }
 
 ${FontStyles}

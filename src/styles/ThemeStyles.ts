@@ -20,6 +20,9 @@ const ThemeStyles = css`
         --color-background: white;
         --color-empty: lightgray;
         --color-progress: hsl(120deg 100% 25%);
+
+        --glyph_size-small: 0;
+        --glyph_size-medium: 1;
     }
 
     @media (prefers-color-scheme: dark) {

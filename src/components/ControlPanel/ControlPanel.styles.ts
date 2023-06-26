@@ -2,7 +2,10 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     background: var(--color-background);
-    filter: var(--app-section-filter);
+    filter:
+        drop-shadow(0 0 2px var(--color-background))
+        drop-shadow(0 0 4px var(--color-background))
+    ;
 
     display: grid;
     grid-template-columns: 42px 42px 96px 42px 42px;
