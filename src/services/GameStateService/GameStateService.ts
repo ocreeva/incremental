@@ -1,4 +1,5 @@
 import store from '@/App/store';
+import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
 import { addOperations } from '@/features/operations';
 import { addRoutine, setCurrentRoutineId } from '@/features/routines';
@@ -53,10 +54,14 @@ abstract class GameStateService {
         store.dispatch(addSubroutines(subroutines));
         store.dispatch(addRoutine(routine));
         store.dispatch(setCurrentRoutineId(routine.id));
+
+        store.dispatch(setGameIsPlaying(true));
     };
 
     public static stopAsync: () => Promise<void>
-    = async () => { };
+    = async () => {
+        store.dispatch(setGameIsPlaying(false));
+    };
 }
 
 export default GameStateService;

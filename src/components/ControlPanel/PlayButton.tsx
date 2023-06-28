@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 
 import { selectGameIsPlaying } from '@/features/game';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppSelector } from '@/hooks';
 import GameStateService from '@/services/GameStateService';
 
 import * as S from './PlayButton.styles';
 
 const PlayButton: React.FC = () => {
-    // const dispatch = useAppDispatch();
     const gameIsPlaying = useAppSelector(selectGameIsPlaying);
 
     const [gameIsPlayingState, setGameIsPlayingState] = useState({ hasChanged: false, initial: gameIsPlaying });
@@ -21,22 +20,9 @@ const PlayButton: React.FC = () => {
     const [isDisabled, setIsDisabled] = useState(false);
 
     const handlePlay: React.MouseEventHandler<HTMLButtonElement> = () => {
-        GameStateService.startAsync();
-        // setIsDisabled(true);
-        // const animationDelayPromise = new Promise<void>(resolve => setTimeout(resolve, 100));
-
-        // if (gameIsPlaying) {
-        //     GameLoopService.stop();
-        //     animationDelayPromise.then(() => setIsDisabled(false));
-        // }
-        // else {
-        //     const startPromise = GameLoopService.createRoutineAsync()
-        //         .then(({ routineState }) => {
-        //             dispatch(setCurrentRoutine({ routineState }))
-        //             GameLoopService.start();
-        //         });
-        //     Promise.all([ animationDelayPromise, startPromise ]).then(() => setIsDisabled(false));
-        // }
+        setIsDisabled(true);
+        (gameIsPlaying ? GameStateService.stopAsync() : GameStateService.startAsync())
+            .then(() => setIsDisabled(false));
     };
 
     const Icon = gameIsPlayingState.hasChanged
