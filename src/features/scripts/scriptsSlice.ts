@@ -8,7 +8,7 @@ import type { ScriptState } from '@/types';
 
 const initialScript: ScriptState = {
     id: crypto.randomUUID(),
-    instructions: [],
+    instructions: [ ],
 };
 let initialState: SliceState = adapter.getInitialState<AdditionalSliceState>({
     currentId: initialScript.id,

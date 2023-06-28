@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 
-// import { setCurrentRoutine } from '@/features/execution';
 import { selectGameIsPlaying } from '@/features/game';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-// import GameLoopService from '@/services/GameLoopService';
+import GameStateService from '@/services/GameStateService';
 
 import * as S from './PlayButton.styles';
 
@@ -22,6 +21,7 @@ const PlayButton: React.FC = () => {
     const [isDisabled, setIsDisabled] = useState(false);
 
     const handlePlay: React.MouseEventHandler<HTMLButtonElement> = () => {
+        GameStateService.startAsync();
         // setIsDisabled(true);
         // const animationDelayPromise = new Promise<void>(resolve => setTimeout(resolve, 100));
 

@@ -1,5 +1,3 @@
-import ConceptModel from './ConceptModel';
-
 import type CommandId from './CommandId';
 import type ConceptState from './ConceptState';
 
@@ -17,7 +15,3 @@ export type OperationState = ConceptState & {
     progress: number;
 };
 
-/**
- * Provides the gameplay model for an Operation.
- */
-export class OperationModel extends ConceptModel<OperationState> { }

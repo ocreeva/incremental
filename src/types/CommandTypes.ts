@@ -1,5 +1,3 @@
-import ConceptModel from './ConceptModel';
-
 import type CommandId from './CommandId';
 import type ConceptData from './ConceptData';
 import type ConceptDesign from './ConceptDesign';
@@ -27,8 +25,3 @@ export type CommandData = ConceptData<CommandDesign> & {
  * Provides the UI state for a Command.
  */
 export type CommandState = ConceptState & { };
-
-/**
- * Provides the gameplay model for a Command.
- */
-export class CommandModel extends ConceptModel<CommandState> { }

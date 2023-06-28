@@ -1,13 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import adapter from './routinesSlice.adapter';
+import * as reducers from './routinesSlice.reducers';
 
+import type { RoutineState } from '@/types';
 import type { AdditionalSliceState } from './routinesSlice.types';
 
-const initialState = adapter.getInitialState<AdditionalSliceState>({ });
+const initialRoutine: RoutineState = {
+    id: crypto.randomUUID(),
+    subroutines: [ ],
+    duration: 0,
+};
+let initialState = adapter.getInitialState<AdditionalSliceState>({
+    currentId: initialRoutine.id,
+});
+initialState = adapter.addOne(initialState, initialRoutine);
 
 export default createSlice({
     name: 'routines',
     initialState,
-    reducers: { },
+    reducers,
 });

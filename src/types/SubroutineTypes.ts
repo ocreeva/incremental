@@ -1,5 +1,3 @@
-import ConceptModel from './ConceptModel';
-
 import type ConceptState from './ConceptState';
 
 /**
@@ -13,8 +11,3 @@ export type SubroutineState = ConceptState & {
     operations: string[];
     duration: number;
 };
-
-/**
- * Provides the gameplay model for a Subroutine.
- */
-export class SubroutineModel extends ConceptModel<SubroutineState> { }
