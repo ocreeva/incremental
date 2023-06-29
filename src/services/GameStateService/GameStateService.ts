@@ -1,7 +1,7 @@
 import store from '@/App/store';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
-import { addOperations } from '@/features/operations';
+import { addOperations, updateOperations } from '@/features/operations';
 import { addRoutine, setCurrentRoutineId } from '@/features/routines';
 import { selectCurrentScriptId, selectScript } from '@/features/scripts';
 import { addSubroutines } from '@/features/subroutines';
@@ -9,14 +9,20 @@ import AsyncWorkerService from '@/services/AsyncWorkerService';
 import {
     AsyncModelMessage, ModelMessage,
     createRoutineAsync,
+    getUpdateMessagePayload,
     prepareToGetInstruction,
     prepareToGetScript,
+    sendStartMessage,
+    sendStopMessage,
+    sendTickMessage,
 } from '@/workers/model/client';
 
-import type { PayloadMessage } from '@/types/worker';
+import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 
 const worker = new Worker(new URL('@/workers/model/modelWorker', import.meta.url), { type: 'module' });
-const asyncWorkerService = new AsyncWorkerService<AsyncModelMessage>(message => worker.postMessage(message));
+
+const postMessageAction: PayloadMessageAction = (message) => worker.postMessage(message);
+const asyncWorkerService = new AsyncWorkerService<AsyncModelMessage>(postMessageAction);
 
 worker.onmessage = ({ data: message }) => {
     // give the AsyncWorkerService a chance to handle any asynchronous responses
@@ -37,6 +43,12 @@ worker.onmessage = ({ data: message }) => {
             respond(asyncWorkerService, { script });
             break;
         }
+
+        case ModelMessage.Update: {
+            const { operationUpdates } = getUpdateMessagePayload(message);
+            store.dispatch(updateOperations(operationUpdates));
+            break;
+        }
     
         default:
             console.warn('Unhandled action in worker processing:', type);
@@ -55,12 +67,19 @@ abstract class GameStateService {
         store.dispatch(addRoutine(routine));
         store.dispatch(setCurrentRoutineId(routine.id));
 
+        sendStartMessage(postMessageAction);
         store.dispatch(setGameIsPlaying(true));
     };
 
     public static stopAsync: () => Promise<void>
     = async () => {
+        sendStopMessage(postMessageAction);
         store.dispatch(setGameIsPlaying(false));
+    };
+
+    public static tick: () => void
+    = () => {
+        sendTickMessage(postMessageAction);
     };
 }
 

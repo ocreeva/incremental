@@ -1,7 +1,7 @@
 import { crash } from '@/core';
 
 import type { Action } from '@/types';
-import type { AsyncRequestProvider, AsyncResponseProvider, PayloadMessage } from '@/types/worker';
+import type { AsyncRequestProvider, AsyncResponseProvider, PayloadMessage, PayloadMessageAction } from '@/types/worker';
 
 /**
  * Enumerates the asynchronous message types.
@@ -16,8 +16,6 @@ enum AsyncWorkerServiceMessage {
 declare type AsyncPayloadMessage<TPayload, TMessage extends string> = PayloadMessage<TPayload, TMessage> & {
     requestId: string;
 };
-
-declare type PayloadMessageAction = (message: PayloadMessage) => void;
 
 /**
  * Provides a service for asynchronous requests across the main/worker thread boundary.

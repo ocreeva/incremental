@@ -4,6 +4,8 @@ import { getScriptAsync } from './client';
 
 import type { SubroutineState } from '@/types';
 import type ModelContext from './ModelContext';
+import type { OperationUpdates } from './OperationModel';
+import type UpdateContext from './UpdateContext';
 
 /**
  * Provides the gameplay model for a Subroutine.
@@ -27,6 +29,11 @@ export class SubroutineModel extends ConceptModel<SubroutineState> {
         }, operations);
         context.createdSubroutines.push(model.state);
         return model;
+    };
+
+    public update: (context: UpdateContext, updates: OperationUpdates) => void
+    = (context, updates) => {
+        this.operations[0].update(context, updates);
     };
 
     private static _calculateDuration: (operations: OperationModel[]) => number

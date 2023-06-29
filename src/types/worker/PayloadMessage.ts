@@ -9,4 +9,6 @@ declare type PayloadMessage<TPayload = any, TMessage extends string = string> = 
     payload: TPayload;
 };
 
+export declare type PayloadMessageAction = (message: PayloadMessage) => void;
+
 export default PayloadMessage;

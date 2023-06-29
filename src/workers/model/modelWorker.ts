@@ -4,11 +4,14 @@ import ModelProcessor from './ModelProcessor';
 import {
     AsyncModelMessage, ModelMessage,
     prepareToCreateRoutine,
+    sendUpdateMessage,
 } from './client';
 
-import type { PayloadMessage } from '@/types/worker';
+import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 
-const asyncWorkerService = new AsyncWorkerService<AsyncModelMessage>(message => self.postMessage(message));
+const postMessageAction: PayloadMessageAction = (message) => self.postMessage(message);
+
+const asyncWorkerService = new AsyncWorkerService<AsyncModelMessage>(postMessageAction);
 const modelProcessor = new ModelProcessor(asyncWorkerService);
 
 self.onmessage = ({ data: message }) => {
@@ -24,14 +27,18 @@ self.onmessage = ({ data: message }) => {
             break;
         }
 
-        // case GameLoopMessageType.Tick:
-        //     const { deltaTime } = payload;
-        //     const routineStateUpdate = routineProcessor.update(deltaTime);
-        //     if (routineStateUpdate !== undefined) {
-        //         postAction(GameLoopMessageType.UpdateState, { routineStateUpdate });
-        //     }
+        case ModelMessage.Start:
+            modelProcessor.start();
+            break;
 
-        //     break;
+        case ModelMessage.Stop:
+            modelProcessor.stop();
+            break;
+
+        case ModelMessage.Tick:
+            const updates = modelProcessor.update();
+            sendUpdateMessage(postMessageAction, updates);
+            break;
 
         default:
             console.warn(`gameLoopWorker.onmessage received message with unhandled type (${type}).`);

@@ -1,9 +1,9 @@
-// import { useGameAnimationFrame } from '@/hooks';
+import { useGameAnimationFrame } from '@/hooks';
 
-// import GameModelService from './GameModelService';
+import GameStateService from './GameStateService';
 
 const GameStateProvider: React.FC = () => {
-    // useGameAnimationFrame(GameModelService.tick);
+    useGameAnimationFrame(GameStateService.tick);
 
     return (<></>);
 };
