@@ -11,6 +11,8 @@ import type UpdateContext from './UpdateContext';
  * Provides the gameplay model for a Subroutine.
  */
 export class SubroutineModel extends ConceptModel<SubroutineState> {
+    private _operationIndex: number = 0;
+
     public readonly operations: OperationModel[];
 
     constructor(model: SubroutineState, operations: OperationModel[]) {
@@ -33,7 +35,10 @@ export class SubroutineModel extends ConceptModel<SubroutineState> {
 
     public update: (context: UpdateContext, updates: OperationUpdates) => void
     = (context, updates) => {
-        this.operations[0].update(context, updates);
+        while ((context.deltaTime > 0) && (this._operationIndex < this.operations.length)) {
+            this.operations[this._operationIndex].update(context, updates);
+            if (context.deltaTime > 0) this._operationIndex++;
+        }
     };
 
     private static _calculateDuration: (operations: OperationModel[]) => number
