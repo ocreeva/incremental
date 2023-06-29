@@ -1,6 +1,6 @@
 import { crash } from '@/core';
 import type { InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
-import type { AsyncRequestProvider, AsyncResponseProvider, PayloadMessage } from '@/types/worker';
+import type { MessageRequestProvider, MessageRespondProvider, PayloadMessage } from '@/types/worker';
 
 enum AsyncModelMessage {
     // main -> worker
@@ -14,10 +14,10 @@ enum AsyncModelMessage {
 const assertMessageType: <TPayload>(message: PayloadMessage<any>, type: AsyncModelMessage) => asserts message is PayloadMessage<TPayload, AsyncModelMessage>
 = (message, type) => message.type === type || crash(`Message type (${message.type}) does not match expected type (${type}).`);
 
-declare type RequestHandler<TRequest, TResponse> = (provider: AsyncRequestProvider<AsyncModelMessage>, payload: TRequest) => Promise<TResponse>;
-declare type RespondMethod<TResponse> = (provider: AsyncResponseProvider<AsyncModelMessage>, response: TResponse) => void;
-declare type ResponseHandler<TRequest, TResponse> = (message: PayloadMessage) => [PayloadMessage<TRequest, AsyncModelMessage>, RespondMethod<TResponse>];
-const createMessageHandlers: <TRequest, TResponse>(type: AsyncModelMessage) => [RequestHandler<TRequest, TResponse>, ResponseHandler<TRequest, TResponse>]
+declare type RequestHandler<TRequest, TResponse> = (provider: MessageRequestProvider<AsyncModelMessage>, payload: TRequest) => Promise<TResponse>;
+declare type RespondMethod<TResponse> = (provider: MessageRespondProvider<AsyncModelMessage>, response: TResponse) => void;
+declare type RespondHandler<TRequest, TResponse> = (message: PayloadMessage) => [PayloadMessage<TRequest, AsyncModelMessage>, RespondMethod<TResponse>];
+const createMessageHandlers: <TRequest, TResponse>(type: AsyncModelMessage) => [RequestHandler<TRequest, TResponse>, RespondHandler<TRequest, TResponse>]
 = <TRequest, TResponse>(type: AsyncModelMessage) => [
     (provider, payload: TRequest) => provider.requestAsync<TRequest, TResponse>({ type, payload }),
     (message: PayloadMessage) => {

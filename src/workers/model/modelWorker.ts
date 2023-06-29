@@ -1,29 +1,28 @@
-import AsyncWorkerService from '@/services/AsyncWorkerService';
+import WorkerMessageService from '@/services/WorkerMessageService';
 
 import ModelProcessor from './ModelProcessor';
 import {
     AsyncModelMessage, ModelMessage,
     prepareToCreateRoutine,
-    sendUpdateMessage,
 } from './client';
 
 import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 
 const postMessageAction: PayloadMessageAction = (message) => self.postMessage(message);
 
-const asyncWorkerService = new AsyncWorkerService<AsyncModelMessage>(postMessageAction);
-const modelProcessor = new ModelProcessor(asyncWorkerService);
+const messageService = new WorkerMessageService<ModelMessage, AsyncModelMessage>(postMessageAction);
+const modelProcessor = new ModelProcessor(messageService);
 
 self.onmessage = ({ data: message }) => {
-    // give the AsyncWorkerService a chance to handle any asynchronous responses
-    if (asyncWorkerService.tryResolveMessage(message)) return;
+    // give the WorkerMessageService a chance to handle any two-way message responses
+    if (messageService.tryResolveMessage(message)) return;
 
     const { type } = message as PayloadMessage;
     switch (type as AsyncModelMessage | ModelMessage) {
         case AsyncModelMessage.CreateRoutine:{
             const [{ payload: { scriptId } }, respond] = prepareToCreateRoutine(message);
             modelProcessor.createRoutineAsync(scriptId)
-                .then(response => respond(asyncWorkerService, response));
+                .then(response => respond(messageService, response));
             break;
         }
 
@@ -36,8 +35,7 @@ self.onmessage = ({ data: message }) => {
             break;
 
         case ModelMessage.Tick:
-            const updates = modelProcessor.update();
-            sendUpdateMessage(postMessageAction, updates);
+            modelProcessor.update();
             break;
 
         default:

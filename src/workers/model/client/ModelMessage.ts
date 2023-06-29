@@ -2,7 +2,7 @@ import { crash } from '@/core';
 
 import type { Update } from "@reduxjs/toolkit";
 import type { OperationState } from "@/types";
-import type { PayloadMessage, PayloadMessageAction } from "@/types/worker";
+import type { MessageSendProvider, PayloadMessage } from "@/types/worker";
 
 enum ModelMessage {
     Start = 'Game/Start',
@@ -14,21 +14,21 @@ enum ModelMessage {
 const assertMessageType: <TPayload>(message: PayloadMessage<any>, type: ModelMessage) => asserts message is PayloadMessage<TPayload, ModelMessage>
 = (message, type) => message.type === type || crash(`Message type (${message.type}) does not match expected type (${type}).`);
 
-declare type SendEmptyMessageHandler = (sendMessage: PayloadMessageAction) => void;
-const createEmptyMessageHandlers: (type: ModelMessage) => [SendEmptyMessageHandler]
+declare type SendEmptyHandler = (provider: MessageSendProvider<ModelMessage>) => void;
+const createEmptyMessageHandlers: (type: ModelMessage) => [SendEmptyHandler]
 = (type) => [
-    (sendMessage) => sendMessage({ type, payload: undefined }),
+    (provider) => provider.send<void>({ type, payload: undefined }),
 ];
 
-declare type SendMessageHandler<TPayload> = (sendMessage: PayloadMessageAction, payload: TPayload) => void;
-declare type GetMessagePayloadHandler<TPayload> = (message: PayloadMessage) => TPayload;
-const createMessageHandlers: <TPayload>(type: ModelMessage) => [SendMessageHandler<TPayload>, GetMessagePayloadHandler<TPayload>]
+declare type SendHandler<TPayload> = (provider: MessageSendProvider<ModelMessage>, payload: TPayload) => void;
+declare type ReceiveHandler<TPayload> = (message: PayloadMessage) => PayloadMessage<TPayload, ModelMessage>;
+const createMessageHandlers: <TPayload>(type: ModelMessage) => [SendHandler<TPayload>, ReceiveHandler<TPayload>]
 = <TPayload>(type: ModelMessage) => [
-    (sendMessage, payload) => sendMessage({ type, payload }),
+    (provider, payload) => provider.send({ type, payload }),
     (message) => {
         assertMessageType<TPayload>(message, type);
-        return message.payload;
-    },
+        return message;
+    }
 ];
 
 export const [ sendStartMessage ] = createEmptyMessageHandlers(ModelMessage.Start);
@@ -40,6 +40,6 @@ export const [ sendTickMessage ] = createEmptyMessageHandlers(ModelMessage.Tick)
 export declare type UpdatePayload = {
     operationUpdates: Update<OperationState>[];
 };
-export const [ sendUpdateMessage, getUpdateMessagePayload ] = createMessageHandlers<UpdatePayload>(ModelMessage.Update);
+export const [ sendUpdateMessage, getUpdateMessage ] = createMessageHandlers<UpdatePayload>(ModelMessage.Update);
 
 export default ModelMessage;

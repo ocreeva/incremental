@@ -1,9 +1,9 @@
 import type { OperationState, SubroutineState } from "@/types";
-import type { AsyncRequestProvider } from "@/types/worker";
-import type { AsyncModelMessage } from "./client";
+import type { MessageService } from "@/types/worker";
+import type { AsyncModelMessage, ModelMessage } from "./client";
 
 declare interface ModelContext {
-    get mainThread(): AsyncRequestProvider<AsyncModelMessage>;
+    get messageService(): MessageService<ModelMessage, AsyncModelMessage>;
 
     get createdOperations(): OperationState[];
     get createdSubroutines(): SubroutineState[];

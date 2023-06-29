@@ -20,7 +20,7 @@ export class SubroutineModel extends ConceptModel<SubroutineState> {
 
     public static createAsync: (context: ModelContext, scriptId: string) => Promise<SubroutineModel>
     = async (context, scriptId) => {
-        const { script } = await getScriptAsync(context.mainThread, { scriptId });
+        const { script } = await getScriptAsync(context.messageService, { scriptId });
         const operations = await Promise.all(script.instructions.map(instructionId => OperationModel.createAsync(context, instructionId)));
         const model = new SubroutineModel({
             id: crypto.randomUUID(),

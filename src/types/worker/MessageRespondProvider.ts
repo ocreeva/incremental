@@ -1,15 +1,15 @@
 import PayloadMessage from './PayloadMessage';
 
 /**
- * Represents a provider for asynchronous requests across the main/worker thread boundary.
+ * Represents a provider for responding to a two-way (request/response) message.
  * 
- * @typeParam TMessage - The type used for request messages types.
+ * @typeParam TMessage - The type used for two-way message types.
  */
-declare interface AsyncResponseProvider<TMessage extends string> {
+declare interface MessageRespondProvider<TMessage extends string> {
     /**
-     * Respond to an asynchronous request.
+     * Respond to a two-way message.
      * 
-     * @typeParam TPayload - The type of the request's payload.
+     * @typeParam TPayload - The type of the request payload.
      * @typeParam TResponse - The type of the response payload.
      * 
      * @param requestMessage - The request message.
@@ -18,4 +18,4 @@ declare interface AsyncResponseProvider<TMessage extends string> {
     respond: <TPayload, TResponse>(requestMessage: PayloadMessage<TPayload, TMessage>, payload: TResponse) => void;
 };
 
-export default AsyncResponseProvider;
+export default MessageRespondProvider;

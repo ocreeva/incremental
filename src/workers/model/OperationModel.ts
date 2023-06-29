@@ -18,7 +18,7 @@ class OperationModel extends ConceptModel<OperationState> {
 
     public static createAsync: (context: ModelContext, instructionId: string) => Promise<OperationModel>
     = async (context, instructionId) => {
-        const { instruction } = await getInstructionAsync(context.mainThread, { instructionId });
+        const { instruction } = await getInstructionAsync(context.messageService, { instructionId });
         const { commandId } = instruction;
         const model = new OperationModel({
             id: crypto.randomUUID(),

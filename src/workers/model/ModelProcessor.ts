@@ -1,23 +1,27 @@
 import { assertIsDefined } from '@/core';
 
 import { RoutineModel } from './RoutineModel';
+import { sendUpdateMessage } from './client';
 
 import type { OperationState, SubroutineState } from '@/types';
-import type { AsyncRequestProvider } from '@/types/worker';
+import type { MessageService } from '@/types/worker';
 import type ModelContext from './ModelContext';
-import type { AsyncModelMessage, CreateRoutineResponse, UpdatePayload } from './client';
+import type {
+    AsyncModelMessage, ModelMessage,
+    CreateRoutineResponse, UpdatePayload
+} from './client';
 
 class ModelProcessor implements ModelContext {
     private _lastUpdate: number | undefined;
 
-    public readonly mainThread: AsyncRequestProvider<AsyncModelMessage>;
+    public readonly messageService: MessageService<ModelMessage, AsyncModelMessage>;
     public createdOperations: OperationState[] = [];
     public createdSubroutines: SubroutineState[] = [];
 
     public routine: RoutineModel | undefined;
 
-    constructor(asyncRequestProvider: AsyncRequestProvider<AsyncModelMessage>) {
-        this.mainThread = asyncRequestProvider;
+    constructor(messageService: MessageService<ModelMessage, AsyncModelMessage>) {
+        this.messageService = messageService;
     }
 
     public createRoutineAsync: (scriptId: string) => Promise<CreateRoutineResponse>
@@ -43,7 +47,7 @@ class ModelProcessor implements ModelContext {
     public stop: () => void
     = () => { };
 
-    public update: () => UpdatePayload
+    public update: () => void
     = () => {
         assertIsDefined(this.routine, `ModelProcessor.update called before routine was created.`);
 
@@ -53,7 +57,7 @@ class ModelProcessor implements ModelContext {
             operationUpdates: [ ],
         };
         this.routine.update({ deltaTime }, updates);
-        return updates;
+        sendUpdateMessage(this.messageService, updates);
     };
 
     private static _convertTimeToGameUnits: (time: number) => number
