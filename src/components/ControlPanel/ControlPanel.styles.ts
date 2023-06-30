@@ -8,9 +8,9 @@ export const Container = styled.div`
     ;
 
     display: grid;
-    grid-template-columns: 42px 42px 96px 42px 42px;
+    grid-template-columns: 42px 42px 100px 42px 42px;
     grid-template-areas:
-        'icon1 icon2 play icon3 icon4'
+        'icon1 icon2 play script icon5'
     ;
     justify-content: space-evenly;
 `;

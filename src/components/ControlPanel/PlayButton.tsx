@@ -31,7 +31,7 @@ const PlayButton: React.FC = () => {
 
     return (<>
         <S.PlayGlow />
-        <S.PlayButton onClick={handlePlay} disabled={isDisabled}>
+        <S.PlayButton type='button' onClick={handlePlay} disabled={isDisabled}>
             <Icon />
         </S.PlayButton>
     </>);

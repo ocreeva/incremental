@@ -10,8 +10,7 @@ const PlayButtonBase = css`
 
     border-radius: 50%;
     height: 96px;
-    margin-block-start: -20px;
-    margin-block-end: -24px;
+    margin: -20px auto -24px;
     width: 96px;
 `;
 
