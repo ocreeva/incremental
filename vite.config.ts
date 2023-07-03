@@ -15,6 +15,7 @@ export default defineConfig({
     ],
     resolve: {
         alias: [
+            { find: '@model', replacement: path.resolve(__dirname, 'model/client') },
             { find: '@', replacement: path.resolve(__dirname, 'src') },
         ],
     },

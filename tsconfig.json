@@ -20,10 +20,11 @@
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@model": ["./model/client"]
     }
   },
-  "include": ["vite-env.d.ts", "src"],
+  "include": ["vite-env.d.ts", "src", "model"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -1,4 +1,4 @@
-import type ConceptState from './ConceptState';
+import type ConceptState from '@/types/ConceptState';
 
 /**
  * Provides the gameplay model for an instance of a game concept.
