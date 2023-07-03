@@ -1,11 +1,13 @@
+import { VisuallyHidden } from '@reach/visually-hidden';
+
+import { ReactComponent as AddIcon } from '@/assets/add.svg';
 import GlyphPanel from '@/components/GlyphPanel';
+import { Commands } from '@/data';
 import { addInstruction, createInstruction } from '@/features/instructions';
 import { addInstructionToCurrentScript } from '@/features/scripts';
-import { Commands } from '@/data';
 import { useAppDispatch } from '@/hooks';
 
 import * as S from './Command.styles';
-import { ReactComponent as AddIcon } from '@/assets/add.svg';
 
 import type { CommandId } from '@/types';
 
@@ -31,6 +33,7 @@ const Command: React.FC<CommandProps> = ({ commandId }) => {
                 <S.AddContainer>
                     <S.AddButton onClick={handleAddCommand}>
                         <AddIcon className='glyph' />
+                        <VisuallyHidden>Add '{name}' Command to Script</VisuallyHidden>
                     </S.AddButton>
                 </S.AddContainer>
             </S.ButtonContent>

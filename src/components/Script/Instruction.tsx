@@ -1,10 +1,11 @@
+import { VisuallyHidden } from '@reach/visually-hidden';
+
 import GlyphPanel from '@/components/GlyphPanel';
-import { removeInstruction } from '@/features/instructions';
+import { removeInstruction, selectInstruction } from '@/features/instructions';
 import { removeInstructionFromCurrentScript } from '@/features/scripts';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import * as S from './Instruction.styles';
-import { selectInstruction } from '@/features/instructions/instructionsSlice.selectors';
 
 type InstructionProps = {
     id: string;
@@ -25,6 +26,7 @@ const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
             <S.ButtonContent>
                 <S.RemoveButton onClick={handleRemoveInstruction}>
                     <S.RemoveIcon />
+                    <VisuallyHidden>Remove Instruction from Script</VisuallyHidden>
                 </S.RemoveButton>
             </S.ButtonContent>
         </GlyphPanel>

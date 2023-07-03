@@ -16,6 +16,7 @@ export default defineConfig({
     resolve: {
         alias: [
             { find: '@model', replacement: path.resolve(__dirname, 'model/client') },
+            { find: '@reach', replacement: path.resolve(__dirname, 'reach') },
             { find: '@', replacement: path.resolve(__dirname, 'src') },
         ],
     },

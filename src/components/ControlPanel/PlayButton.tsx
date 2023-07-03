@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { selectGameIsPlaying } from '@/features/game';
 import { useAppSelector } from '@/hooks';
@@ -33,6 +34,7 @@ const PlayButton: React.FC = () => {
         <S.PlayGlow />
         <S.PlayButton type='button' onClick={handlePlay} disabled={isDisabled}>
             <Icon />
+            <VisuallyHidden>Play</VisuallyHidden>
         </S.PlayButton>
     </>);
 };

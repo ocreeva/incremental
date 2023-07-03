@@ -1,3 +1,5 @@
+import { VisuallyHidden } from '@reach/visually-hidden';
+
 import * as S from './ScriptButton.styles';
 
 const ScriptButton: React.FC = () => {
@@ -5,6 +7,7 @@ const ScriptButton: React.FC = () => {
         <S.ScriptGlow />
         <S.ScriptButton type='button'>
             <S.ScriptIcon />
+            <VisuallyHidden>Manage Scripts</VisuallyHidden>
         </S.ScriptButton>
     </>);
 };

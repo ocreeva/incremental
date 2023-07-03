@@ -21,7 +21,8 @@
 
     "paths": {
       "@/*": ["./src/*"],
-      "@model": ["./model/client"]
+      "@model": ["./model/client"],
+      "@reach/*": ["./reach/*"]
     }
   },
   "include": ["vite-env.d.ts", "src", "model"],
