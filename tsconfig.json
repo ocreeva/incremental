@@ -25,7 +25,7 @@
       "@reach/*": ["./reach/*"]
     }
   },
-  "include": ["vite-env.d.ts", "src", "model"],
+  "include": ["vite-env.d.ts", "src", "model", "reach"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
