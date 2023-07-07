@@ -31,7 +31,9 @@ export const Border = styled(DialogContent)`
     box-shadow: inset var(--dialog_box-shadow);
     padding: 3px;
 
-    animation: ${slideUp} 350ms cubic-bezier(0.175, 0.885, 0.320, 1.15);
+    @media (prefers-reduced-motion: no-preference) {
+        animation: ${slideUp} 350ms cubic-bezier(0.175, 0.885, 0.320, 1.15);
+    }
 `;
 
 export const Container = styled.div`
