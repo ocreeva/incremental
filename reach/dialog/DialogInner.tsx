@@ -6,11 +6,11 @@ import { composeEventHandlers, noop } from '@reach/utils';
 import DialogState from './DialogState';
 import { useDialogContext } from './DialogContext';
 
-declare type DismissEventHandler = (event: React.MouseEvent | React.KeyboardEvent) => void;
+export declare type DismissDialogEventHandler = (event: React.MouseEvent | React.KeyboardEvent) => void;
 
 export declare type DialogInnerProps = React.HTMLAttributes<HTMLDivElement> & {
     allowPinchZoom?: boolean;
-    onDismiss?: DismissEventHandler;
+    onDismiss?: DismissDialogEventHandler;
 };
 const DialogInner: React.FC<DialogInnerProps>
 = ({
@@ -18,12 +18,10 @@ const DialogInner: React.FC<DialogInnerProps>
     onClick,
     onDismiss = noop,
     onKeyDown,
-    onMouseDown,
     ...props
 }) => {
     const { isOpen } = useDialogContext('DialogInner');
 
-    const mouseTargetRef = React.useRef<EventTarget | null>(null);
     const overlayNodeRef = React.useRef<HTMLDivElement | null>(null);
 
     React.useEffect(() => {
@@ -36,7 +34,6 @@ const DialogInner: React.FC<DialogInnerProps>
 
     const handleClick: React.MouseEventHandler
     = (event) => {
-        if (mouseTargetRef.current !== event.target) return;
         event.stopPropagation();
         onDismiss(event);
     };
@@ -50,9 +47,6 @@ const DialogInner: React.FC<DialogInnerProps>
                 break;
         }
     };
-
-    const handleMouseDown: React.MouseEventHandler
-    = ({ target }) => { mouseTargetRef.current = target; };
 
     return (
         <FocusLock
@@ -72,7 +66,6 @@ const DialogInner: React.FC<DialogInnerProps>
                     data-state={isOpen ? DialogState.Open : DialogState.Closed}
                     onClick={composeEventHandlers(onClick, handleClick)}
                     onKeyDown={composeEventHandlers(onKeyDown, handleKeyDown)}
-                    onMouseDown={composeEventHandlers(onMouseDown, handleMouseDown)}
                 />
             </RemoveScroll>
         </FocusLock>
