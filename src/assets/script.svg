@@ -1,46 +1,53 @@
-<svg viewBox="-3 -3 28 28" xmlns="http://www.w3.org/2000/svg">
+<svg height="42px" width="42px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
     <g fill="currentColor">
         <path d="
-            M 3 2
-            a 2 2 0 0 1 2 -2
-            h 10
-            a 2 2 0 0 1 1.41 0.59
-            l 3 3
-            a 2 2 0 0 1 0.59 1.41
-            v 15
-            a 2 2 0 0 1 -2 2
-            h -13
-            a 2 2 0 0 1 -2 -2
+            M 13 8
+            h 13
+            l 5 5
+            v 19
+            h -18
             z
-            M 6 2
-            a 1 1 0 0 0 -1 1
-            v 16
-            a 1 1 0 0 0 1 1
-            h 11
-            a 1 1 0 0 0 1 -1
-            v -14
-            h -2
-            a 1 1 0 0 1 -1 -1
-            v -2
+            M 14 9
+            v 22
+            h 16
+            v -17
+            h -5
+            v -5
+            z
+            M 26 13
+            h 3.5
+            l -3.5 -3.5
             z" />
         <g fill-opacity="0.5">
             <path d="
-                M 7 5
-                c -1 0 -1 2 0 2
-                h 6
-                c 1 0 1 -2 0 -2
+                M 16 12
+                h 7
+                v 1
+                h -7
                 z" />
             <path d="
-                M 7 9
-                c -1 0 -1 2 0 2
-                h 9
-                c 1 0 1 -2 0 -2
+                M 16 15
+                h 7
+                v 1
+                h -7
                 z" />
             <path d="
-                M 7 13
-                c -1 0 -1 2 0 2
-                h 8
-                c 1 0 1 -2 0 -2
+                M 16 18
+                h 12
+                v 1
+                h -12
+                z" />
+            <path d="
+                M 16 21
+                h 12
+                v 1
+                h -12
+                z" />
+            <path d="
+                M 16 24
+                h 5
+                v 1
+                h -5
                 z" />
         </g>
     </g>
