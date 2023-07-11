@@ -1,7 +1,7 @@
 import Dialog, { DialogTitle } from '@/components/Dialog';
+import ScriptSelection, { ScriptSelectionList } from '@/components/ScriptSelection';
 
 import * as S from './ScriptManagementDialog.styles';
-import ScriptSelectionList from './ScriptSelectionList';
 import AddScriptButton from './AddScriptButton';
 import RemoveScriptButton from './RemoveScriptButton';
 
@@ -11,12 +11,14 @@ const ScriptManagementDialog: React.FC<DialogProps>
 = (props) => {
     return (
         <Dialog {...props}>
-            <DialogTitle>Scripts</DialogTitle>
-            <ScriptSelectionList />
-            <S.ButtonContainer>
-                <AddScriptButton />
-                <RemoveScriptButton />
-            </S.ButtonContainer>
+            <ScriptSelection>
+                <DialogTitle>Scripts</DialogTitle>
+                <ScriptSelectionList />
+                <S.ButtonContainer>
+                    <AddScriptButton />
+                    <RemoveScriptButton />
+                </S.ButtonContainer>
+            </ScriptSelection>
         </Dialog>
     );
 };
