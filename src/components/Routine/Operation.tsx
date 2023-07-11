@@ -4,9 +4,10 @@ import { useAppSelector, useGlyph } from '@/hooks';
 import * as S from './Operation.styles';
 
 import type { CSSProperties } from 'react';
+import type { EntityId } from '@reduxjs/toolkit';
 
 type OperationProps = {
-    id: string;
+    id: EntityId;
 }
 
 const Operation: React.FC<OperationProps> = ({ id }) => {

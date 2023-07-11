@@ -27,7 +27,7 @@ class WorkerMessageService<TMessage extends string, TAsyncMessage extends string
     implements MessageService<TMessage, TAsyncMessage>
 {
     private readonly _postMessage: PayloadMessageAction;
-    private readonly _resolvers: { [requestId: string]: Action<any> } = {};
+    private readonly _resolvers: { [requestId: string]: Action<unknown> } = {};
 
     constructor(postMessage: PayloadMessageAction) {
         this._postMessage = postMessage;
@@ -46,7 +46,7 @@ class WorkerMessageService<TMessage extends string, TAsyncMessage extends string
     = <TPayload, TResponse>(message: PayloadMessage<TPayload, TAsyncMessage>) => {
         const requestId = crypto.randomUUID();
         const asyncMessage: AsyncPayloadMessage<TPayload, TAsyncMessage> = { ...message, requestId };
-        const promise = new Promise<TResponse>(resolve => this._resolvers[requestId] = resolve);
+        const promise = new Promise<TResponse>(resolve => this._resolvers[requestId] = resolve as Action<unknown>);
 
         this._postMessage(asyncMessage);
 
@@ -96,8 +96,8 @@ class WorkerMessageService<TMessage extends string, TAsyncMessage extends string
     tryResolveMessage: (message: PayloadMessage) => boolean
     = (message) => {
         switch (message.type as WorkerMessageServiceMessage) {
-            case WorkerMessageServiceMessage.RespondToAsyncRequest:
-                const { payload, requestId } = message as AsyncPayloadMessage<any, WorkerMessageServiceMessage>;
+            case WorkerMessageServiceMessage.RespondToAsyncRequest: {
+                const { payload, requestId } = message as AsyncPayloadMessage<unknown, WorkerMessageServiceMessage>;
                 requestId in this._resolvers || crash(`AsyncWorkerService.tryResolveRequest called with missing request ID (${requestId}).`);
 
                 try {
@@ -107,6 +107,7 @@ class WorkerMessageService<TMessage extends string, TAsyncMessage extends string
                 }
 
                 return true;
+            }
 
             default:
                 return false;

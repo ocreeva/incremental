@@ -1,14 +1,16 @@
 import adapter from './scriptsSlice.adapter';
-import { _createScript, _selectCurrentScript } from './scriptsSlice.utility';
+import { _createScript } from './scriptsSlice.utility';
 
 import type { EntityId, PayloadAction, Update } from '@reduxjs/toolkit';
 import type { ScriptState } from '@/types';
 import type { SliceState } from './scriptsSlice.types';
+import { selectStateEntityById } from '../_utility';
 
+const { selectById } = adapter.getSelectors();
 
 export const addInstructionToCurrentScript: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
 = (state, { payload: instructionId }) => {
-    const { id, instructions } = _selectCurrentScript(state);
+    const { id, instructions } = selectStateEntityById('scripts', selectById, state, state.currentId);
     const update: Update<ScriptState> = {
         id,
         changes: {
@@ -19,7 +21,7 @@ export const addInstructionToCurrentScript: (state: SliceState, action: PayloadA
 };
 
 export declare type CreateScriptProps = {
-    newScriptId?: string;
+    newScriptId?: EntityId;
 };
 export const createScript: (state: SliceState, action: PayloadAction<CreateScriptProps>) => SliceState
 = (state, { payload }) => {
@@ -47,7 +49,7 @@ export const deleteScript: (state: SliceState, action: PayloadAction<DeleteScrip
 
 export const removeInstructionFromCurrentScript: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
 = (state, { payload: instructionId }) => {
-    const { id, instructions } = _selectCurrentScript(state);
+    const { id, instructions } = selectStateEntityById('scripts', selectById, state, state.currentId);
     const update: Update<ScriptState> = {
         id,
         changes: {

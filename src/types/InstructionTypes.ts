@@ -4,7 +4,7 @@ import type ConceptState from './ConceptState';
 /**
  * Provides the UI state for an Instruction.
  * 
- * @id {string} The instructions's unique ID.
+ * @id {EntityId} The instructions's unique ID.
  * @commandId {CommandId} The command's ID.
  */
 export type InstructionState = ConceptState & {

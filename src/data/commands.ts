@@ -21,6 +21,6 @@ abstract class Commands {
 
     public static getCommandDesign: (commandId: CommandId) => CommandDesign
     = (commandId) => commandDataById[commandId].design;
-};
+}
 
 export default Commands;

@@ -16,6 +16,6 @@ declare interface MessageRespondProvider<TMessage extends string> {
      * @param payload - The response payload.
      */
     respond: <TPayload, TResponse>(requestMessage: PayloadMessage<TPayload, TMessage>, payload: TResponse) => void;
-};
+}
 
 export default MessageRespondProvider;

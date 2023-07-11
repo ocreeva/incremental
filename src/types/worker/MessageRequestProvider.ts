@@ -16,6 +16,6 @@ declare interface MessageRequestProvider<TMessage extends string> {
      * @returns The response, as a Promise.
      */
     requestAsync: <TPayload, TResponse>(message: PayloadMessage<TPayload, TMessage>) => Promise<TResponse>;
-};
+}
 
 export default MessageRequestProvider;

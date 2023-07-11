@@ -1,11 +1,10 @@
-import { crash } from '@/core';
+import { selectStateEntityById } from '../_utility';
+import adapter from './routinesSlice.adapter';
 
 import type { RootState } from '@/App/store';
 import type { RoutineState } from '@/types';
 
-export const selectCurrentRoutine: (state: RootState) => RoutineState | undefined
-= ({ routines: { currentId, entities } }) => {
-    if (currentId === undefined) return;
-    return entities[currentId]
-        || crash(`Current routine not found in entities collection.`);
-};
+const { selectById } = adapter.getSelectors();
+
+export const selectCurrentRoutine: (state: RootState) => RoutineState
+= ({ routines }) => selectStateEntityById('routines', selectById, routines, routines.currentId);

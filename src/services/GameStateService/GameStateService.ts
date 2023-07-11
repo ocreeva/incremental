@@ -28,7 +28,7 @@ worker.onmessage = ({ data: message }) => {
     // give the WorkerMessageService a chance to handle any two-way message responses
     if (messageService.tryResolveMessage(message)) return;
 
-    const { type } = message as PayloadMessage<any>;
+    const { type } = message as PayloadMessage;
     switch (type as AsyncModelMessage | ModelMessage) {
         case AsyncModelMessage.GetInstruction: {
             const [{ payload: { instructionId } }, respond] = prepareToGetInstruction(message);

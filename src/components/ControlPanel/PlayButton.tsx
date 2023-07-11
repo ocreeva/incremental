@@ -9,14 +9,13 @@ import * as S from './PlayButton.styles';
 
 const PlayButton: React.FC = () => {
     const gameIsPlaying = useAppSelector(selectGameIsPlaying);
+    const [gameIsPlayingInitial] = useState(gameIsPlaying);
+    const [gameIsPlayingHasChanged, setGameIsPlayingHasChanged] = useState(false);
 
-    const [gameIsPlayingState, setGameIsPlayingState] = useState({ hasChanged: false, initial: gameIsPlaying });
     useEffect(() => {
-        if (gameIsPlayingState.hasChanged) return;
-        if (gameIsPlayingState.initial === gameIsPlaying) return;
-
-        setGameIsPlayingState({ ...gameIsPlayingState, hasChanged: true });
-    }, [gameIsPlaying]);
+        if (gameIsPlaying === gameIsPlayingInitial) return;
+        setGameIsPlayingHasChanged(true);
+    }, [gameIsPlaying, gameIsPlayingInitial]);
 
     const [isDisabled, setIsDisabled] = useState(false);
 
@@ -26,7 +25,7 @@ const PlayButton: React.FC = () => {
             .then(() => setIsDisabled(false));
     };
 
-    const Icon = gameIsPlayingState.hasChanged
+    const Icon = gameIsPlayingHasChanged
         ? (gameIsPlaying ? S.AnimatedStopIcon : S.AnimatedPlayIcon)
         : (gameIsPlaying ? S.StopIcon : S.PlayIcon);
 

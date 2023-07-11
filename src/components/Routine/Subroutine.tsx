@@ -5,9 +5,10 @@ import * as S from './Subroutine.styles';
 import Operation from './Operation';
 
 import type { CSSProperties } from 'react';
+import type { EntityId } from '@reduxjs/toolkit';
 
 type SubroutineProps = {
-    id: string;
+    id: EntityId;
 }
 
 const Subroutine: React.FC<SubroutineProps> = ({ id }) => {

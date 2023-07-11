@@ -24,4 +24,4 @@ export type CommandData = ConceptData<CommandDesign> & {
 /**
  * Provides the UI state for a Command.
  */
-export type CommandState = ConceptState & { };
+export type CommandState = ConceptState & Record<string, never>;
