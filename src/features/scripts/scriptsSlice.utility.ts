@@ -2,6 +2,7 @@ import { crash } from '@/core';
 
 import adapter from './scriptsSlice.adapter';
 
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ScriptState } from '@/types';
 import type { SliceState } from './scriptsSlice.types';
 
@@ -14,7 +15,7 @@ export const _createScript: (name?: string) => ScriptState
     instructions: [ ],
 });
 
-export const _selectScriptById: (state: SliceState, id: string) => ScriptState
+export const _selectScriptById: (state: SliceState, id: EntityId) => ScriptState
 = (state, id) => selectById(state, id)
 || crash(`Script ID (${id}) is not a valid script entities key.`);
 

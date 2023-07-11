@@ -1,3 +1,4 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type ConceptState from './ConceptState';
 
 /**
@@ -5,9 +6,9 @@ import type ConceptState from './ConceptState';
  * 
  * @id {string} The script's unique ID.
  * @name {string} The script's name.
- * @instructions {InstructionState[]} The script's instructions' IDs, in order of execution.
+ * @instructions {EntityId[]} The script's instructions' IDs, in order of execution.
  */
 export type ScriptState = ConceptState & {
     name: string;
-    instructions: string[];
+    instructions: EntityId[];
 };

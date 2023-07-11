@@ -7,8 +7,10 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import * as S from './Instruction.styles';
 
+import type { EntityId } from '@reduxjs/toolkit';
+
 type InstructionProps = {
-    id: string;
+    id: EntityId;
     shouldAnimate: boolean;
 };
 

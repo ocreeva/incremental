@@ -43,6 +43,12 @@ const ThemeStyles = css`
         }
     }
 
+    button:disabled, input:disabled {
+        --color-minus: currentColor;
+        --color-plus: currentColor;
+        --color-star: currentColor;
+    }
+
     body {
         background: var(--color-empty);
         color: var(--color-text);

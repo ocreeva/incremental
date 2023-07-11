@@ -1,6 +1,6 @@
 import { VisuallyHidden } from '@reach/visually-hidden';
 
-import { ReactComponent as CreateScriptIcon } from '@/assets/script-create.svg';
+import { ReactComponent as AddScriptIcon } from '@/assets/script-add.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { useScriptSelectionContext } from '@/components/ScriptSelection';
 import { assertIsDefined } from '@/core';
@@ -24,7 +24,7 @@ const CreateScriptButton: React.FC
 
     return (
         <GlowButton shape={GlowButtonShape.Rect} type='button' onClick={handleClick}>
-            <CreateScriptIcon />
+            <AddScriptIcon />
             <VisuallyHidden>Create a New Script</VisuallyHidden>
         </GlowButton>
     );

@@ -1,8 +1,10 @@
 import { createContext } from '@reach/utils';
 
+import type { EntityId } from '@reduxjs/toolkit';
+
 declare type ScriptSelectionContextProps = {
-    scriptId: string;
-    setScriptId: React.Dispatch<React.SetStateAction<string>>;
+    scriptId: EntityId;
+    setScriptId: React.Dispatch<React.SetStateAction<EntityId>>;
 };
 
 export const [ ScriptSelectionProvider, useScriptSelectionContext ] = createContext<ScriptSelectionContextProps>('ScriptSelectionContext');

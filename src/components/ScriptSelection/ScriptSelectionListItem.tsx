@@ -14,12 +14,13 @@ const ScriptSelectionListItem: React.FC<ScriptSelectionListItemProps>
     const { scriptId: selectedScriptId, setScriptId } = useScriptSelectionContext('ScriptSelectionListItem');
 
     const isSelected = scriptId === selectedScriptId;
-    const handleClick: React.MouseEventHandler<HTMLInputElement>
-    = () => { setScriptId(scriptId); }
+
+    const handleChange: React.ChangeEventHandler<HTMLInputElement>
+    = () => { setScriptId(scriptId); };
 
     return (
         <S.Container>
-            <S.Selection name='script' defaultChecked={isSelected} onClick={handleClick} />
+            <S.Selection name='script' checked={isSelected} onChange={handleChange} />
             <S.Content>
                 { name }
             </S.Content>

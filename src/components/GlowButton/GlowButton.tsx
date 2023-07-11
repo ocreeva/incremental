@@ -28,8 +28,8 @@ const GlowButton: React.FC<GlowButtonProps>
 
     return (
         <S.Container>
-            <Glow />
             <Button {...props} />
+            <Glow />
         </S.Container>
     );
 };

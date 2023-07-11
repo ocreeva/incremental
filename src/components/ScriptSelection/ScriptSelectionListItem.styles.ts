@@ -5,7 +5,7 @@ export const Container = styled.label`
     position: relative;
 `;
 
-export const Selection = styled.input.attrs(_ => ({ type: 'radio' }))`
+export const Selection = styled.input.attrs(() => ({ type: 'radio' }))`
     opacity: 0;
     position: absolute;
     left: 0;

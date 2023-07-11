@@ -4,9 +4,11 @@ import { useAppSelector } from '@/hooks';
 import * as S from './Script.styles';
 import Instruction from './Instruction';
 
+import type { EntityId } from '@reduxjs/toolkit';
+
 declare type ScriptProps = {
-    id: string;
-    existingInstructionIds: string[];
+    id: EntityId;
+    existingInstructionIds: EntityId[];
 };
 
 const Script: React.FC<ScriptProps> = ({ id, existingInstructionIds }) => {
