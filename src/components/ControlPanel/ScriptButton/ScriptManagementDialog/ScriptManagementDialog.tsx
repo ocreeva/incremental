@@ -2,7 +2,7 @@ import Dialog, { DialogTitle } from '@/components/Dialog';
 import ScriptSelection, { ScriptSelectionList } from '@/components/ScriptSelection';
 
 import * as S from './ScriptManagementDialog.styles';
-import AddScriptButton from './AddScriptButton';
+import CreateScriptButton from './CreateScriptButton';
 import RemoveScriptButton from './RemoveScriptButton';
 
 import type { DialogProps } from '@/components/Dialog';
@@ -15,7 +15,7 @@ const ScriptManagementDialog: React.FC<DialogProps>
                 <DialogTitle>Scripts</DialogTitle>
                 <ScriptSelectionList />
                 <S.ButtonContainer>
-                    <AddScriptButton />
+                    <CreateScriptButton />
                     <RemoveScriptButton />
                 </S.ButtonContainer>
             </ScriptSelection>

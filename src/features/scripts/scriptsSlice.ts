@@ -2,15 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import adapter from './scriptsSlice.adapter';
 import * as reducers from './scriptsSlice.reducers';
+import { _createScript } from './scriptsSlice.utility';
 
 import type { AdditionalSliceState, SliceState } from './scriptsSlice.types';
 import type { ScriptState } from '@/types';
 
-const initialScript: ScriptState = {
-    id: crypto.randomUUID(),
-    name: 'main',
-    instructions: [ ],
-};
+const initialScript: ScriptState = _createScript('main');
 let initialState: SliceState = adapter.getInitialState<AdditionalSliceState>({
     currentId: initialScript.id,
 });

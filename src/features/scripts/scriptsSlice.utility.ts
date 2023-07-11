@@ -7,9 +7,16 @@ import type { SliceState } from './scriptsSlice.types';
 
 const { selectById } = adapter.getSelectors();
 
-export const _selectScript: (state: SliceState, id: string) => ScriptState
+export const _createScript: (name?: string) => ScriptState
+= (name = 'script') => ({
+    id: crypto.randomUUID(),
+    name,
+    instructions: [ ],
+});
+
+export const _selectScriptById: (state: SliceState, id: string) => ScriptState
 = (state, id) => selectById(state, id)
 || crash(`Script ID (${id}) is not a valid script entities key.`);
 
 export const _selectCurrentScript: (state: SliceState) => ScriptState
-= (state) => _selectScript(state, state.currentId);
+= (state) => _selectScriptById(state, state.currentId);
