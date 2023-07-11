@@ -54,6 +54,13 @@ button {
     padding: 0;
 }
 
+/*  Reset default fieldset styling.  */
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
 /*  Default glyph sizing through CSS variables.  */
 svg.glyph {
     height: calc(34px + 16px * var(--glyph_size, 0));

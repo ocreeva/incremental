@@ -59,18 +59,10 @@
                 z" />
         </g>
     </g>
-    <path fill="var(--color-plus, hsl(120deg 25% 50%))" d="
+    <path fill="var(--color-minus, hsl(0deg 25% 50%))" d="
         M 25 28
         c -1 0 -1 2 0 2
-        h 2
-        v 2
-        c 0 1 2 1 2 0
-        v -2
-        h 2
+        h 6
         c 1 0 1 -2 0 -2
-        h -2
-        v -2
-        c 0 -1 -2 -1 -2 0
-        v 2
         z" />
 </svg>

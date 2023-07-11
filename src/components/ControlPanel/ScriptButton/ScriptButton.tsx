@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { ReactComponent as ScriptIcon } from '@/assets/script.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 
-import ScriptSelectionDialog from './ScriptSelectionDialog';
+import ScriptManagementDialog from './ScriptManagementDialog';
 
 import type { DismissDialogEventHandler } from '@reach/dialog';
 
@@ -25,7 +25,7 @@ const ScriptButton: React.FC
                 <ScriptIcon />
                 <VisuallyHidden>Manage Scripts</VisuallyHidden>
             </GlowButton>
-            <ScriptSelectionDialog isOpen={dialogIsOpen} onDismiss={handleDismissDialog} />
+            <ScriptManagementDialog isOpen={dialogIsOpen} onDismiss={handleDismissDialog} />
         </Container>
     );
 };
