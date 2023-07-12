@@ -1,5 +1,9 @@
-import { createConceptStateEntityAdapter } from '@/features/_utility';
+import { createConceptStateEntityAdapter, getConceptStateEntitySelectors } from '@/features/_utility';
 
 import type { ScriptState } from '@/types';
 
-export default createConceptStateEntityAdapter<ScriptState>();
+const adapter = createConceptStateEntityAdapter<ScriptState>();
+
+export const { selectById, selectIds } = getConceptStateEntitySelectors('scripts', adapter);
+
+export default adapter;

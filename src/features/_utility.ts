@@ -10,10 +10,18 @@ export const createConceptStateEntityAdapter: <TEntity extends ConceptState>() =
     selectId: ({ id }) => id,
 });
 
-export const selectStateEntityById: <TEntity extends ConceptState>(
-    concept: string,
-    selectById: (state: EntityState<TEntity>, id: EntityId) => TEntity | undefined,
-    state: EntityState<TEntity>,
-    id: EntityId
-) => TEntity
-= (concept, selectById, state, id) => selectById(state, id) || crash(`Entity ID '${id}' not found in ${concept} entities collection.`);
+declare type SelectById<TEntity extends ConceptState> = (state: EntityState<TEntity>, id: EntityId) => TEntity;
+declare type SelectIds<TEntity extends ConceptState> = (state: EntityState<TEntity>) => EntityId[];
+declare type StateEntitySelectors<TEntity extends ConceptState> = {
+    selectById: SelectById<TEntity>;
+    selectIds: SelectIds<TEntity>;
+};
+
+export const getConceptStateEntitySelectors: <TEntity extends ConceptState>(concept: string, adapter: EntityAdapter<TEntity>) => StateEntitySelectors<TEntity>
+= (concept, adapter) => {
+    const { selectIds, selectById } = adapter.getSelectors();
+    return {
+        selectById: (state, id) => selectById(state, id) || crash(`Entity ID '${id} not found in ${concept} entities collection.`),
+        selectIds,
+    };
+};

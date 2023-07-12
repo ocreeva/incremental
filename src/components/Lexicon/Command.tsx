@@ -4,8 +4,8 @@ import { ReactComponent as AddIcon } from '@/assets/add.svg';
 import GlyphPanel from '@/components/GlyphPanel';
 import { Commands } from '@/data';
 import { addInstruction, createInstruction } from '@/features/instructions';
-import { addInstructionToCurrentScript } from '@/features/scripts';
-import { useAppDispatch } from '@/hooks';
+import { addInstructionToCurrentScript, selectCurrentScriptId } from '@/features/scripts';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import * as S from './Command.styles';
 
@@ -17,11 +17,12 @@ interface CommandProps {
 
 const Command: React.FC<CommandProps> = ({ commandId }) => {
     const dispatch = useAppDispatch();
+    const currentScriptId = useAppSelector(selectCurrentScriptId);
 
     const { name } = Commands.getCommandDesign(commandId);
 
     const handleAddCommand: React.MouseEventHandler<HTMLButtonElement> = () => {
-        const instruction = createInstruction(commandId);
+        const instruction = createInstruction(commandId, currentScriptId);
         dispatch(addInstruction(instruction));
         dispatch(addInstructionToCurrentScript(instruction.id));
     }
