@@ -2,7 +2,10 @@ import { createContext } from '@reach/utils';
 
 import type { EntityId } from '@reduxjs/toolkit';
 
+export declare type SubmitEventHandler = (event: React.MouseEvent | React.KeyboardEvent) => void;
+
 declare type ScriptSelectionContextProps = {
+    onSubmit: SubmitEventHandler;
     scriptId: EntityId;
     setScriptId: React.Dispatch<React.SetStateAction<EntityId>>;
 };

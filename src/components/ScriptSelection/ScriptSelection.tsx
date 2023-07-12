@@ -3,16 +3,22 @@ import { useAppSelector } from '@/hooks';
 import { ScriptSelectionProvider } from './ScriptSelectionContext';
 import { selectCurrentScriptId } from '@/features/scripts';
 
-const ScriptSelection: React.FC<React.PropsWithChildren>
-= ({ children }) => {
+import type { EntityId } from '@reduxjs/toolkit';
+import type { SubmitEventHandler } from './ScriptSelectionContext';
+
+export declare type SubmitCallback = (scriptId: EntityId, event: React.MouseEvent | React.KeyboardEvent) => void;
+
+declare type ScriptSelectionProps = {
+    submit: SubmitCallback;
+};
+
+const ScriptSelection: React.FC<React.PropsWithChildren<ScriptSelectionProps>>
+= ({ submit, ...props }) => {
     const currentScriptId = useAppSelector(selectCurrentScriptId);
     const [scriptId, setScriptId] = useState(currentScriptId);
+    const onSubmit: SubmitEventHandler = (event) => submit(scriptId, event);
 
-    return (
-        <ScriptSelectionProvider scriptId={scriptId} setScriptId={setScriptId}>
-            { children }
-        </ScriptSelectionProvider>
-    )
+    return <ScriptSelectionProvider onSubmit={onSubmit} scriptId={scriptId} setScriptId={setScriptId} {...props} />;
 };
 
 ScriptSelection.displayName = 'ScriptSelection';

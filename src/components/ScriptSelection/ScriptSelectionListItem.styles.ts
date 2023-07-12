@@ -19,4 +19,8 @@ export const Content = styled.div`
     ${Selection}:checked + & {
         box-shadow: inset 0px 0px 10px var(--color-highlight);
     }
+
+    ${Selection}:focus + & {
+        outline: 1px solid var(--color-highlight);
+    }
 `;

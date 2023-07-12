@@ -16,7 +16,7 @@ const ScriptSelectionListItem: React.FC<ScriptSelectionListItemProps>
     const isSelected = scriptId === selectedScriptId;
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement>
-    = () => { setScriptId(scriptId); };
+    = () => setScriptId(scriptId);
 
     return (
         <S.Container>
