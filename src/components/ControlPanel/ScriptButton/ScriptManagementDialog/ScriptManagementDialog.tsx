@@ -4,19 +4,21 @@ import ScriptSelection, { ScriptSelectionList } from '@/components/ScriptSelecti
 import * as S from './ScriptManagementDialog.styles';
 import CreateScriptButton from './CreateScriptButton';
 import DeleteScriptButton from './DeleteScriptButton';
+import OkButton from './OkButton';
 
 import type { DialogProps } from '@/components/Dialog';
 
 const ScriptManagementDialog: React.FC<DialogProps>
-= (props) => {
+= ({ onDismiss, ...props }) => {
     return (
-        <Dialog {...props}>
+        <Dialog onDismiss={onDismiss} {...props}>
             <ScriptSelection>
                 <DialogTitle>Scripts</DialogTitle>
                 <ScriptSelectionList />
                 <S.ButtonContainer>
                     <CreateScriptButton />
                     <DeleteScriptButton />
+                    <OkButton onDismiss={onDismiss} />
                 </S.ButtonContainer>
             </ScriptSelection>
         </Dialog>

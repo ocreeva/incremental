@@ -4,7 +4,8 @@ export const {
     addInstructionToCurrentScript,
     createScript,
     deleteScript,
-    removeInstructionFromCurrentScript
+    removeInstructionFromCurrentScript,
+    setCurrentScriptId,
 } = slice.actions;
 export * from './scriptsSlice.selectors';
 

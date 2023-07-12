@@ -58,3 +58,6 @@ export const removeInstructionFromCurrentScript: (state: SliceState, action: Pay
     };
     return adapter.updateOne(state, update);
 };
+
+export const setCurrentScriptId: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
+= (state, { payload: scriptId }) => ({ ...state, currentId: scriptId });

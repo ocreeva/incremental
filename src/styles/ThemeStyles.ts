@@ -21,6 +21,7 @@ const ThemeStyles = css`
         --color-empty: lightgray;
         --color-progress: hsl(120deg 100% 25%);
 
+        --color-checkmark: hsl(120deg 100% 25%);
         --color-minus: hsl(0deg 100% 25%);
         --color-plus: hsl(120deg 100% 25%);
         --color-star: hsl(55deg 100% 25%);
@@ -37,6 +38,7 @@ const ThemeStyles = css`
             --color-background: var(--color-gray-50);
             --color-progress: hsl(120deg 100% 25%);
 
+            --color-checkmark: hsl(120deg 100% 75%);
             --color-minus: hsl(0deg 100% 75%);
             --color-plus: hsl(120deg 100% 75%);
             --color-star: hsl(55deg 100% 75%);
@@ -44,6 +46,7 @@ const ThemeStyles = css`
     }
 
     button:disabled, input:disabled {
+        --color-checkmark: currentColor;
         --color-minus: currentColor;
         --color-plus: currentColor;
         --color-star: currentColor;
