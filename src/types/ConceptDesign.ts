@@ -1,6 +1,6 @@
 /**
  * Provides the UI design data for a game concept.
  */
-type ConceptDesign = Record<string, never>;
+type ConceptDesign = object;
 
 export default ConceptDesign;
