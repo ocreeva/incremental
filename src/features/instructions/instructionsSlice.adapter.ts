@@ -1,6 +1,6 @@
-import { createConceptStateEntityAdapter, getConceptStateEntitySelectors } from '@/features/_utility';
+import { type InstructionState } from '@/types';
 
-import type { InstructionState } from '@/types';
+import { createConceptStateEntityAdapter, getConceptStateEntitySelectors } from '../_utility';
 
 const adapter = createConceptStateEntityAdapter<InstructionState>();
 

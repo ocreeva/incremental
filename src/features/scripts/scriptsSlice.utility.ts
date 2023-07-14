@@ -1,4 +1,4 @@
-import type { ScriptState } from '@/types';
+import { type ScriptState } from '@/types';
 
 export const _createScript: (name?: string) => ScriptState
 = (name = 'script') => ({

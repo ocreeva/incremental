@@ -1,5 +1,5 @@
-import Dialog, { DialogTitle } from '@/components/Dialog';
-import ScriptSelection, { ScriptSelectionList } from '@/components/ScriptSelection';
+import Dialog, { type DialogProps, DialogTitle } from '@/components/Dialog';
+import ScriptSelection, { ScriptSelectionList, type SubmitCallback } from '@/components/ScriptSelection';
 import { setCurrentScriptId } from '@/features/scripts';
 import { useAppDispatch } from '@/hooks';
 
@@ -7,9 +7,6 @@ import * as S from './ScriptManagementDialog.styles';
 import CreateScriptButton from './CreateScriptButton';
 import DeleteScriptButton from './DeleteScriptButton';
 import OkButton from './OkButton';
-
-import type { DialogProps } from '@/components/Dialog';
-import type { SubmitCallback } from '@/components/ScriptSelection';
 
 const ScriptManagementDialog: React.FC<DialogProps>
 = ({ onDismiss, ...props }) => {

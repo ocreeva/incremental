@@ -4,8 +4,6 @@ import { useAppSelector } from '@/hooks';
 import * as S from './Routine.styles';
 import Subroutine from './Subroutine';
 
-import type { CSSProperties } from 'react';
-
 const Routine: React.FC = () => {
     const currentRoutine = useAppSelector(selectCurrentRoutine);
 
@@ -14,7 +12,7 @@ const Routine: React.FC = () => {
     const style = {
         '--routine_duration': `${duration}`,
         '--routine_subroutine-count': `${subroutines.length}`,
-    } as CSSProperties;
+    } as React.CSSProperties;
 
     return (
         <S.Container style={style}>

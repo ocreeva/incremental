@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { type ScriptState } from '@/types';
+
 import adapter from './scriptsSlice.adapter';
 import * as reducers from './scriptsSlice.reducers';
 import { _createScript } from './scriptsSlice.utility';
-
-import type { AdditionalSliceState, SliceState } from './scriptsSlice.types';
-import type { ScriptState } from '@/types';
+import { type AdditionalSliceState, type SliceState } from './scriptsSlice.types';
 
 const initialScript: ScriptState = _createScript('main');
 let initialState: SliceState = adapter.getInitialState<AdditionalSliceState>({

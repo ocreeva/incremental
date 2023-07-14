@@ -1,8 +1,9 @@
-import adapter from './instructionsSlice.adapter';
+import { type PayloadAction } from '@reduxjs/toolkit';
 
-import type { EntityId, PayloadAction } from '@reduxjs/toolkit';
-import type { InstructionState } from '@/types';
-import type { SliceState } from './instructionsSlice.types';
+import { type EntityId, type InstructionState } from '@/types';
+
+import adapter from './instructionsSlice.adapter';
+import { type SliceState } from './instructionsSlice.types';
 
 export const addInstruction: (state: SliceState, action: PayloadAction<InstructionState>) => SliceState
 = (state, { payload: instruction }) => adapter.addOne(state, instruction);

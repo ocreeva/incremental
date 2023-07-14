@@ -1,14 +1,12 @@
 import { selectOperation } from '@/features/operations';
 import { useAppSelector, useGlyph } from '@/hooks';
+import { type EntityId } from '@/types';
 
 import * as S from './Operation.styles';
 
-import type { CSSProperties } from 'react';
-import type { EntityId } from '@reduxjs/toolkit';
-
-type OperationProps = {
+declare type OperationProps = {
     id: EntityId;
-}
+};
 
 const Operation: React.FC<OperationProps> = ({ id }) => {
     const { commandId, duration, progress } = useAppSelector(state => selectOperation(state, id));
@@ -17,7 +15,7 @@ const Operation: React.FC<OperationProps> = ({ id }) => {
     const style = {
         '--operation_duration': `${duration}`,
         '--operation_progress': `${progress}%`,
-    } as CSSProperties;
+    } as React.CSSProperties;
 
     return (
         <S.ProgressBorder style={style}>

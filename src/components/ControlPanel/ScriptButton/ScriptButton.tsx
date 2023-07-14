@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { type DismissDialogEventHandler } from '@reach/dialog';
 import { VisuallyHidden } from '@reach/visually-hidden';
 import styled from 'styled-components';
 
@@ -6,8 +7,6 @@ import { ReactComponent as ScriptIcon } from '@/assets/script.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 
 import ScriptManagementDialog from './ScriptManagementDialog';
-
-import type { DismissDialogEventHandler } from '@reach/dialog';
 
 const ScriptButton: React.FC
 = () => {

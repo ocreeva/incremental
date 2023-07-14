@@ -16,8 +16,7 @@ import {
     sendStopMessage,
     sendTickMessage,
 } from '@model';
-
-import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
+import { type PayloadMessage, type PayloadMessageAction } from '@/types/worker';
 
 const worker = new Worker('/model/worker', { type: 'module' });
 

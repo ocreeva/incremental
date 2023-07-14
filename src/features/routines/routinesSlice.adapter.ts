@@ -1,6 +1,6 @@
-import { createConceptStateEntityAdapter, getConceptStateEntitySelectors } from '@/features/_utility';
+import { type RoutineState } from '@/types';
 
-import type { RoutineState } from '@/types';
+import { createConceptStateEntityAdapter, getConceptStateEntitySelectors } from '../_utility';
 
 const adapter = createConceptStateEntityAdapter<RoutineState>();
 

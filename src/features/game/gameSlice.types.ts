@@ -1,3 +1,3 @@
-export type GameState = {
+export declare type GameState = {
     isPlaying: boolean;
 };

@@ -1,6 +1,6 @@
-import MessageRequestProvider from './MessageRequestProvider';
-import MessageRespondProvider from './MessageRespondProvider';
-import MessageSendProvider from './MessageSendProvider';
+import type MessageRequestProvider from './MessageRequestProvider';
+import type MessageRespondProvider from './MessageRespondProvider';
+import type MessageSendProvider from './MessageSendProvider';
 
 declare interface MessageService<TMessage extends string, TAsyncMessage extends string> extends
     MessageRequestProvider<TAsyncMessage>,

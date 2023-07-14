@@ -1,8 +1,9 @@
-import adapter from './operationsSlice.adapter';
+import { type PayloadAction, type Update } from '@reduxjs/toolkit';
 
-import type { PayloadAction, Update } from '@reduxjs/toolkit';
-import type { OperationState } from '@/types';
-import type { SliceState } from './operationsSlice.types';
+import { type OperationState } from '@/types';
+
+import adapter from './operationsSlice.adapter';
+import { type SliceState } from './operationsSlice.types';
 
 export const addOperations: (state: SliceState, action: PayloadAction<OperationState[]>) => void
 = (state, { payload: operations }) => { adapter.addMany(state, operations); }

@@ -1,7 +1,5 @@
 import { crash } from '@/core';
-
-import type { Action } from '@/types';
-import type { MessageService, PayloadMessage, PayloadMessageAction } from '@/types/worker';
+import { type MessageService, type PayloadMessage, type PayloadMessageAction } from '@/types/worker';
 
 /**
  * Enumerates message types for the WorkerMessageService.
@@ -17,6 +15,8 @@ declare type AsyncPayloadMessage<TPayload, TMessage extends string> = PayloadMes
     requestId: string;
 };
 
+declare type ResolveAction = (value: unknown) => void;
+
 /**
  * Provides a service for sending messages across the main/worker thread boundary.
  * 
@@ -27,7 +27,7 @@ class WorkerMessageService<TMessage extends string, TAsyncMessage extends string
     implements MessageService<TMessage, TAsyncMessage>
 {
     private readonly _postMessage: PayloadMessageAction;
-    private readonly _resolvers: { [requestId: string]: Action<unknown> } = {};
+    private readonly _resolvers: { [requestId: string]: ResolveAction } = {};
 
     constructor(postMessage: PayloadMessageAction) {
         this._postMessage = postMessage;
@@ -46,7 +46,7 @@ class WorkerMessageService<TMessage extends string, TAsyncMessage extends string
     = <TPayload, TResponse>(message: PayloadMessage<TPayload, TAsyncMessage>) => {
         const requestId = crypto.randomUUID();
         const asyncMessage: AsyncPayloadMessage<TPayload, TAsyncMessage> = { ...message, requestId };
-        const promise = new Promise<TResponse>(resolve => this._resolvers[requestId] = resolve as Action<unknown>);
+        const promise = new Promise<TResponse>(resolve => this._resolvers[requestId] = resolve as ResolveAction);
 
         this._postMessage(asyncMessage);
 

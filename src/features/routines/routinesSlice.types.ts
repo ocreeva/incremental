@@ -1,8 +1,9 @@
-import type { EntityId, EntityState } from '@reduxjs/toolkit';
-import type { RoutineState } from '@/types';
+import { type EntityState } from '@reduxjs/toolkit';
 
-export type AdditionalSliceState = {
+import { type EntityId, type RoutineState } from '@/types';
+
+export declare type AdditionalSliceState = {
     currentId: EntityId;
 };
 
-export type SliceState = EntityState<RoutineState> & AdditionalSliceState;
+export declare type SliceState = EntityState<RoutineState> & AdditionalSliceState;

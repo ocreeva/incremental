@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { type RoutineState } from '@/types';
+
 import adapter from './routinesSlice.adapter';
 import * as reducers from './routinesSlice.reducers';
-
-import type { RoutineState } from '@/types';
-import type { AdditionalSliceState } from './routinesSlice.types';
+import { type AdditionalSliceState } from './routinesSlice.types';
 
 const initialRoutine: RoutineState = {
     id: crypto.randomUUID(),

@@ -1,7 +1,7 @@
-import * as S from './GlyphPanel.styles';
-
+import { type CommandId } from '@/commands';
 import { useGlyph } from '@/hooks';
-import { CommandId } from '@/types';
+
+import * as S from './GlyphPanel.styles';
 
 declare type GlyphPanelProps = {
     commandId: CommandId;

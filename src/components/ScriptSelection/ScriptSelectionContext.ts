@@ -1,6 +1,6 @@
 import { createContext } from '@reach/utils';
 
-import type { EntityId } from '@reduxjs/toolkit';
+import { type EntityId } from '@/types';
 
 export declare type SubmitEventHandler = (event: React.MouseEvent | React.KeyboardEvent) => void;
 

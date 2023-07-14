@@ -1,8 +1,9 @@
-import adapter from './routinesSlice.adapter';
+import { type PayloadAction } from '@reduxjs/toolkit';
 
-import type { EntityId, PayloadAction } from '@reduxjs/toolkit';
-import type { RoutineState } from '@/types';
-import type { SliceState } from './routinesSlice.types';
+import { type EntityId, type RoutineState } from '@/types';
+
+import adapter from './routinesSlice.adapter';
+import { type SliceState } from './routinesSlice.types';
 
 export const addRoutine: (state: SliceState, action: PayloadAction<RoutineState>) => SliceState
 = (state, { payload: routine }) => adapter.addOne(state, routine);

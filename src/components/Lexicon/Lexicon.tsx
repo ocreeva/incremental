@@ -1,9 +1,9 @@
-import { Commands } from '@/data';
+import { CommandId } from '@/commands';
 
 import * as S from './Lexicon.styles';
 import Command from './Command';
 
-const commandIds = Commands.getAllCommandIds();
+const commandIds = Object.values(CommandId);
 
 const Lexicon: React.FC = () => {
     return (

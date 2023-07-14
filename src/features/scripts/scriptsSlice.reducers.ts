@@ -1,9 +1,10 @@
+import { type PayloadAction, type Update } from '@reduxjs/toolkit';
+
+import { type EntityId, type ScriptState } from '@/types';
+
 import adapter, { selectById } from './scriptsSlice.adapter';
 import { _createScript } from './scriptsSlice.utility';
-
-import type { EntityId, PayloadAction, Update } from '@reduxjs/toolkit';
-import type { ScriptState } from '@/types';
-import type { SliceState } from './scriptsSlice.types';
+import { type SliceState } from './scriptsSlice.types';
 
 export const addInstructionToCurrentScript: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
 = (state, { payload: instructionId }) => {

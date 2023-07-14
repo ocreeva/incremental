@@ -1,4 +1,4 @@
-import PayloadMessage from './PayloadMessage';
+import type PayloadMessage from './PayloadMessage';
 
 /**
  * Represents a provider for responding to a two-way (request/response) message.

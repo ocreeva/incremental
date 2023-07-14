@@ -1,7 +1,7 @@
+import { type DismissDialogEventHandler } from '@reach/dialog';
 import { VisuallyHidden } from '@reach/visually-hidden';
-import * as S from './Dialog.styles';
 
-import type { DismissDialogEventHandler } from '@reach/dialog';
+import * as S from './Dialog.styles';
 
 export declare type DialogProps = {
     isOpen: boolean;

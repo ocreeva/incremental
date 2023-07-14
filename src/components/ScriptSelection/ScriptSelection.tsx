@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useAppSelector } from '@/hooks';
 import { ScriptSelectionProvider } from './ScriptSelectionContext';
 import { selectCurrentScriptId } from '@/features/scripts';
+import { type EntityId } from '@/types';
 
-import type { EntityId } from '@reduxjs/toolkit';
-import type { SubmitEventHandler } from './ScriptSelectionContext';
+import { type SubmitEventHandler } from './ScriptSelectionContext';
 
 export declare type SubmitCallback = (scriptId: EntityId, event: React.MouseEvent | React.KeyboardEvent) => void;
 

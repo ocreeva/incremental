@@ -1,8 +1,7 @@
-import { selectById, selectIds } from './scriptsSlice.adapter';
+import { type RootState } from '@/App/store';
+import { type EntityId, type ScriptState } from '@/types';
 
-import type { EntityId } from '@reduxjs/toolkit';
-import type { RootState } from '@/App/store';
-import type { ScriptState } from '@/types';
+import { selectById, selectIds } from './scriptsSlice.adapter';
 
 export const selectCurrentScriptId: (state: RootState) => EntityId
 = ({ scripts: { currentId } }) => currentId;
