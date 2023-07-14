@@ -1,5 +1,6 @@
+import { CommandId } from '@/commands';
+
 import _registerData from './_registerData';
-import CommandId from './CommandId';
 
 _registerData({
     id: CommandId.Scan,
