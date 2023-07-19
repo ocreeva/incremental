@@ -1,6 +1,4 @@
-export { default } from './ScriptSelection';
 export { useScriptSelectionContext } from './ScriptSelectionContext';
+export { default as ScriptSelectionDialog, type SelectScriptEventHandler } from './ScriptSelectionDialog';
 export { default as ScriptSelectionList } from './ScriptSelectionList';
-
-export type { SubmitCallback } from './ScriptSelection';
-export type { SubmitEventHandler } from './ScriptSelectionContext';
+export { default as useScriptSelection } from './useScriptSelection';

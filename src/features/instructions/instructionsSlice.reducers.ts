@@ -1,4 +1,4 @@
-import { type PayloadAction } from '@reduxjs/toolkit';
+import { type Update, type PayloadAction } from '@reduxjs/toolkit';
 
 import { type EntityId, type InstructionState } from '@/types';
 
@@ -10,3 +10,6 @@ export const addInstruction: (state: SliceState, action: PayloadAction<Instructi
 
 export const removeInstruction: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
 = (state, { payload: id }) => adapter.removeOne(state, id);
+
+export const updateInstruction: (state: SliceState, action: PayloadAction<Update<InstructionState>>) => SliceState
+= (state, { payload: instruction }) => adapter.updateOne(state, instruction);

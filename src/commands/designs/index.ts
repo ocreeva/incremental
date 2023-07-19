@@ -1,6 +1,6 @@
-import './forkDesign';
-import './loginDesign';
-import './scanDesign';
+import './ForkDesign';
+import './LoginDesign';
+import './ScanDesign';
 
 import { _getDesigns } from './_registerDesign';
 

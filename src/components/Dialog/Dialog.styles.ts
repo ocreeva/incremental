@@ -2,8 +2,6 @@ import styled, { keyframes } from 'styled-components';
 
 import { DialogOverlay, DialogContent } from '@reach/dialog';
 
-import { ReactComponent as RemoveSvg } from '@/assets/remove.svg';
-
 const fadeIn = keyframes`
     from { opacity: 0; }
     to { opacity: 1; }
@@ -46,25 +44,4 @@ export const Container = styled.div`
     background: var(--color-background);
     border-radius: 15px;
     box-shadow: var(--dialog_box-shadow);
-`;
-
-export const Close = styled.button`
-    position: absolute;
-    right: 0rem;
-    top: 0rem;
-
-    border-top-right-radius: 15px;
-    height: 42px;
-    width: 42px;
-
-    display: grid;
-    place-content: center;
-`;
-
-export const CloseIcon = styled(RemoveSvg)`
-    height: 28px;
-    width: 28px;
-
-    border: 2px dotted var(--color-empty);
-    border-radius: 50%;
 `;

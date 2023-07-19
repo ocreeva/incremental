@@ -1,5 +1,5 @@
 <svg height="42px" width="42px" viewBox="0 0 42 42" xmlns="http://www.w3.org/2000/svg">
-    <g fill="var(--color-checkmark, hsl(120deg 25% 50%))">
+    <g fill="var(--color-dialog-ok, hsl(120deg 25% 50%))">
         <path d="
             M 17 24.5
             l -4 -4

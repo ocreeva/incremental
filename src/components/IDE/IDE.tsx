@@ -51,7 +51,7 @@ const IDE: React.FC = () => {
                 <Lexicon />
             </S.LexiconContainer>
             <S.ScriptContainer onClick={handleInstructionsFocus}>
-                <Script id={currentScriptId} existingInstructionIds={existingInstructionIds} />
+                <Script existingInstructionIds={existingInstructionIds} />
             </S.ScriptContainer>
         </Container>
     );

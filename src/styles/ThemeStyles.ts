@@ -21,9 +21,12 @@ const ThemeStyles = css`
         --color-empty: lightgray;
         --color-progress: hsl(120deg 100% 25%);
 
-        --color-checkmark: hsl(120deg 100% 25%);
+        --color-dialog-ok: hsl(120deg 100% 25%);
+        --color-dialog-cancel: hsl(0deg 100% 25%);
+
         --color-minus: hsl(0deg 100% 25%);
         --color-plus: hsl(120deg 100% 25%);
+        --color-remove: hsl(0deg 65% 35%);
         --color-star: hsl(55deg 100% 25%);
 
         --glyph_size-small: 0;
@@ -38,15 +41,17 @@ const ThemeStyles = css`
             --color-background: var(--color-gray-50);
             --color-progress: hsl(120deg 100% 25%);
 
-            --color-checkmark: hsl(120deg 100% 75%);
+            --color-dialog-ok: hsl(120deg 100% 75%);
+            --color-dialog-cancel: hsl(0deg 100% 75%);
+
             --color-minus: hsl(0deg 100% 75%);
             --color-plus: hsl(120deg 100% 75%);
+            --color-remove: hsl(0deg 65% 65%);
             --color-star: hsl(55deg 100% 75%);
         }
     }
 
     button:disabled, input:disabled {
-        --color-checkmark: currentColor;
         --color-minus: currentColor;
         --color-plus: currentColor;
         --color-star: currentColor;

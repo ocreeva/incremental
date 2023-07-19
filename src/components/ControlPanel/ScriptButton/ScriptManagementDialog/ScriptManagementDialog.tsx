@@ -1,32 +1,38 @@
-import Dialog, { type DialogProps, DialogTitle } from '@/components/Dialog';
-import ScriptSelection, { ScriptSelectionList, type SubmitCallback } from '@/components/ScriptSelection';
-import { setCurrentScriptId } from '@/features/scripts';
-import { useAppDispatch } from '@/hooks';
+import Dialog, {
+    type CancelDialogEventHandler,
+    type DialogProps,
+    DialogTitle,
+    DialogButtons,
+    type SubmitDialogEventHandler
+} from '@/components/Dialog';
+import { ScriptSelectionList, useScriptSelection } from '@/components/ScriptSelection';
+import { selectCurrentScriptId, setCurrentScriptId } from '@/features/scripts';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
-import * as S from './ScriptManagementDialog.styles';
 import CreateScriptButton from './CreateScriptButton';
 import DeleteScriptButton from './DeleteScriptButton';
-import OkButton from './OkButton';
 
 const ScriptManagementDialog: React.FC<DialogProps>
-= ({ onDismiss, ...props }) => {
+= (props) => {
     const dispatch = useAppDispatch();
-    const submit: SubmitCallback
-    = (scriptId, event) => {
-        dispatch(setCurrentScriptId(scriptId));
-        onDismiss(event);
-    };
+    const currentScriptId = useAppSelector(selectCurrentScriptId);
+    const [ScriptSelection, scriptId, setScriptId] = useScriptSelection(currentScriptId);
+
+    const handleCancel: CancelDialogEventHandler
+    = () => setScriptId(currentScriptId);
+
+    const handleSubmit: SubmitDialogEventHandler
+    = () => { dispatch(setCurrentScriptId(scriptId)); };
 
     return (
-        <Dialog onDismiss={onDismiss} {...props}>
-            <ScriptSelection submit={submit}>
-                <DialogTitle>Scripts</DialogTitle>
+        <Dialog onCancel={handleCancel} onSubmit={handleSubmit} {...props}>
+            <DialogTitle>Scripts</DialogTitle>
+            <ScriptSelection>
                 <ScriptSelectionList />
-                <S.ButtonContainer>
+                <DialogButtons removeCancelButton={true}>
                     <CreateScriptButton />
                     <DeleteScriptButton />
-                    <OkButton />
-                </S.ButtonContainer>
+                </DialogButtons>
             </ScriptSelection>
         </Dialog>
     );

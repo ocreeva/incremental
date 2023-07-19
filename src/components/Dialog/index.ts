@@ -1,4 +1,4 @@
-export { default } from './Dialog';
+export { default, type DialogProps } from './Dialog';
+export { default as DialogButtons } from './DialogButtons';
+export { type CancelDialogEventHandler, type SubmitDialogEventHandler } from './DialogContext';
 export { default as DialogTitle } from './DialogTitle';
-
-export type { DialogProps } from './Dialog';
