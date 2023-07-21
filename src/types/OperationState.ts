@@ -1,4 +1,5 @@
-import type { CommandId } from '@/commands';
+import type { CommandId } from '@/constants';
+
 import type EntityState from './EntityState';
 
 /**

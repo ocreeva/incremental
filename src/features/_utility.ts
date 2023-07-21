@@ -1,8 +1,7 @@
 import { createEntityAdapter, type EntityAdapter, type EntityState as EntityCollectionState } from '@reduxjs/toolkit';
 
 import { crash } from '@/core';
-import { type EntityId } from '@/types';
-import type EntityState from '@/types/EntityState';
+import type { EntityId, EntityState } from '@/types';
 
 export const createConceptStateEntityAdapter: <TEntity extends EntityState>() => EntityAdapter<TEntity>
 = <TEntity extends EntityState>() => createEntityAdapter<TEntity>({

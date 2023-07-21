@@ -15,10 +15,10 @@ import {
     sendStartMessage,
     sendStopMessage,
     sendTickMessage,
-} from '@model';
+} from '@/worker/client';
 import { type PayloadMessage, type PayloadMessageAction } from '@/types/worker';
 
-const worker = new Worker('/model/worker', { type: 'module' });
+const worker = new Worker(new URL('@/worker/GameModelWorker', import.meta.url), { type: 'module' });
 
 const postMessageAction: PayloadMessageAction = (message) => worker.postMessage(message);
 const messageService = new WorkerMessageService<ModelMessage, AsyncModelMessage>(postMessageAction);

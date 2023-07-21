@@ -1,11 +1,11 @@
 import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as AddIcon } from '@/assets/add.svg';
-import { type CommandId } from '@/commands';
-import commandDesigns from '@/commands/designs';
+import { type CommandId } from '@/constants';
 import GlyphPanel from '@/components/GlyphPanel';
 import { addInstruction } from '@/features/instructions';
 import { addInstructionToCurrentScript } from '@/features/scripts';
+import designs from '@/game/designs';
 import { useAppDispatch } from '@/hooks';
 
 import * as S from './Command.styles';
@@ -17,7 +17,7 @@ interface CommandProps {
 const Command: React.FC<CommandProps> = ({ commandId }) => {
     const dispatch = useAppDispatch();
 
-    const design = commandDesigns[commandId];
+    const design = designs[commandId];
     const { name } = design;
 
     const handleAddCommand: React.MouseEventHandler<HTMLButtonElement> = () => {

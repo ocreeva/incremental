@@ -1,4 +1,4 @@
-import { type CommandId } from '@/commands';
+import { type CommandId } from '@/constants';
 import { useGlyph } from '@/hooks';
 
 import * as S from './GlyphPanel.styles';

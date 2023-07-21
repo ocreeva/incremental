@@ -1,6 +1,7 @@
-import type { CommandId } from '@/commands';
+import type { CommandId } from '@/constants';
+
 import type EntityState from './EntityState';
-import type { EntityId } from './EntityState';
+import type EntityId from './EntityId';
 
 /**
  * Provides the UI state for an Instruction.

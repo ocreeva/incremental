@@ -1,9 +1,9 @@
-import { CommandAsInstruction } from '@/commands';
-import commandDesigns from '@/commands/designs';
 import GlyphPanel from '@/components/GlyphPanel';
+import { CommandAsInstruction } from '@/constants';
 import { selectInstruction } from '@/features/instructions';
+import designs from '@/game/designs';
 import { useAppSelector } from '@/hooks';
-import { type EntityId } from '@/types';
+import type { EntityId } from '@/types';
 
 import ContentDefault from './ContentDefault';
 import ContentTargetScript from './ContentTargetScript';
@@ -21,7 +21,7 @@ const CommandContent: Record<CommandAsInstruction, React.FC> = {
 
 const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
     const { commandId } = useAppSelector(state => selectInstruction(state, id));
-    const { asInstruction } = commandDesigns[commandId];
+    const { asInstruction } = designs[commandId];
 
     const InstructionContent = CommandContent[asInstruction];
 

@@ -1,5 +1,5 @@
+import { CommandId } from '@/constants';
 import { crash } from '@/core';
-import CommandId from './CommandId';
 
 const _assertRecordContainsAllCommands: <T>(_: Record<string, T>) => asserts _ is Record<CommandId, T>
 = (_) => {

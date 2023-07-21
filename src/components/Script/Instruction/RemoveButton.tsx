@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as RemoveIcon } from '@/assets/remove.svg';
-import commandDesigns from '@/commands/designs';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { removeInstruction, selectInstruction } from '@/features/instructions';
 import { removeInstructionFromCurrentScript } from '@/features/scripts';
+import designs from '@/game/designs';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import { useInstructionContext } from './InstructionContext';
@@ -14,7 +14,7 @@ const RemoveButton: React.FC
 = () => {
     const { instructionId } = useInstructionContext('RemoveButton');
     const { commandId } = useAppSelector(state => selectInstruction(state, instructionId));
-    const { name } = commandDesigns[commandId];
+    const { name } = designs[commandId];
 
     const dispatch = useAppDispatch();
     const handleRemoveInstruction: React.MouseEventHandler<HTMLButtonElement> = () => {

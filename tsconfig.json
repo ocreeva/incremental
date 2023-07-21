@@ -21,11 +21,10 @@
 
     "paths": {
       "@/*": ["./src/*"],
-      "@model": ["./model/client"],
       "@reach/*": ["./reach/*"]
     }
   },
-  "include": ["vite-env.d.ts", "src", "model", "reach"],
+  "include": ["vite-env.d.ts", "src", "reach"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

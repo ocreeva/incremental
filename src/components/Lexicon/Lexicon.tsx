@@ -1,4 +1,4 @@
-import { CommandId } from '@/commands';
+import { CommandId } from '@/constants';
 
 import * as S from './Lexicon.styles';
 import Command from './Command';

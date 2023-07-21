@@ -1,4 +1,4 @@
-import type { CommandAsInstruction, CommandId } from '@/commands';
+import type { CommandAsInstruction, CommandId } from '@/constants';
 
 import type InstructionState from './InstructionState';
 
