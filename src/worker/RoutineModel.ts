@@ -1,4 +1,4 @@
-import type { EntityId, RoutineState, TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameModel, RoutineState, TimeContext, UpdateContext } from '@/types';
 
 import ConceptModel from './ConceptModel';
 import type ModelContext from './ModelContext';
@@ -9,16 +9,45 @@ import SubroutineModel, { SubroutineStatus } from './SubroutineModel';
  */
 export class RoutineModel extends ConceptModel<RoutineState>
 {
-    private readonly subroutines: SubroutineModel[];
+    private readonly subroutines: SubroutineModel[] = [
+        new SubroutineModel(),
+        new SubroutineModel(),
+        new SubroutineModel(),
+        new SubroutineModel(),
+    ];
 
-    private constructor(state: RoutineState, subroutines: SubroutineModel[]) {
-        super(state);
-        this.subroutines = subroutines;
+    public constructor() {
+        super({
+            id: crypto.randomUUID(),
+            subroutines: [],
+            duration: 0,
+        });
+    }
+
+    public async allocateSubroutineAsync(context: ModelContext, scriptId: EntityId): Promise<GameModel> {
+        for (const subroutine of this.subroutines) {
+            switch (subroutine.status) {
+                case SubroutineStatus.idle: {
+                    await subroutine.loadScriptAsync(context, scriptId);
+                    return subroutine;
+                }
+            }
+        }
+
+        throw Error('Unable to allocate a new subroutine.');
     }
 
     public override start(context: UpdateContext) {
         context.setRoutine(this.state);
-        this.subroutines.forEach(subroutine => subroutine.start(context));
+        for (const subroutine of this.subroutines) {
+            switch (subroutine.status) {
+                case SubroutineStatus.pending:
+                    subroutine.start(context);
+                    this.state.subroutines.push(subroutine.state.id);
+                    this.state.duration = Math.max(this.state.duration, subroutine.state.duration);
+                    break;
+            }
+        }
     }
 
     public override update(context: UpdateContext) {
@@ -27,6 +56,10 @@ export class RoutineModel extends ConceptModel<RoutineState>
             switch (subroutine.status) {
                 case SubroutineStatus.active:
                     subroutine.update(context);
+                    if (!this.state.subroutines.includes(subroutine.state.id)) {
+                        this.state.subroutines.push(subroutine.state.id);
+                        context.updateRoutine({ subroutines: this.state.subroutines });
+                    }
                     break;
             }
         }
@@ -58,14 +91,4 @@ export class RoutineModel extends ConceptModel<RoutineState>
             }
         }
     }
-
-    public static createAsync: (context: ModelContext, scriptId: EntityId) => Promise<RoutineModel>
-    = async (context, scriptId) => {
-        const subroutine = await SubroutineModel.createAsync(context, scriptId);
-        return new RoutineModel({
-            id: crypto.randomUUID(),
-            subroutines: [ subroutine.state.id ],
-            duration: subroutine.state.duration,
-        }, [ subroutine ]);
-    };
 }

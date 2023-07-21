@@ -1,24 +1,30 @@
-import type { TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameModel, UpdateContext } from '@/types';
 
 import CommandModel from '../_CommandModel';
 
 class ForkModel extends CommandModel {
-    public override start(_context: UpdateContext): void {
-        console.log('start');
+    private readonly scriptId: EntityId;
+    private subroutine: GameModel | null = null;
+
+    public constructor(scriptId: EntityId) {
+        super();
+
+        this.scriptId = scriptId;
     }
 
-    public override update(_context: UpdateContext): void {
-        console.log('update');
+    public override start(context: UpdateContext): void {
+        super.start(context);
+
+        context.allocateSubroutineAsync(this.scriptId).then(_ => { this.subroutine = _; });
     }
 
-    public override finalize(_context: UpdateContext): void {
-        console.log('finalize');
-    }
+    public override update(context: UpdateContext): void {
+        super.update(context);
 
-    public override progress(context: UpdateContext, time: TimeContext): void {
-        super.progress(context, time);
-
-        console.log('progress', time.delta, time.total);
+        if (this.subroutine !== null) {
+            this.subroutine.start(context);
+            this.subroutine = null;
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 import { assertIsDefined } from '@/core';
-import type { EntityId } from '@/types';
+import type { EntityId, GameModel } from '@/types';
 import type { MessageService } from '@/types/worker';
 
 import {
@@ -24,15 +24,21 @@ class ModelProcessor implements ModelContext {
 
     public routine: RoutineModel | undefined;
 
-    public createRoutineAsync: (scriptId: EntityId) => Promise<CreateRoutineResponse>
-    = async (scriptId) => {
-        this.routine = await RoutineModel.createAsync(this, scriptId);
+    public allocateSubroutineAsync(scriptId: EntityId): Promise<GameModel> {
+        assertIsDefined(this.routine, `ModelProcessor.allocateSubroutineAsync called before routine was created.`);
 
-        const updateContext = new UpdateContext();
+        return this.routine.allocateSubroutineAsync(this, scriptId);
+    }
+
+    public async createRoutineAsync(scriptId: EntityId): Promise<CreateRoutineResponse> {
+        this.routine = new RoutineModel();
+        await this.routine.allocateSubroutineAsync(this, scriptId);
+
+        const updateContext = new UpdateContext(this);
         this.routine.start(updateContext);
 
         return updateContext.getCreatePayload();
-    };
+    }
 
     public start(): void {
         assertIsDefined(this.routine, `ModelProcessor.start called before routine was created.`);
@@ -45,7 +51,7 @@ class ModelProcessor implements ModelContext {
 
         this.timeContext.snapshot();
 
-        const updateContext = new UpdateContext();
+        const updateContext = new UpdateContext(this);
         this.routine.progress(updateContext, this.timeContext);
         this.routine.update(updateContext);
 
@@ -59,7 +65,7 @@ class ModelProcessor implements ModelContext {
 
         this.timeContext.reset();
 
-        const updateContext = new UpdateContext();
+        const updateContext = new UpdateContext(this);
         this.routine.finalize(updateContext);
 
         if (updateContext.hasUpdates()) {

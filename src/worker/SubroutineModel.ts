@@ -8,6 +8,7 @@ import OperationModel from './OperationModel';
 
 export enum SubroutineStatus {
     idle = 'idle',
+    loading = 'loading',
     pending = 'pending',
     active = 'active',
 }
@@ -16,16 +17,19 @@ export enum SubroutineStatus {
  * Provides the gameplay model for a Subroutine.
  */
 class SubroutineModel extends ConceptModel<SubroutineState> {
-    private readonly operations: OperationModel[];
+    private readonly operations: OperationModel[] = [];
 
     private operationIndex = 0;
 
-    private constructor(state: SubroutineState, operations: OperationModel[]) {
-        super(state);
-        this.operations = operations;
+    public constructor() {
+        super({
+            id: crypto.randomUUID(),
+            operations: [],
+            duration: 0,
+        });
     }
 
-    private _status: SubroutineStatus = SubroutineStatus.pending;
+    private _status: SubroutineStatus = SubroutineStatus.idle;
     public get status(): SubroutineStatus { return this._status; }
     private set status(value: SubroutineStatus) { this._status = value; }
 
@@ -61,6 +65,9 @@ class SubroutineModel extends ConceptModel<SubroutineState> {
 
         while ((time.delta > 0) && (this.operationIndex < this.operations.length)) {
             const currentOperation = this.operations[this.operationIndex];
+            if (currentOperation.state.progress === 0) {
+                currentOperation.start(context);
+            }
             currentOperation.progress(context, time);
             if (time.delta > 0) {
                 currentOperation.finalize(context);
@@ -69,15 +76,21 @@ class SubroutineModel extends ConceptModel<SubroutineState> {
         }
     }
 
-    public static async createAsync(context: ModelContext, scriptId: EntityId): Promise<SubroutineModel> {
+    public async loadScriptAsync(context: ModelContext, scriptId: EntityId): Promise<void> {
+        this.assertStatus(SubroutineStatus.idle);
+        this.status = SubroutineStatus.loading;
+
         const { script } = await getScriptAsync(context.messageService, { scriptId });
         const operations = await Promise.all(script.instructions.map(instructionId => OperationModel.createAsync(context, instructionId)));
-        const state: SubroutineState = {
-            id: crypto.randomUUID(),
-            operations: operations.map(({ state: { id } }) => id),
-            duration: SubroutineModel.calculateDuration(operations),
-        };
-        return new SubroutineModel(state, operations);
+        for (const operation of operations) {
+            this.operations.push(operation);
+            this.state.operations.push(operation.state.id);
+        }
+
+        this.state.duration = SubroutineModel.calculateDuration(this.operations);
+
+        this.assertStatus(SubroutineStatus.loading);
+        this.status = SubroutineStatus.pending;
     }
 
     private static calculateDuration: (operations: OperationModel[]) => number

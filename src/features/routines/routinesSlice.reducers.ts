@@ -10,3 +10,6 @@ export const addRoutine: (state: SliceState, action: PayloadAction<RoutineState>
 
 export const setCurrentRoutineId: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
 = (state, { payload: currentId }) => { return { ...state, currentId }; };
+
+export const updateCurrentRoutine: (state: SliceState, action: PayloadAction<Partial<RoutineState>>) => SliceState
+= (state, { payload: changes }) => adapter.updateOne(state, { id: state.currentId, changes });

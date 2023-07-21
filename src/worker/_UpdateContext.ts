@@ -2,8 +2,11 @@ import { crash } from '@/core';
 import type { EntityId, GameModel, OperationState, RoutineState, SubroutineState, Update, UpdateContext } from '@/types';
 
 import { type CreateRoutineResponse, type UpdatePayload } from './client';
+import ModelProcessor from './ModelProcessor';
 
 class _UpdateContext implements UpdateContext {
+    private readonly processor: ModelProcessor;
+
     private readonly operationCreates: OperationState[] = [];
     private readonly operationUpdates: Map<EntityId, Partial<OperationState>> = new Map<EntityId, Partial<OperationState>>();
 
@@ -12,6 +15,10 @@ class _UpdateContext implements UpdateContext {
 
     private routine: RoutineState | undefined;
     private routineUpdate: Partial<RoutineState> | undefined;
+
+    public constructor(processor: ModelProcessor) {
+        this.processor = processor;
+    }
 
     public getCreatePayload(): CreateRoutineResponse {
         return {
@@ -58,8 +65,8 @@ class _UpdateContext implements UpdateContext {
         this.subroutineCreates.push(subroutine);
     }
 
-    public assignSubroutineAsync(_script: EntityId): Promise<GameModel> {
-        throw new Error('Method not implemented.');
+    public allocateSubroutineAsync(scriptId: EntityId): Promise<GameModel> {
+        return this.processor.allocateSubroutineAsync(scriptId);
     }
 
     public setRoutine(routine: RoutineState): void {

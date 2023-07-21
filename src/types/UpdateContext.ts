@@ -8,7 +8,7 @@ declare interface UpdateContext {
     addOperation(operation: OperationState): void;
     addSubroutine(subroutine: SubroutineState): void;
 
-    assignSubroutineAsync(script: EntityId): Promise<GameModel>;
+    allocateSubroutineAsync(script: EntityId): Promise<GameModel>;
 
     setRoutine(routine: RoutineState): void;
 

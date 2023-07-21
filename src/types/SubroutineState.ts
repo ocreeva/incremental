@@ -1,5 +1,5 @@
+import type EntityId from './EntityId';
 import type EntityState from './EntityState';
-import type { EntityId } from './EntityState';
 
 /**
  * Provides the UI state for a Subroutine.

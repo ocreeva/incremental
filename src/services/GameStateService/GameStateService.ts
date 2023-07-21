@@ -2,9 +2,9 @@ import store from '@/App/store';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
 import { addOperations, updateOperations } from '@/features/operations';
-import { addRoutine, setCurrentRoutineId } from '@/features/routines';
+import { addRoutine, setCurrentRoutineId, updateCurrentRoutine } from '@/features/routines';
 import { selectCurrentScriptId, selectScript } from '@/features/scripts';
-import { addSubroutines } from '@/features/subroutines';
+import { addSubroutines, updateSubroutines } from '@/features/subroutines';
 import WorkerMessageService from '@/services/WorkerMessageService';
 import {
     AsyncModelMessage, ModelMessage,
@@ -44,8 +44,24 @@ worker.onmessage = ({ data: message }) => {
         }
 
         case ModelMessage.Update: {
-            const { payload: { operationUpdates } } = getUpdateMessage(message);
+            const { payload: {
+                operationCreates,
+                operationUpdates,
+                routineUpdate,
+                subroutineCreates,
+                subroutineUpdates,
+            } } = getUpdateMessage(message);
+
+            store.dispatch(addOperations(operationCreates));
             store.dispatch(updateOperations(operationUpdates));
+
+            store.dispatch(addSubroutines(subroutineCreates));
+            store.dispatch(updateSubroutines(subroutineUpdates));
+
+            if (routineUpdate !== undefined) {
+                store.dispatch(updateCurrentRoutine(routineUpdate));
+            }
+
             break;
         }
     
