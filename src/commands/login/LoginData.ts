@@ -1,5 +1,5 @@
 import { CommandId } from '@/constants';
-import type { CommandModel, InstructionState } from '@/types';
+import type { GameModel, InstructionState, OperationState } from '@/types';
 
 import CommandData, { registerData } from '../_CommandData';
 import LoginModel from './LoginModel';
@@ -7,7 +7,7 @@ import LoginModel from './LoginModel';
 class LoginData extends CommandData {
     public readonly id = CommandId.Login;
 
-    public override createModel(_instruction: InstructionState): CommandModel {
+    public override createModel(_instruction: InstructionState): GameModel<OperationState> {
         return new LoginModel();
     }
 }

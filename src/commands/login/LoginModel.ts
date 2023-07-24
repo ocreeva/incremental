@@ -1,5 +1,11 @@
-import CommandModel from '../_CommandModel';
+import { CommandId } from '@/constants';
 
-class LoginModel extends CommandModel { }
+import CommandModel from '../CommandModel';
+
+class LoginModel extends CommandModel {
+    constructor() {
+        super(CommandId.Login);
+    }
+}
 
 export default LoginModel;

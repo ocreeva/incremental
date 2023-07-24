@@ -1,5 +1,5 @@
 import { assertIsDefined } from '@/core';
-import type { EntityId, GameModel } from '@/types';
+import type { EntityId, GameModel, SubroutineState } from '@/types';
 import type { MessageService } from '@/types/worker';
 
 import {
@@ -24,7 +24,7 @@ class ModelProcessor implements ModelContext {
 
     public routine: RoutineModel | undefined;
 
-    public allocateSubroutineAsync(scriptId: EntityId): Promise<GameModel> {
+    public allocateSubroutineAsync(scriptId: EntityId): Promise<GameModel<SubroutineState>> {
         assertIsDefined(this.routine, `ModelProcessor.allocateSubroutineAsync called before routine was created.`);
 
         return this.routine.allocateSubroutineAsync(this, scriptId);

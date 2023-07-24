@@ -1,5 +1,11 @@
-import CommandModel from '../_CommandModel';
+import { CommandId } from '@/constants';
 
-class ScanModel extends CommandModel { }
+import CommandModel from '../CommandModel';
+
+class ScanModel extends CommandModel {
+    constructor() {
+        super(CommandId.Scan);
+    }
+}
 
 export default ScanModel;

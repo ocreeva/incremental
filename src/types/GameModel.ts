@@ -1,7 +1,10 @@
+import type EntityState from './EntityState';
 import type TimeContext from './TimeContext';
 import type UpdateContext from './UpdateContext';
 
-declare interface GameModel {
+declare interface GameModel<TState extends EntityState = EntityState> {
+    readonly state: TState;
+
     start(context: UpdateContext): void;
     update(context: UpdateContext): void;
     finalize(context: UpdateContext): void;

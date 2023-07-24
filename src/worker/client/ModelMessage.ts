@@ -41,7 +41,6 @@ export declare type UpdatePayload = {
 
     routineUpdate?: Partial<RoutineState>;
 
-    subroutineCreates: SubroutineState[];
     subroutineUpdates: Update<SubroutineState>[];
 };
 export const [ sendUpdateMessage, getUpdateMessage ] = createMessageHandlers<UpdatePayload>(ModelMessage.Update);

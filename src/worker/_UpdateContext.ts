@@ -43,7 +43,6 @@ class _UpdateContext implements UpdateContext {
             operationCreates: this.operationCreates,
             operationUpdates: operationUpdatesArray,
             routineUpdate: this.routineUpdate,
-            subroutineCreates: this.subroutineCreates,
             subroutineUpdates: subroutineUpdatesArray,
         };
     }
@@ -65,7 +64,7 @@ class _UpdateContext implements UpdateContext {
         this.subroutineCreates.push(subroutine);
     }
 
-    public allocateSubroutineAsync(scriptId: EntityId): Promise<GameModel> {
+    public allocateSubroutineAsync(scriptId: EntityId): Promise<GameModel<SubroutineState>> {
         return this.processor.allocateSubroutineAsync(scriptId);
     }
 

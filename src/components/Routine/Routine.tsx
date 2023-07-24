@@ -11,7 +11,6 @@ const Routine: React.FC = () => {
 
     const style = {
         '--routine_duration': `${duration}`,
-        '--routine_subroutine-count': `${subroutines.length}`,
     } as React.CSSProperties;
 
     return (

@@ -1,13 +1,14 @@
+import { CommandId } from '@/constants';
 import type { EntityId, GameModel, UpdateContext } from '@/types';
 
-import CommandModel from '../_CommandModel';
+import CommandModel from '../CommandModel';
 
 class ForkModel extends CommandModel {
     private readonly scriptId: EntityId;
     private subroutine: GameModel | null = null;
 
     public constructor(scriptId: EntityId) {
-        super();
+        super(CommandId.Fork);
 
         this.scriptId = scriptId;
     }

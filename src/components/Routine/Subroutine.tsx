@@ -11,6 +11,7 @@ declare type SubroutineProps = {
 
 const Subroutine: React.FC<SubroutineProps> = ({ id }) => {
     const { duration, operations } = useAppSelector(state => selectSubroutine(state, id));
+    if (duration === 0) return null;
 
     const style = {
         '--subroutine_duration': `${duration}`,

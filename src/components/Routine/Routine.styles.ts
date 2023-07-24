@@ -2,9 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     /* --routine_duration: 42; */
-    /* --routine_subroutine-count: 1; */
 
-    flex: 0 0 calc(50px * var(--routine_subroutine-count) - 2px);
+    flex: 0 0 fit-content;
     width: 100%;
 
     background: var(--color-empty);

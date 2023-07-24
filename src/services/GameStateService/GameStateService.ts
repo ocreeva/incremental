@@ -48,14 +48,12 @@ worker.onmessage = ({ data: message }) => {
                 operationCreates,
                 operationUpdates,
                 routineUpdate,
-                subroutineCreates,
                 subroutineUpdates,
             } } = getUpdateMessage(message);
 
             store.dispatch(addOperations(operationCreates));
             store.dispatch(updateOperations(operationUpdates));
 
-            store.dispatch(addSubroutines(subroutineCreates));
             store.dispatch(updateSubroutines(subroutineUpdates));
 
             if (routineUpdate !== undefined) {
