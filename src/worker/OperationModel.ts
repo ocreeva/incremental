@@ -1,5 +1,5 @@
 import data from '@/game/data';
-import type { EntityId, CommandModel, OperationState, TimeContext, Update, UpdateContext } from '@/types';
+import type { EntityId, CommandModel, OperationState, TimeContext, UpdateContext } from '@/types';
 
 import { getInstructionAsync } from './client';
 import ConceptModel from './ConceptModel';
