@@ -57,10 +57,6 @@ export class RoutineModel implements GameModel<RoutineState>
             switch (subroutine.status) {
                 case SubroutineStatus.active:
                     subroutine.update(context);
-                    if (!this.state.subroutines.includes(subroutine.state.id)) {
-                        this.state.subroutines.push(subroutine.state.id);
-                        context.updateRoutine({ subroutines: this.state.subroutines });
-                    }
                     break;
             }
         }
