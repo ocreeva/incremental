@@ -5,10 +5,6 @@ import { getInstructionAsync } from './client';
 import ConceptModel from './ConceptModel';
 import type ModelContext from './ModelContext';
 
-export declare type OperationUpdates = {
-    operationUpdates: Update<OperationState>[];
-};
-
 /**
  * Provides the gameplay model for an Operation.
  */
