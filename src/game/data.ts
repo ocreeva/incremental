@@ -1,3 +1,5 @@
+import '@/commands/boot/BootData';
+import '@/commands/child/ChildData';
 import '@/commands/fork/ForkData';
 import '@/commands/login/LoginData';
 import '@/commands/scan/ScanData';

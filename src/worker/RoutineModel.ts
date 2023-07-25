@@ -25,11 +25,11 @@ export class RoutineModel implements GameModel<RoutineState>
 
     public readonly state: RoutineState;
 
-    public async allocateSubroutineAsync(context: ModelContext, scriptId: EntityId): Promise<GameModel<SubroutineState>> {
+    public async allocateSubroutineAsync(context: ModelContext, scriptId: EntityId, isBoot = false): Promise<GameModel<SubroutineState>> {
         for (const subroutine of this.subroutines) {
             switch (subroutine.status) {
                 case SubroutineStatus.idle: {
-                    await subroutine.loadScriptAsync(context, scriptId);
+                    await subroutine.loadScriptAsync(context, scriptId, isBoot);
                     return subroutine;
                 }
             }

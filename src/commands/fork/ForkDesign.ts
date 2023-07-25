@@ -11,6 +11,10 @@ class ForkDesign extends CommandDesign {
 
     public override readonly asInstruction: CommandAsInstruction = CommandAsInstruction.TargetScript;
 
+    public override isInLexicon(): boolean {
+        return true;
+    }
+
     protected override _createInstruction(state: RootState): InstructionState {
         const instruction = super._createInstruction(state);
         instruction.targetEntityId = state.scripts.currentId;

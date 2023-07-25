@@ -32,7 +32,7 @@ class ModelProcessor implements ModelContext {
 
     public async createRoutineAsync(scriptId: EntityId): Promise<CreateRoutineResponse> {
         this.routine = new RoutineModel();
-        await this.routine.allocateSubroutineAsync(this, scriptId);
+        await this.routine.allocateSubroutineAsync(this, scriptId, true);
 
         const updateContext = new UpdateContext(this);
         this.routine.start(updateContext);

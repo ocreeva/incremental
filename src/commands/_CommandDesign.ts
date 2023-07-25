@@ -16,6 +16,10 @@ abstract class _CommandDesign implements CommandDesign {
         return this._createInstruction(state);
     }
 
+    public isInLexicon(): boolean {
+        return false;
+    }
+
     protected _createInstruction(state: RootState): InstructionState {
         return {
             id: crypto.randomUUID(),

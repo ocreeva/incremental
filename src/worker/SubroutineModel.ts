@@ -1,9 +1,10 @@
 import { crash } from '@/core';
-import type { EntityId, GameModel, OperationState, SubroutineState, TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameModel, InstructionState, OperationState, SubroutineState, TimeContext, UpdateContext } from '@/types';
 
 import { getInstructionAsync, getScriptAsync } from './client';
 import type ModelContext from './ModelContext';
 import data from '@/game/data';
+import { CommandId } from '@/constants';
 
 export enum SubroutineStatus {
     idle = 'idle',
@@ -83,12 +84,15 @@ class SubroutineModel implements GameModel<SubroutineState> {
         }
     }
 
-    public async loadScriptAsync(context: ModelContext, scriptId: EntityId): Promise<void> {
+    public async loadScriptAsync(context: ModelContext, scriptId: EntityId, isBoot: boolean): Promise<void> {
         this.assertStatus(SubroutineStatus.idle);
         this.status = SubroutineStatus.loading;
 
         const { script } = await getScriptAsync(context.messageService, { scriptId });
-        const operations = await Promise.all(script.instructions.map(instructionId => SubroutineModel.createOperationAsync(context, instructionId)));
+        const operations = [
+            SubroutineModel.createBootOperation(isBoot, script.id),
+            ...await Promise.all(script.instructions.map(instructionId => SubroutineModel.createOperationAsync(context, instructionId)))
+        ];
         for (const operation of operations) {
             this.operations.push(operation);
             this.state.operations.push(operation.state.id);
@@ -100,12 +104,25 @@ class SubroutineModel implements GameModel<SubroutineState> {
         this.status = SubroutineStatus.pending;
     }
 
-    private static calculateDuration: (operations: GameModel<OperationState>[]) => number
-    = (operations) => Math.max(0, operations.reduce((_, operation) => _ + operation.state.duration + 8, -8));
+    private static calculateDuration(operations: GameModel<OperationState>[]): number {
+        return Math.max(0, operations.reduce((_, operation) => _ + operation.state.duration + 8, -8));
+    }
 
-    private static createOperationAsync: (context: ModelContext, instructionId: EntityId) => Promise<GameModel<OperationState>>
-    = async (context, instructionId) => {
+    private static createBootOperation(isBoot: boolean, parentScriptId: EntityId): GameModel<OperationState> {
+        const commandId = isBoot ? CommandId.Boot : CommandId.Child;
+        return this.createOperationFromInstruction({
+            id: 0,
+            commandId,
+            parentScriptId,
+        });
+    }
+
+    private static async createOperationAsync(context: ModelContext, instructionId: EntityId): Promise<GameModel<OperationState>> {
         const { instruction } = await getInstructionAsync(context.messageService, { instructionId });
+        return SubroutineModel.createOperationFromInstruction(instruction);
+    }
+
+    private static createOperationFromInstruction(instruction: InstructionState): GameModel<OperationState> {
         const { commandId } = instruction;
         const commandData = data[commandId];
         return commandData.createModel(instruction);

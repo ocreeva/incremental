@@ -20,6 +20,14 @@ declare interface CommandDesign {
      * @returns The instruction.
      */
     createInstruction: () => InstructionState;
+
+    /**
+     * Determines whether the command should be available in the Lexicon.
+     * 
+     * @returns 'true' if the command should be available in the Lexicon;
+     * otherwise, 'false'.
+     */
+    isInLexicon: () => boolean;
 }
 
 export default CommandDesign;
