@@ -5,6 +5,8 @@ import CommandModel from '../CommandModel';
 
 class ForkModel extends CommandModel {
     private readonly scriptId: EntityId;
+
+    private startTime = 0;
     private subroutine: GameModel | null = null;
 
     public constructor(scriptId: EntityId) {
@@ -13,17 +15,25 @@ class ForkModel extends CommandModel {
         this.scriptId = scriptId;
     }
 
-    public override start(context: UpdateContext): void {
-        super.start(context);
+    public override start(context: UpdateContext, time: number): void {
+        super.start(context, time);
+
+        this.startTime = time;
 
         context.allocateSubroutineAsync(this.scriptId).then(_ => { this.subroutine = _; });
     }
 
-    public override update(context: UpdateContext): void {
-        super.update(context);
+    public override update(context: UpdateContext, time: number): void {
+        super.update(context, time);
 
         if (this.subroutine !== null) {
-            this.subroutine.start(context);
+            this.subroutine.start(context, this.startTime);
+
+            const delta = time - this.startTime;
+            if (delta > 0) {
+                this.subroutine.progress(context, { delta, total: time });
+            }
+
             this.subroutine = null;
         }
     }

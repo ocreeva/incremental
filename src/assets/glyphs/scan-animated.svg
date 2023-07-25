@@ -1,67 +1,67 @@
 <svg viewBox="-2 -2 28 28" xmlns="http://www.w3.org/2000/svg">
     <g fill="currentColor">
-        <path d="
-            M 0 5
-            a 5 5 0 0 1 5 -5
-            h 3
-            a 1 1 0 0 1 0 2
-            h -3
-            a 3 3 0 0 0 -3 3
-            v 3
-            a 1 1 0 0 1 -2 0
-            z" />
-        <path d="
-            M 19 0
-            a 5 5 0 0 1 5 5
-            v 3
-            a 1 1 0 0 1 -2 0
-            v -3
-            a 3 3 0 0 0 -3 -3
-            h -3
-            a 1 1 0 0 1 0 -2
-            z" />
-        <path d="
-            M 24 19
-            a 5 5 0 0 1 -5 5
-            h -3
-            a 1 1 0 0 1 0 -2
-            h 3
-            a 3 3 0 0 0 3 -3
-            v -3
-            a 1 1 0 0 1 2 0
-            z" />
-        <path d="
-            M 5 24
-            a 5 5 0 0 1 -5 -5
-            v -3
-            a 1 1 0 0 1 2 0
-            v 3
-            a 3 3 0 0 0 3 3
-            h 3
-            a 1 1 0 0 1 0 2
-            z" />
+        <path>
+            <animate attributeName="d" dur="1s" repeatCount="indefinite"
+                values="
+                    M 7 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z;
+                    M 7 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z;
+                    M 7 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z" />
+        </path>
+        <path>
+            <animate attributeName="d" dur="1s" repeatCount="indefinite"
+                values="
+                    M 11 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z;
+                    M 11 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z;
+                    M 11 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z" />
+        </path>
+        <path>
+            <animate attributeName="d" dur="1s" repeatCount="indefinite"
+                values="
+                    M 15 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z;
+                    M 15 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z;
+                    M 15 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z" />
+        </path>
         <g fill-opacity="0.5">
-            <path>
-                <animate attributeName="d" dur="1s" repeatCount="indefinite"
-                    values="
-                        M 7 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z;
-                        M 7 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z;
-                        M 7 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z" />
-            </path>
-            <path>
-                <animate attributeName="d" dur="1s" repeatCount="indefinite"
-                    values="
-                        M 11 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z;
-                        M 11 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z;
-                        M 11 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z" />
-            </path>
-            <path>
-                <animate attributeName="d" dur="1s" repeatCount="indefinite"
-                    values="
-                        M 15 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z;
-                        M 15 6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0 z;
-                        M 15 8 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0 z" />
-            </path>
+            <path d="
+                M 0 5
+                a 5 5 0 0 1 5 -5
+                h 3
+                a 1 1 0 0 1 0 2
+                h -3
+                a 3 3 0 0 0 -3 3
+                v 3
+                a 1 1 0 0 1 -2 0
+                z" />
+            <path d="
+                M 19 0
+                a 5 5 0 0 1 5 5
+                v 3
+                a 1 1 0 0 1 -2 0
+                v -3
+                a 3 3 0 0 0 -3 -3
+                h -3
+                a 1 1 0 0 1 0 -2
+                z" />
+            <path d="
+                M 24 19
+                a 5 5 0 0 1 -5 5
+                h -3
+                a 1 1 0 0 1 0 -2
+                h 3
+                a 3 3 0 0 0 3 -3
+                v -3
+                a 1 1 0 0 1 2 0
+                z" />
+            <path d="
+                M 5 24
+                a 5 5 0 0 1 -5 -5
+                v -3
+                a 1 1 0 0 1 2 0
+                v 3
+                a 3 3 0 0 0 3 3
+                h 3
+                a 1 1 0 0 1 0 2
+                z" />
         </g>
     </g>
 </svg>

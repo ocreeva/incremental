@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 
 export const ProgressBorder = styled.div`
+    /* --operation_delay: 0; */
     /* --operation_duration: 42; */
     /* --operation_progress: 50%; */
     --operation_units: calc(var(--operation_duration) / 84);
@@ -53,6 +54,7 @@ export const ProgressBorder = styled.div`
         ;
     border-radius: 11px;
     box-shadow: inset var(--operation_box-shadow);
+    margin-inline-start: calc(var(--operation_delay) * 1px);
     padding: 3px;
 `;
 

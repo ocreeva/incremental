@@ -35,7 +35,7 @@ class ModelProcessor implements ModelContext {
         await this.routine.allocateSubroutineAsync(this, scriptId, true);
 
         const updateContext = new UpdateContext(this);
-        this.routine.start(updateContext);
+        this.routine.start(updateContext, 0);
 
         return updateContext.getCreatePayload();
     }
@@ -53,7 +53,7 @@ class ModelProcessor implements ModelContext {
 
         const updateContext = new UpdateContext(this);
         this.routine.progress(updateContext, this.timeContext);
-        this.routine.update(updateContext);
+        this.routine.update(updateContext, this.timeContext.total);
 
         if (updateContext.hasUpdates()) {
             sendUpdateMessage(this.messageService, updateContext.getUpdatePayload());
@@ -66,7 +66,7 @@ class ModelProcessor implements ModelContext {
         this.timeContext.reset();
 
         const updateContext = new UpdateContext(this);
-        this.routine.finalize(updateContext);
+        this.routine.finalize(updateContext, this.timeContext.total);
 
         if (updateContext.hasUpdates()) {
             sendUpdateMessage(this.messageService, updateContext.getUpdatePayload());

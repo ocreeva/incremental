@@ -12,6 +12,13 @@ declare type OperationState = EntityState & {
     duration: number;
     /** The operation's progress to completion, as a percentage (0-100). */
     progress: number;
+
+    /**
+     * The operation's delay within the subroutine. This delay is measured from
+     * the completion of the previous operation within the same subroutine, or
+     * from the start of the subroutine if this is the first operation.
+     */
+    delay: number;
 };
 
 export default OperationState;

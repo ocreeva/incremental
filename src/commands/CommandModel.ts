@@ -10,20 +10,21 @@ abstract class CommandModel implements GameModel<OperationState> {
         this.state = {
             id: crypto.randomUUID(),
             commandId,
+            delay: 0,
             duration: 42,
             progress: 0,
         };
     }
 
-    public start(_context: UpdateContext): void {
+    public start(_context: UpdateContext, _time: number): void {
         // noop
     }
 
-    public update(_context: UpdateContext): void {
+    public update(_context: UpdateContext, _time: number): void {
         // noop
     }
 
-    public finalize(_context: UpdateContext): void {
+    public finalize(_context: UpdateContext, _time: number): void {
         // noop
     }
 

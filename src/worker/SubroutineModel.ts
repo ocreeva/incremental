@@ -17,9 +17,15 @@ export enum SubroutineStatus {
  * Provides the gameplay model for a Subroutine.
  */
 class SubroutineModel implements GameModel<SubroutineState> {
+    private static readonly transitionDuration = 8;
+
     private readonly operations: GameModel<OperationState>[] = [];
 
+    private lastActiveTime = 0;
     private operationIndex = 0;
+
+    private isInTransition = false;
+    private transitionElapsed = 0;
 
     public constructor() {
         this.state = {
@@ -35,12 +41,21 @@ class SubroutineModel implements GameModel<SubroutineState> {
     public get status(): SubroutineStatus { return this._status; }
     private set status(value: SubroutineStatus) { this._status = value; }
 
-    public start(context: UpdateContext) {
+    public start(context: UpdateContext, time: number) {
         this.assertStatus(SubroutineStatus.pending);
 
         for (let index = this.operationIndex; index < this.operations.length; index++) {
             context.addOperation(this.operations[index].state);
         }
+
+        const delay = Math.round(time - this.lastActiveTime);
+        if (delay > 0) {
+            const currentOperation = this.operations[this.operationIndex];
+            currentOperation.state.delay = delay;
+            context.updateOperation(currentOperation.state.id, { delay });
+        }
+
+        this.state.duration = SubroutineModel.calculateDuration(this.operations);
 
         context.updateSubroutine(this.state.id, {
             operations: this.state.operations,
@@ -50,10 +65,10 @@ class SubroutineModel implements GameModel<SubroutineState> {
         this.status = SubroutineStatus.active;
     }
 
-    public update(context: UpdateContext) {
+    public update(context: UpdateContext, time: number) {
         this.assertStatus(SubroutineStatus.active);
 
-        this.operations[this.operationIndex].update(context);
+        this.operations[this.operationIndex].update(context, time);
 
         const duration = SubroutineModel.calculateDuration(this.operations);
         if (this.state.duration !== duration) {
@@ -62,7 +77,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
         }
     }
 
-    public finalize(_context: UpdateContext) {
+    public finalize(_context: UpdateContext, _time: number) {
         this.assertStatus(SubroutineStatus.active);
 
         this.status = SubroutineStatus.idle;
@@ -71,15 +86,27 @@ class SubroutineModel implements GameModel<SubroutineState> {
     public progress(context: UpdateContext, time: TimeContext) {
         this.assertStatus(SubroutineStatus.active);
 
-        while ((time.delta > 0) && (this.operationIndex < this.operations.length)) {
-            const currentOperation = this.operations[this.operationIndex];
-            if (currentOperation.state.progress === 0) {
-                currentOperation.start(context);
-            }
-            currentOperation.progress(context, time);
-            if (time.delta > 0) {
-                currentOperation.finalize(context);
-                this.operationIndex++;
+        while ((time.delta > 0) && (this.isInTransition || this.operationIndex < this.operations.length)) {
+            if (this.isInTransition) {
+                this.transitionElapsed += time.delta;
+                if (this.transitionElapsed > SubroutineModel.transitionDuration) {
+                    time.delta = this.transitionElapsed - SubroutineModel.transitionDuration;
+                    this.transitionElapsed = 0;
+                    this.isInTransition = false;
+                    this.operationIndex++;
+                } else {
+                    time.delta = 0;
+                }
+            } else {
+                const currentOperation = this.operations[this.operationIndex];
+                if (currentOperation.state.progress === 0) {
+                    currentOperation.start(context, time.total - time.delta);
+                }
+                currentOperation.progress(context, time);
+                if (time.delta > 0) {
+                    currentOperation.finalize(context, time.total - time.delta);
+                    this.isInTransition = true;
+                }
             }
         }
     }
@@ -98,14 +125,15 @@ class SubroutineModel implements GameModel<SubroutineState> {
             this.state.operations.push(operation.state.id);
         }
 
-        this.state.duration = SubroutineModel.calculateDuration(this.operations);
-
         this.assertStatus(SubroutineStatus.loading);
         this.status = SubroutineStatus.pending;
     }
 
     private static calculateDuration(operations: GameModel<OperationState>[]): number {
-        return Math.max(0, operations.reduce((_, operation) => _ + operation.state.duration + 8, -8));
+        return operations.reduce(
+            (_, { state: { delay, duration } }) => _ + delay + duration + SubroutineModel.transitionDuration,
+            -SubroutineModel.transitionDuration
+        );
     }
 
     private static createBootOperation(isBoot: boolean, parentScriptId: EntityId): GameModel<OperationState> {

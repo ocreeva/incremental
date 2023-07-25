@@ -9,10 +9,11 @@ declare type OperationProps = {
 };
 
 const Operation: React.FC<OperationProps> = ({ id }) => {
-    const { commandId, duration, progress } = useAppSelector(state => selectOperation(state, id));
+    const { commandId, delay, duration, progress } = useAppSelector(state => selectOperation(state, id));
     const { GlyphComponent } = useGlyph(commandId as string);
 
     const style = {
+        '--operation_delay': `${delay}`,
         '--operation_duration': `${duration}`,
         '--operation_progress': `${progress}%`,
     } as React.CSSProperties;
