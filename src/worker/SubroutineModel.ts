@@ -77,8 +77,10 @@ class SubroutineModel implements GameModel<SubroutineState> {
         }
     }
 
-    public finalize(_context: UpdateContext, _time: number) {
+    public finalize(_context: UpdateContext, time: number) {
         this.assertStatus(SubroutineStatus.active);
+
+        this.lastActiveTime = time;
 
         this.status = SubroutineStatus.idle;
     }
