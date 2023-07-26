@@ -10,6 +10,7 @@ const initialRoutine: RoutineState = {
     id: crypto.randomUUID(),
     subroutines: [ ],
     duration: 0,
+    elapsed: 0,
 };
 let initialState = adapter.getInitialState<AdditionalSliceState>({
     currentId: initialRoutine.id,

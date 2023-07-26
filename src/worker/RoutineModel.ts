@@ -20,6 +20,7 @@ export class RoutineModel implements GameModel<RoutineState>
             id: crypto.randomUUID(),
             subroutines: this.subroutines.map(subroutine => subroutine.state.id),
             duration: 0,
+            elapsed: 0,
         };
     }
 
@@ -80,6 +81,9 @@ export class RoutineModel implements GameModel<RoutineState>
     }
 
     public progress(context: UpdateContext, time: TimeContext) {
+        this.state.elapsed += time.delta;
+        context.updateRoutine({ elapsed: this.state.elapsed });
+
         for (let index = 0; index < this.subroutines.length; index++) {
             const subroutine = this.subroutines[index];
             switch (subroutine.status) {
