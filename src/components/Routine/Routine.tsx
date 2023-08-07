@@ -14,7 +14,6 @@ const Routine: React.FC = () => {
     const scrollTarget = Math.max(0, Math.min(duration - 42, Math.round(elapsed - 21)));
     useEffect(() => {
         if (scrollContainer.current === null) return;
-
         scrollContainer.current.scrollTo(scrollTarget, 0);
     }, [scrollTarget]);
 
