@@ -1,7 +1,11 @@
 import { type Middleware, configureStore } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
+import { createLogger } from 'redux-logger';
 
 import reducer from './reducer';
+
+const logger = createLogger({
+    collapsed: true,
+});
 
 const middleware = [
     process.env.NODE_ENV !== 'production' && logger,
