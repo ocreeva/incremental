@@ -1,5 +1,5 @@
 import { CommandId } from '@/constants';
-import type { GameModel, InstructionState, OperationState } from '@/types';
+import type { EntityId, GameModel, InstructionState, OperationState } from '@/types';
 
 import CommandData, { registerData } from '../_CommandData';
 import BootModel from './BootModel';
@@ -7,8 +7,8 @@ import BootModel from './BootModel';
 class BootData extends CommandData {
     public readonly id = CommandId.Boot;
 
-    public override createModel(_instruction: InstructionState): GameModel<OperationState> {
-        return new BootModel();
+    public override createModel(_instruction: InstructionState, parentRoutineId: EntityId, parentSubroutineId: EntityId): GameModel<OperationState> {
+        return new BootModel(parentRoutineId, parentSubroutineId);
     }
 }
 

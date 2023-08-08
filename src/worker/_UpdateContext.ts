@@ -20,6 +20,8 @@ class _UpdateContext implements UpdateContext {
         this.processor = processor;
     }
 
+    public routineIsComplete = false;
+
     public getCreatePayload(): CreateRoutineResponse {
         return {
             operations: this.operationCreates,
@@ -42,6 +44,7 @@ class _UpdateContext implements UpdateContext {
         return {
             operationCreates: this.operationCreates,
             operationUpdates: operationUpdatesArray,
+            routineIsComplete: this.routineIsComplete,
             routineUpdate: this.routineUpdate,
             subroutineUpdates: subroutineUpdatesArray,
         };

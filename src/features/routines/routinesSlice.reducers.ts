@@ -8,6 +8,9 @@ import { type SliceState } from './routinesSlice.types';
 export const addRoutine: (state: SliceState, action: PayloadAction<RoutineState>) => SliceState
 = (state, { payload: routine }) => adapter.addOne(state, routine);
 
+export const removeRoutine: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
+= (state, { payload: id }) => adapter.removeOne(state, id);
+
 export const setCurrentRoutineId: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
 = (state, { payload: currentId }) => { return { ...state, currentId }; };
 

@@ -2,7 +2,7 @@ import store from '@/App/store';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
 import { addOperations, updateOperations } from '@/features/operations';
-import { addRoutine, setCurrentRoutineId, updateCurrentRoutine } from '@/features/routines';
+import { addRoutine, removeRoutine, selectCurrentRoutineId, setCurrentRoutineId, updateCurrentRoutine } from '@/features/routines';
 import { selectCurrentScriptId, selectScript } from '@/features/scripts';
 import { addSubroutines, updateSubroutines } from '@/features/subroutines';
 import WorkerMessageService from '@/services/WorkerMessageService';
@@ -22,6 +22,36 @@ const worker = new Worker(new URL('@/worker/GameModelWorker', import.meta.url), 
 
 const postMessageAction: PayloadMessageAction = (message) => worker.postMessage(message);
 const messageService = new WorkerMessageService<ModelMessage, AsyncModelMessage>(postMessageAction);
+
+abstract class GameStateService {
+    public static startAsync: () => Promise<void>
+    = async () => {
+        const state = store.getState();
+        const previousRoutineId = selectCurrentRoutineId(state);
+        const scriptId = selectCurrentScriptId(state);
+        const { operations, subroutines, routine } = await createRoutineAsync(messageService, { scriptId });
+
+        store.dispatch(addOperations(operations));
+        store.dispatch(addSubroutines(subroutines));
+        store.dispatch(addRoutine(routine));
+        store.dispatch(setCurrentRoutineId(routine.id));
+        store.dispatch(removeRoutine(previousRoutineId));
+
+        sendStartMessage(messageService);
+        store.dispatch(setGameIsPlaying(true));
+    };
+
+    public static stopAsync: () => Promise<void>
+    = async () => {
+        sendStopMessage(messageService);
+        store.dispatch(setGameIsPlaying(false));
+    };
+
+    public static tick: () => void
+    = () => {
+        sendTickMessage(messageService);
+    };
+}
 
 worker.onmessage = ({ data: message }) => {
     // give the WorkerMessageService a chance to handle any two-way message responses
@@ -47,18 +77,19 @@ worker.onmessage = ({ data: message }) => {
             const { payload: {
                 operationCreates,
                 operationUpdates,
+                routineIsComplete,
                 routineUpdate,
                 subroutineUpdates,
             } } = getUpdateMessage(message);
 
-            store.dispatch(addOperations(operationCreates));
-            store.dispatch(updateOperations(operationUpdates));
+            if (operationCreates.length > 0) store.dispatch(addOperations(operationCreates));
+            if (operationUpdates.length > 0) store.dispatch(updateOperations(operationUpdates));
 
-            store.dispatch(updateSubroutines(subroutineUpdates));
+            if (subroutineUpdates.length > 0) store.dispatch(updateSubroutines(subroutineUpdates));
 
-            if (routineUpdate !== undefined) {
-                store.dispatch(updateCurrentRoutine(routineUpdate));
-            }
+            if (routineUpdate !== undefined) store.dispatch(updateCurrentRoutine(routineUpdate));
+
+            if (routineIsComplete) GameStateService.stopAsync();
 
             break;
         }
@@ -68,32 +99,5 @@ worker.onmessage = ({ data: message }) => {
             break;
     }
 };
-
-abstract class GameStateService {
-    public static startAsync: () => Promise<void>
-    = async () => {
-        const scriptId = selectCurrentScriptId(store.getState());
-        const { operations, subroutines, routine } = await createRoutineAsync(messageService, { scriptId });
-
-        store.dispatch(addOperations(operations));
-        store.dispatch(addSubroutines(subroutines));
-        store.dispatch(addRoutine(routine));
-        store.dispatch(setCurrentRoutineId(routine.id));
-
-        sendStartMessage(messageService);
-        store.dispatch(setGameIsPlaying(true));
-    };
-
-    public static stopAsync: () => Promise<void>
-    = async () => {
-        sendStopMessage(messageService);
-        store.dispatch(setGameIsPlaying(false));
-    };
-
-    public static tick: () => void
-    = () => {
-        sendTickMessage(messageService);
-    };
-}
 
 export default GameStateService;

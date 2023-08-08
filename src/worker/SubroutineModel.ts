@@ -27,11 +27,12 @@ class SubroutineModel implements GameModel<SubroutineState> {
     private isInTransition = false;
     private transitionElapsed = 0;
 
-    public constructor() {
+    public constructor(parentRoutineId: EntityId) {
         this.state = {
             id: crypto.randomUUID(),
-            operations: [],
             duration: 0,
+            operations: [],
+            parentRoutineId,
         };
     }
 
@@ -119,8 +120,8 @@ class SubroutineModel implements GameModel<SubroutineState> {
 
         const { script } = await getScriptAsync(context.messageService, { scriptId });
         const operations = [
-            SubroutineModel.createBootOperation(isBoot, script.id),
-            ...await Promise.all(script.instructions.map(instructionId => SubroutineModel.createOperationAsync(context, instructionId)))
+            this.createBootOperation(isBoot, script.id),
+            ...await Promise.all(script.instructions.map(instructionId => this.createOperationAsync(context, instructionId)))
         ];
         for (const operation of operations) {
             this.operations.push(operation);
@@ -138,7 +139,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
         );
     }
 
-    private static createBootOperation(isBoot: boolean, parentScriptId: EntityId): GameModel<OperationState> {
+    private createBootOperation(isBoot: boolean, parentScriptId: EntityId): GameModel<OperationState> {
         const commandId = isBoot ? CommandId.Boot : CommandId.Child;
         return this.createOperationFromInstruction({
             id: 0,
@@ -147,15 +148,15 @@ class SubroutineModel implements GameModel<SubroutineState> {
         });
     }
 
-    private static async createOperationAsync(context: ModelContext, instructionId: EntityId): Promise<GameModel<OperationState>> {
+    private async createOperationAsync(context: ModelContext, instructionId: EntityId): Promise<GameModel<OperationState>> {
         const { instruction } = await getInstructionAsync(context.messageService, { instructionId });
-        return SubroutineModel.createOperationFromInstruction(instruction);
+        return this.createOperationFromInstruction(instruction);
     }
 
-    private static createOperationFromInstruction(instruction: InstructionState): GameModel<OperationState> {
+    private createOperationFromInstruction(instruction: InstructionState): GameModel<OperationState> {
         const { commandId } = instruction;
         const commandData = data[commandId];
-        return commandData.createModel(instruction);
+        return commandData.createModel(instruction, this.state.parentRoutineId, this.state.id);
     }
 
     private assertStatus(expected: SubroutineStatus): void {

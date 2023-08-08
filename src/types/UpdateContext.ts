@@ -11,6 +11,7 @@ declare interface UpdateContext {
     allocateSubroutineAsync(script: EntityId): Promise<GameModel>;
 
     setRoutine(routine: RoutineState): void;
+    routineIsComplete: boolean;
 
     updateOperation(id: EntityId, update: Partial<OperationState>): void;
     updateRoutine(update: Partial<RoutineState>): void;

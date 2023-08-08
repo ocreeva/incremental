@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import adapter from './subroutinesSlice.adapter';
+import extraReducers from './subroutinesSlice.extras';
 import * as reducers from './subroutinesSlice.reducers';
 import { type AdditionalSliceState } from './subroutinesSlice.types';
 
@@ -10,4 +11,5 @@ export default createSlice({
     name: 'subroutines',
     initialState,
     reducers,
+    extraReducers,
 });

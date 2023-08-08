@@ -2,6 +2,7 @@ import slice from './routinesSlice';
 
 export const {
     addRoutine,
+    removeRoutine,
     setCurrentRoutineId,
     updateCurrentRoutine,
 } = slice.actions;

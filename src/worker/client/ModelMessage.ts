@@ -39,6 +39,7 @@ export declare type UpdatePayload = {
     operationCreates: OperationState[];
     operationUpdates: Update<OperationState>[];
 
+    routineIsComplete: boolean;
     routineUpdate?: Partial<RoutineState>;
 
     subroutineUpdates: Update<SubroutineState>[];

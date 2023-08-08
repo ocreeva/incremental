@@ -8,16 +8,20 @@ import SubroutineModel, { SubroutineStatus } from './SubroutineModel';
  */
 export class RoutineModel implements GameModel<RoutineState>
 {
-    private readonly subroutines: SubroutineModel[] = [
-        new SubroutineModel(),
-        new SubroutineModel(),
-        new SubroutineModel(),
-        new SubroutineModel(),
-    ];
+    private readonly subroutines: SubroutineModel[];
 
     public constructor() {
+        const id = crypto.randomUUID();
+
+        this.subroutines = [
+            new SubroutineModel(id),
+            new SubroutineModel(id),
+            new SubroutineModel(id),
+            new SubroutineModel(id),
+        ];
+
         this.state = {
-            id: crypto.randomUUID(),
+            id,
             subroutines: this.subroutines.map(subroutine => subroutine.state.id),
             duration: 0,
             elapsed: 0,
@@ -67,6 +71,8 @@ export class RoutineModel implements GameModel<RoutineState>
             this.state.duration = duration;
             context.updateRoutine({ duration });
         }
+
+        context.routineIsComplete = !this.subroutines.some(subroutine => subroutine.status === SubroutineStatus.active);
     }
 
     public finalize(context: UpdateContext, time: number) {

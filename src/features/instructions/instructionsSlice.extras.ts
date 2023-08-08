@@ -10,11 +10,11 @@ const extraReducers: (builder: ActionReducerMapBuilder<SliceState>) => void
     builder.addCase<string, PayloadAction<DeleteScriptProps>>(
         'scripts/deleteScript',
         (state, { payload: { scriptId } }) => {
-            const scriptIds = state.ids
+            const instructionIds = state.ids
                 .map(id => selectById(state, id))
                 .filter(entity => entity.parentScriptId === scriptId)
                 .map(entity => entity.id);
-            return adapter.removeMany(state, scriptIds);
+            return adapter.removeMany(state, instructionIds);
         }
     );
 };

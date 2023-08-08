@@ -1,15 +1,17 @@
 import type { CommandId } from '@/constants';
-import type { GameModel, OperationState, TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameModel, OperationState, TimeContext, UpdateContext } from '@/types';
 
 abstract class CommandModel implements GameModel<OperationState> {
     public readonly state: OperationState;
 
     private elapsed = 0;
 
-    constructor(commandId: CommandId) {
+    constructor(commandId: CommandId, parentRoutineId: EntityId, parentSubroutineId: EntityId) {
         this.state = {
             id: crypto.randomUUID(),
             commandId,
+            parentRoutineId,
+            parentSubroutineId,
             delay: 0,
             duration: 42,
             progress: 0,
