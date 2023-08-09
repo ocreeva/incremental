@@ -1,5 +1,6 @@
 export type { default as CommandData } from './CommandData';
 export type { default as CommandDesign } from './CommandDesign';
+export type { default as CommandState } from './CommandState';
 export type { default as EntityId } from './EntityId';
 export type { default as EntityState } from './EntityState';
 export type { default as GameModel } from './GameModel';
