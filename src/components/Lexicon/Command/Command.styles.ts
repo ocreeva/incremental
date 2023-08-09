@@ -1,14 +1,16 @@
 import styled from 'styled-components';
 
-export const ButtonContent = styled.div`
+export const PanelContent = styled.div`
     display: grid;
-    justify-content: start;
+    gap: 5px;
     grid-template-areas:
         'title add'
         'level add'
     ;
-    grid-template-columns: 1fr 60px;
+    grid-template-columns: 1fr 42px;
     grid-template-rows: 1rem 1fr;
+    justify-content: start;
+    min-height: 60px;
     padding: 8px 4px;
 `;
 

@@ -19,7 +19,7 @@ export const getConceptStateEntitySelectors: <TEntity extends EntityState>(conce
 = (concept, adapter) => {
     const { selectIds, selectById } = adapter.getSelectors();
     return {
-        selectById: (state, id) => selectById(state, id) || crash(`Entity ID '${id} not found in ${concept} entities collection.`),
+        selectById: (state, id) => selectById(state, id) || crash(`Entity ID '${id}' not found in ${concept} entities collection.`),
         selectIds,
     };
 };

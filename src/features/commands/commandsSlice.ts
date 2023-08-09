@@ -9,7 +9,7 @@ import type { AdditionalSliceState, SliceState } from './commandsSlice.types';
 let initialState = adapter.getInitialState<AdditionalSliceState>({ });
 initialState = adapter.addMany<SliceState>(
     initialState,
-    Object.keys(CommandId).map(id => ({
+    Object.values(CommandId).map(id => ({
         id,
         level: 0,
         progress: 0,
