@@ -25,7 +25,6 @@ const ThemeStyles = css`
         --color-dialog-cancel: hsl(0deg 100% 25%);
 
         --color-add: hsl(120deg 100% 25%);
-        --color-level: hsl(60deg 35% 25%);
         --color-minus: hsl(0deg 100% 25%);
         --color-plus: hsl(120deg 100% 25%);
         --color-remove: hsl(0deg 65% 35%);
@@ -47,7 +46,6 @@ const ThemeStyles = css`
             --color-dialog-cancel: hsl(0deg 100% 75%);
 
             --color-add: hsl(120deg 100% 75%);
-            --color-level: hsl(50deg 35% 75%);
             --color-minus: hsl(0deg 100% 75%);
             --color-plus: hsl(120deg 100% 75%);
             --color-remove: hsl(0deg 65% 65%);

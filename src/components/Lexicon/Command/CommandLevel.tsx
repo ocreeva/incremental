@@ -38,7 +38,7 @@ const Container = styled.div`
 const Level = styled.div`
     grid-area: level;
 
-    background: var(--color-level);
+    background: var(--color-highlight);
     border-radius: 50%;
     color: var(--color-background);
     font-weight: 900;
@@ -59,8 +59,8 @@ const Progress = styled.div`
     background: var(--color-empty);
     background-image: linear-gradient(
         to right,
-        var(--color-level),
-        var(--color-level) var(--command-level_progress),
+        var(--color-highlight),
+        var(--color-highlight) var(--command-level_progress),
         transparent var(--command-level_progress),
         transparent
     );
