@@ -1,4 +1,5 @@
 import { type CommandId } from '@/constants';
+import designs from '@/game/designs';
 import { useGlyph } from '@/hooks';
 
 import * as S from './GlyphPanel.styles';
@@ -9,7 +10,8 @@ declare type GlyphPanelProps = {
 };
 
 const GlyphPanel: React.FC<React.PropsWithChildren<GlyphPanelProps>> = ({ children, commandId, shouldAnimate = true }) => {
-    const { GlyphComponent } = useGlyph(commandId as string);
+    const { glyphPath } = designs[commandId];
+    const { GlyphComponent } = useGlyph(glyphPath);
 
     const commandButtonStyles = {
         '--glyph-panel_border-color': 'var(--color-highlight)',

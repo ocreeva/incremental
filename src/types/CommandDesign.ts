@@ -10,6 +10,8 @@ declare interface CommandDesign {
     readonly id: CommandId;
     /** The command's name. */
     readonly name: string;
+    /** The path to the command's glyph. */
+    readonly glyphPath: string;
 
     /** The behavior of the command when presented as an instruction. */
     readonly asInstruction: CommandAsInstruction;

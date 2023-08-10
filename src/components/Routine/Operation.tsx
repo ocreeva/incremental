@@ -1,6 +1,7 @@
 import { selectOperation } from '@/features/operations';
 import { useAppSelector, useGlyph } from '@/hooks';
-import { type EntityId } from '@/types';
+import designs from '@/game/designs';
+import type { EntityId } from '@/types';
 
 import * as S from './Operation.styles';
 
@@ -10,7 +11,8 @@ declare type OperationProps = {
 
 const Operation: React.FC<OperationProps> = ({ id }) => {
     const { commandId, delay, duration, progress } = useAppSelector(state => selectOperation(state, id));
-    const { GlyphComponent } = useGlyph(commandId as string);
+    const { glyphPath } = designs[commandId];
+    const { GlyphComponent } = useGlyph(glyphPath);
 
     const style = {
         '--operation_delay': `${delay}`,

@@ -11,6 +11,8 @@ abstract class _CommandDesign implements CommandDesign {
 
     public readonly asInstruction: CommandAsInstruction = CommandAsInstruction.Default;
 
+    public get glyphPath() { return this.id as string; }
+
     public createInstruction(): InstructionState {
         const state = store.getState();
         return this._createInstruction(state);
