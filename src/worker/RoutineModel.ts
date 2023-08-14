@@ -61,6 +61,8 @@ export class RoutineModel implements GameModel<RoutineState>
             const subroutine = this.subroutines[index];
             switch (subroutine.status) {
                 case SubroutineStatus.active:
+                case SubroutineStatus.transition:
+                case SubroutineStatus.final:
                     subroutine.update(context, time);
                     break;
             }
@@ -72,7 +74,7 @@ export class RoutineModel implements GameModel<RoutineState>
             context.updateRoutine({ duration });
         }
 
-        context.routineIsComplete = !this.subroutines.some(subroutine => subroutine.status === SubroutineStatus.active);
+        context.routineIsComplete = !this.subroutines.some(subroutine => subroutine.status === SubroutineStatus.active || subroutine.status === SubroutineStatus.transition);
     }
 
     public finalize(context: UpdateContext, time: number) {
@@ -80,6 +82,8 @@ export class RoutineModel implements GameModel<RoutineState>
             const subroutine = this.subroutines[index];
             switch (subroutine.status) {
                 case SubroutineStatus.active:
+                case SubroutineStatus.transition:
+                case SubroutineStatus.final:
                     subroutine.finalize(context, time);
                     break;
             }
@@ -93,7 +97,9 @@ export class RoutineModel implements GameModel<RoutineState>
         for (let index = 0; index < this.subroutines.length; index++) {
             const subroutine = this.subroutines[index];
             switch (subroutine.status) {
-                case SubroutineStatus.active: {
+                case SubroutineStatus.active:
+                case SubroutineStatus.transition:
+                case SubroutineStatus.final: {
                     const timeContext: TimeContext = { delta: time.delta, total: time.total };
                     subroutine.progress(context, timeContext);
                     if (timeContext.delta > 0) {

@@ -11,6 +11,8 @@ export enum SubroutineStatus {
     loading = 'loading',
     pending = 'pending',
     active = 'active',
+    transition = 'transition',
+    final = 'final',
 }
 
 /**
@@ -24,7 +26,6 @@ class SubroutineModel implements GameModel<SubroutineState> {
     private lastActiveTime = 0;
     private operationIndex = 0;
 
-    private isInTransition = false;
     private transitionElapsed = 0;
 
     public constructor(parentRoutineId: EntityId) {
@@ -67,7 +68,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
     }
 
     public update(context: UpdateContext, time: number) {
-        this.assertStatus(SubroutineStatus.active);
+        this.assertStatus(SubroutineStatus.active, SubroutineStatus.transition, SubroutineStatus.final);
 
         this.operations[this.operationIndex].update(context, time);
 
@@ -79,7 +80,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
     }
 
     public finalize(_context: UpdateContext, time: number) {
-        this.assertStatus(SubroutineStatus.active);
+        this.assertStatus(SubroutineStatus.active, SubroutineStatus.transition, SubroutineStatus.final);
 
         this.lastActiveTime = time;
 
@@ -87,28 +88,36 @@ class SubroutineModel implements GameModel<SubroutineState> {
     }
 
     public progress(context: UpdateContext, time: TimeContext) {
-        this.assertStatus(SubroutineStatus.active);
+        this.assertStatus(SubroutineStatus.active, SubroutineStatus.transition, SubroutineStatus.final);
 
-        while ((time.delta > 0) && (this.isInTransition || this.operationIndex < this.operations.length)) {
-            if (this.isInTransition) {
-                this.transitionElapsed += time.delta;
-                if (this.transitionElapsed > SubroutineModel.transitionDuration) {
-                    time.delta = this.transitionElapsed - SubroutineModel.transitionDuration;
-                    this.transitionElapsed = 0;
-                    this.isInTransition = false;
-                    this.operationIndex++;
-                } else {
-                    time.delta = 0;
+        while (time.delta > 0) {
+            switch (this.status) {
+                case SubroutineStatus.active: {
+                    const currentOperation = this.operations[this.operationIndex];
+                    if (currentOperation.state.progress === 0) {
+                        currentOperation.start(context, time.total - time.delta);
+                    }
+                    currentOperation.progress(context, time);
+                    if (time.delta > 0) {
+                        currentOperation.finalize(context, time.total - time.delta);
+                        this.status = this.operationIndex === this.operations.length - 1 ? SubroutineStatus.final : SubroutineStatus.transition;
+                    }
+                    break;
                 }
-            } else {
-                const currentOperation = this.operations[this.operationIndex];
-                if (currentOperation.state.progress === 0) {
-                    currentOperation.start(context, time.total - time.delta);
-                }
-                currentOperation.progress(context, time);
-                if (time.delta > 0) {
-                    currentOperation.finalize(context, time.total - time.delta);
-                    this.isInTransition = true;
+
+                case SubroutineStatus.transition:
+                case SubroutineStatus.final: {
+                    this.transitionElapsed += time.delta;
+                    if (this.transitionElapsed > SubroutineModel.transitionDuration) {
+                        time.delta = this.transitionElapsed - SubroutineModel.transitionDuration;
+                        this.transitionElapsed = 0;
+                        this.operationIndex++;
+                        if (this.status === SubroutineStatus.final) return;
+
+                        this.status = SubroutineStatus.active;
+                    } else {
+                        time.delta = 0;
+                    }
                 }
             }
         }
@@ -159,8 +168,8 @@ class SubroutineModel implements GameModel<SubroutineState> {
         return commandData.createModel(instruction, this.state.parentRoutineId, this.state.id);
     }
 
-    private assertStatus(expected: SubroutineStatus): void {
-        (expected === this.status) || crash(`Subroutine status '${this.status}' does not match expected value '${expected}'.`);
+    private assertStatus(...expected: SubroutineStatus[]): void {
+        expected.includes(this.status) || crash(`Subroutine status '${this.status}' not in expected value(s): ${expected}`);
     }
 }
 
