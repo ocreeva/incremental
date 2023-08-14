@@ -7,6 +7,7 @@ enum CommandId {
     Fork = 'fork',
     Login = 'login',
     Scan = 'scan',
+    ScanHub = 'scan-hub',
 }
 
 export default CommandId;

@@ -15,6 +15,13 @@ declare interface CommandDesign {
 
     /** The behavior of the command when presented as an instruction. */
     readonly asInstruction: CommandAsInstruction;
+    /** The command's subcommands. */
+    readonly subcommands?: CommandId[];
+
+    /** Whether the command can be an instruction in a script. */
+    readonly canBeInstruction: boolean;
+    /** Whether the command should display its progress. */
+    readonly shouldShowProgress: boolean;
 
     /**
      * Creates an instruction to run the command in the current script.

@@ -1,11 +1,10 @@
+import styled from 'styled-components';
+
 import { type CommandId } from '@/constants';
 import GlyphPanel from '@/components/GlyphPanel';
 import designs from '@/game/designs';
 
-import * as S from './Command.styles';
-import AddButton from './AddButton';
-import { CommandProvider } from './CommandContext';
-import CommandLevel from './CommandLevel';
+import CommandContent from './CommandContent';
 
 interface CommandProps {
     commandId: CommandId;
@@ -13,19 +12,22 @@ interface CommandProps {
 
 const Command: React.FC<CommandProps> = ({ commandId }) => {
     const design = designs[commandId];
-    const { name } = design;
+    const { subcommands } = design;
 
     return (
-        <GlyphPanel commandId={commandId}>
-            <CommandProvider commandId={commandId}>
-                <S.PanelContent>
-                    <S.Name>{name}</S.Name>
-                    <CommandLevel />
-                    <AddButton />
-                </S.PanelContent>
-            </CommandProvider>
+        <GlyphPanel>
+            <CommandContent key={commandId} commandId={commandId} />
+            { subcommands && <Separator /> }
+            { subcommands && subcommands.map(subcommandId => <CommandContent key={subcommandId} commandId={subcommandId} />) }
         </GlyphPanel>
     );
 };
 
+const Separator = styled.div`
+        height: 2px;
+    background: var(--color-empty);
+    margin-inline: 8px;
+`;
+
+Command.displayName = 'Command';
 export default Command;

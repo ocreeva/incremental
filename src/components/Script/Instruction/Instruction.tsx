@@ -1,4 +1,4 @@
-import GlyphPanel from '@/components/GlyphPanel';
+import GlyphPanel, { GlyphPanelContent } from '@/components/GlyphPanel';
 import { CommandAsInstruction } from '@/constants';
 import { selectInstruction } from '@/features/instructions';
 import designs from '@/game/designs';
@@ -26,10 +26,12 @@ const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
     const InstructionContent = CommandContent[asInstruction];
 
     return (
-        <GlyphPanel commandId={commandId} shouldAnimate={shouldAnimate}>
-            <InstructionProvider instructionId={id}>
-                <InstructionContent />
-            </InstructionProvider>
+        <GlyphPanel shouldAnimate={shouldAnimate}>
+            <GlyphPanelContent commandId={commandId}>
+                <InstructionProvider instructionId={id}>
+                    <InstructionContent />
+                </InstructionProvider>
+            </GlyphPanelContent>
         </GlyphPanel>
     );
 };

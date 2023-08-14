@@ -10,6 +10,7 @@ class ForkDesign extends CommandDesign {
     public readonly name = 'Fork';
 
     public override readonly asInstruction: CommandAsInstruction = CommandAsInstruction.TargetScript;
+    public override readonly canBeInstruction = true;
 
     public override isInLexicon(): boolean {
         return true;

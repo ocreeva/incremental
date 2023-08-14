@@ -12,4 +12,13 @@ class ScanData extends CommandData {
     }
 }
 
+class ScanHubData extends CommandData {
+    public readonly id = CommandId.ScanHub;
+
+    public override createModel(): GameModel<OperationState> {
+        throw Error("ScanHubData does not support the 'createModel' method.");
+    }
+}
+
 registerData(new ScanData());
+registerData(new ScanHubData());

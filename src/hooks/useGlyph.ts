@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 
 import { importGlyph } from '@/assets';
-import { ReactComponent as EmptyGlyph } from '@/assets/empty.svg';
-import { ReactComponent as ErrorGlyph } from '@/assets/error.svg';
+import { ReactComponent as EmptyGlyph } from '@/assets/glyphs/empty.svg';
+import { ReactComponent as ErrorGlyph } from '@/assets/glyphs/error.svg';
 
 const useGlyph = (path: string) => {
     const GlyphComponentRef = useRef<React.FC<React.SVGProps<SVGSVGElement>>>(EmptyGlyph);

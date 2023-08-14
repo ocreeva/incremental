@@ -25,7 +25,7 @@ const _createCommandRecord: <T extends HasCommandId>() => [GetRecordOf<T>, Regis
     const register: Register<T>
     = (entry: T) => {
         const { id } = entry;
-        if (id in record) crash(`Duplicate registration for command '${id}'.`);
+        if (id in record) console.warn(`Duplicate registration for command '${id}'.`);
         record[id] = entry;
     };
 
