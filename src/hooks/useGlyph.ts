@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { importGlyph } from '@/assets';
 import { ReactComponent as EmptyGlyph } from '@/assets/glyphs/empty.svg';
