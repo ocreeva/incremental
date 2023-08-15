@@ -2,20 +2,11 @@ import { useState } from 'react';
 
 import Lexicon from '@/components/Lexicon';
 import Script from '@/components/Script';
+import { FocusTarget } from '@/constants';
+import { selectCurrentScriptId, selectScript } from '@/features/scripts';
 import { useAppSelector } from '@/hooks';
 
 import * as S from './IDE.styles';
-import { selectCurrentScriptId, selectScript } from '@/features/scripts';
-
-enum FocusTarget {
-    Lexicon,
-    Script,
-}
-
-const FocusTargetContainer: Record<FocusTarget, typeof S.ContainerBase> = {
-    [FocusTarget.Lexicon]: S.FocusOnLexicon,
-    [FocusTarget.Script]: S.FocusOnScript,
-};
 
 const IDE: React.FC = () => {
     const currentScriptId = useAppSelector(selectCurrentScriptId);
@@ -42,18 +33,15 @@ const IDE: React.FC = () => {
         setFocusTarget(FocusTarget.Script);
     }
 
-    const Container = FocusTargetContainer[focusTarget];
-    if (!Container) throw new Error(`No container specified for focus target: ${focusTarget}`);
-
     return (
-        <Container>
+        <S.Container className={focusTarget as string}>
             <S.LexiconContainer onClick={handleCommandsFocus}>
                 <Lexicon />
             </S.LexiconContainer>
             <S.ScriptContainer onClick={handleInstructionsFocus}>
                 <Script existingInstructionIds={existingInstructionIds} />
             </S.ScriptContainer>
-        </Container>
+        </S.Container>
     );
 };
 

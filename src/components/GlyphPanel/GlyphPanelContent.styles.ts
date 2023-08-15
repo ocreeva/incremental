@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { Container as Lexicon } from '@/components/Lexicon/Lexicon.styles';
 import { Container as Script } from '@/components/Script/Script.styles';
-import { FocusOnLexicon, FocusOnScript } from '@/components/IDE/IDE.styles';
+import { FocusTarget } from '@/constants';
 
 import { AnimatedContainer } from './GlyphPanel.styles';
 
@@ -44,22 +44,22 @@ export const ContentContainer = styled.div`
     opacity: 1;
     transform: none;
 
-    ${FocusOnLexicon} ${Lexicon} &,
-    ${FocusOnScript} ${Script} & {
+    .${FocusTarget.Lexicon} ${Lexicon} &,
+    .${FocusTarget.Script} ${Script} & {
         margin-inline-start: 0;
         opacity: 1;
         transform: none;
     }
 
-    ${FocusOnLexicon} ${Lexicon} ${AnimatedContainer} &,
-    ${FocusOnScript} ${Script} ${AnimatedContainer} & {
+    .${FocusTarget.Lexicon} ${Lexicon} ${AnimatedContainer} &,
+    .${FocusTarget.Script} ${Script} ${AnimatedContainer} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${fadeIn} calc(var(--ide_focus-animation-duration) - 50ms) 200ms backwards, ${scaleIn} var(--ide_focus-animation-duration) 50ms backwards;
         }
     }
 
-    ${FocusOnLexicon} ${Script} &,
-    ${FocusOnScript} ${Lexicon} & {
+    .${FocusTarget.Lexicon} ${Script} &,
+    .${FocusTarget.Script} ${Lexicon} & {
         display: none;
     }
 `;

@@ -1,6 +1,8 @@
 import styled, { keyframes } from 'styled-components';
 
-export const ContainerBase = styled.div`
+import { FocusTarget } from '@/constants';
+
+export const Container = styled.div`
     height: 100%;
     padding-inline: 12px;
     position: relative;
@@ -17,9 +19,6 @@ export const ContainerBase = styled.div`
     --ide_unfocus-animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.15);
     --ide_unfocus-animation: var(--ide_unfocus-animation-duration) var(--ide_unfocus-animation-timing-function);
 `;
-
-export const FocusOnLexicon = styled(ContainerBase)``;
-export const FocusOnScript = styled(ContainerBase)``;
 
 const slideIntoFocus = keyframes`
     from {
@@ -64,13 +63,13 @@ export const LexiconContainer = styled(InnerContainerBase)`
     left: 12px;
     width: calc(100% - 92px);
 
-    ${FocusOnLexicon} & {
+    .${FocusTarget.Lexicon} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${slideIntoFocus} var(--ide_focus-animation);
         }
     }
 
-    ${FocusOnScript} & {
+    .${FocusTarget.Script} & {
         translate: var(--ide_unfocus-translate);
 
         @media (prefers-reduced-motion: no-preference) {
@@ -85,7 +84,7 @@ export const ScriptContainer = styled(InnerContainerBase)`
     right: 12px;
     width: calc(100% - 110px);
 
-    ${FocusOnLexicon} & {
+    .${FocusTarget.Lexicon} & {
         translate: var(--ide_unfocus-translate);
 
         @media (prefers-reduced-motion: no-preference) {
@@ -93,7 +92,7 @@ export const ScriptContainer = styled(InnerContainerBase)`
         }
     }
 
-    ${FocusOnScript} & {
+    .${FocusTarget.Script} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${slideIntoFocus} var(--ide_focus-animation);
         }

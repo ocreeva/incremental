@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 
 import { Container as Lexicon } from '@/components/Lexicon/Lexicon.styles';
 import { Container as Script } from '@/components/Script/Script.styles';
-import { FocusOnLexicon, FocusOnScript } from '@/components/IDE/IDE.styles';
+import { FocusTarget } from '@/constants';
 
 const resizeGlyphOnly = keyframes`
     from { width: 100%; }
@@ -22,27 +22,27 @@ export const Container = styled.article`
     box-shadow: inset var(--glyph-panel_box-shadow);
     padding: 5px;
 
-    ${FocusOnLexicon} ${Lexicon} &,
-    ${FocusOnScript} ${Script} & {
+    .${FocusTarget.Lexicon} ${Lexicon} &,
+    .${FocusTarget.Script} ${Script} & {
         width: 100%;
     }
 
-    ${FocusOnLexicon} ${Script} &,
-    ${FocusOnScript} ${Lexicon} & {
+    .${FocusTarget.Lexicon} ${Script} &,
+    .${FocusTarget.Script} ${Lexicon} & {
         width: min-content;
     }
 `;
 
 export const AnimatedContainer = styled(Container)`
-    ${FocusOnLexicon} ${Lexicon} &,
-    ${FocusOnScript} ${Script} & {
+    .${FocusTarget.Lexicon} ${Lexicon} &,
+    .${FocusTarget.Script} ${Script} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${resizeAllContent} var(--ide_focus-animation-duration) ease-in-out;
         }
     }
 
-    ${FocusOnLexicon} ${Script} &,
-    ${FocusOnScript} ${Lexicon} & {
+    .${FocusTarget.Lexicon} ${Script} &,
+    .${FocusTarget.Script} ${Lexicon} & {
         @media (prefers-reduced-motion: no-preference) {
             animation: ${resizeGlyphOnly} calc(var(--ide_unfocus-animation-duration) - 50ms) cubic-bezier(0.175, 0.885, 0.320, 1);
         }
