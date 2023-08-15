@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { AccordionItem, AccordionPanel } from '@reach/accordion';
 
 import { type CommandId } from '@/constants';
@@ -19,19 +19,31 @@ const Command: React.FC<CommandProps> = ({ commandId }) => {
         <GlyphPanel>
             <AccordionItem id={commandId as string}>
                 <CommandContent key={commandId} commandId={commandId} />
-                <AccordionPanel>
+                <Subcommands>
                     <Separator />
                     { subcommands && subcommands.map(subcommandId => <CommandContent key={subcommandId} commandId={subcommandId} />) }
-                </AccordionPanel>
+                </Subcommands>
             </AccordionItem>
         </GlyphPanel>
     );
 };
 
 const Separator = styled.div`
-        height: 2px;
+    height: 2px;
     background: var(--color-empty);
     margin-inline: 8px;
+`;
+
+const slideDown = keyframes`
+    from { max-height: 0vh; }
+    to { max-height: 80vh; }
+`;
+
+const Subcommands = styled(AccordionPanel)`
+overflow: hidden;
+    @media (prefers-reduced-motion: no-preference) {
+        animation: ${slideDown} 1000ms;
+    }
 `;
 
 Command.displayName = 'Command';

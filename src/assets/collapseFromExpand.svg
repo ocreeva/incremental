@@ -1,0 +1,14 @@
+<svg height="28px" width="28px" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" transform-origin="14 14" d="
+        M 7 16
+        c -1 0 -1 2 0 2
+        h 10
+        a 1 1 0 0 0 1 -1
+        v -10
+        c 0 -1 -2 -1 -2 0
+        v 8.5
+        a 0.5 0.5 0 0 1 -0.5 0.5
+        z">
+            <animateTransform attributeName="transform" type="rotate" from="-45" to="45" dur="0.2s" fill="freeze" />
+    </path>
+</svg>
