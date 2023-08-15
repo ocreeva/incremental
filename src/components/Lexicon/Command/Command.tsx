@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AccordionItem, AccordionPanel } from '@reach/accordion';
 
 import { type CommandId } from '@/constants';
 import GlyphPanel from '@/components/GlyphPanel';
@@ -16,9 +17,13 @@ const Command: React.FC<CommandProps> = ({ commandId }) => {
 
     return (
         <GlyphPanel>
-            <CommandContent key={commandId} commandId={commandId} />
-            { subcommands && <Separator /> }
-            { subcommands && subcommands.map(subcommandId => <CommandContent key={subcommandId} commandId={subcommandId} />) }
+            <AccordionItem id={commandId as string}>
+                <CommandContent key={commandId} commandId={commandId} />
+                <AccordionPanel>
+                    <Separator />
+                    { subcommands && subcommands.map(subcommandId => <CommandContent key={subcommandId} commandId={subcommandId} />) }
+                </AccordionPanel>
+            </AccordionItem>
         </GlyphPanel>
     );
 };

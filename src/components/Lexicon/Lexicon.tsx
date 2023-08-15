@@ -1,8 +1,11 @@
+// import styled from 'styled-components';
+import { Accordion } from '@reach/accordion';
+
 import { CommandId } from '@/constants';
+import designs from '@/game/designs';
 
 import * as S from './Lexicon.styles';
 import Command from './Command';
-import designs from '@/game/designs';
 
 const commandIds = Object.values(CommandId);
 
@@ -11,9 +14,11 @@ const Lexicon: React.FC = () => {
 
     return (
         <S.Container>
-            { availableCommandIds.map(commandId => (
-                <Command key={commandId as string} commandId={commandId} />
-            )) }
+            <Accordion id='lexicon'>
+                { availableCommandIds.map(commandId => (
+                    <Command key={commandId as string} commandId={commandId} />
+                )) }
+            </Accordion>
         </S.Container>
     );
 };

@@ -7,6 +7,7 @@ import designs from '@/game/designs';
 import AddButton from './AddButton';
 import { CommandProvider } from './CommandContext';
 import CommandLevel from './CommandLevel';
+import ExpandButton from './ExpandButton';
 
 declare type CommandContentProps = {
     commandId: CommandId;
@@ -15,16 +16,22 @@ declare type CommandContentProps = {
 const CommandContent: React.FC<CommandContentProps>
 = ({ commandId }) => {
     const design = designs[commandId];
-    const { name, canBeInstruction, shouldShowProgress } = design;
+    const { name, canBeInstruction, shouldShowProgress, subcommands } = design;
+
+    const ContentContainer = subcommands ? canBeInstruction
+        ? PanelWithExpandAndAdd
+        : PanelWithExpand
+        : PanelContent;
 
     return (
         <GlyphPanelContent commandId={commandId}>
             <CommandProvider commandId={commandId}>
-                <PanelContent>
+                <ContentContainer>
                     <Name>{ name }</Name>
                     { shouldShowProgress && <CommandLevel /> }
+                    { subcommands && <ExpandButton /> }
                     { canBeInstruction && <AddButton /> }
-                </PanelContent>
+                </ContentContainer>
             </CommandProvider>
         </GlyphPanelContent>
     );
@@ -34,7 +41,7 @@ const PanelContent = styled.div`
     display: grid;
     gap: 5px;
     grid-template-areas:
-        'title add'
+        'name add'
         'level add'
     ;
     grid-template-columns: 1fr 42px;
@@ -44,8 +51,23 @@ const PanelContent = styled.div`
     padding: 8px 4px;
 `;
 
+const PanelWithExpand = styled(PanelContent)`
+    grid-template-areas:
+        'name expand'
+        'level expand'
+    ;
+`;
+
+const PanelWithExpandAndAdd = styled(PanelContent)`
+    grid-template-areas:
+        'name expand add'
+        'level expand add'
+    ;
+    grid-template-columns: 1fr 42px 42px;
+`;
+
 const Name = styled.div`
-    grid-area: title;
+    grid-area: name;
 `;
 
 CommandContent.displayName = 'CommandContent';
