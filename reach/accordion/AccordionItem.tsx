@@ -7,7 +7,7 @@ declare type AccordionItemProps = React.HTMLAttributes<HTMLDivElement> & {
 };
 
 const AccordionItem: React.FC<AccordionItemProps>
-= ({ children, id: itemId, ...props }) => {
+= ({ id: itemId, ...props }) => {
     const { id: accordionId, openPanel } = useAccordionContext('AccordionItem');
 
     const id = `${accordionId}_${itemId}`;
@@ -19,9 +19,7 @@ const AccordionItem: React.FC<AccordionItemProps>
                 { ...props }
                 data-reach-accordion-item=''
                 data-state={state as string}
-            >
-                { children }
-            </div>
+            />
         </AccordionItemContextProvider>
     );
 };

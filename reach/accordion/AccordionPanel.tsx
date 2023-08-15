@@ -2,7 +2,7 @@ import { useAccordionItemContext } from './AccordionItemContext';
 import AccordionState from './AccordionState';
 
 const AccordionPanel: React.FC<React.HTMLAttributes<HTMLDivElement>>
-= ({ children, ...props }) => {
+= (props) => {
     const { id, state } = useAccordionItemContext('AccordionPanel');
 
     return (
@@ -14,9 +14,7 @@ const AccordionPanel: React.FC<React.HTMLAttributes<HTMLDivElement>>
             data-reach-accordion-panel=''
             data-state={state as string}
             id={`${id}_panel`}
-        >
-            { children }
-        </div>
+        />
     );
 };
 

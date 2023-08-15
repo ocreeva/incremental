@@ -5,7 +5,7 @@ import { useAccordionItemContext } from './AccordionItemContext';
 import AccordionState from './AccordionState';
 
 const AccordionButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>>
-= ({ children, ...props }) => {
+= (props) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const { onSelectPanel } = useAccordionContext('AccordionButton');
@@ -28,9 +28,7 @@ const AccordionButton: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>>
             data-state={state as string}
             id={`${id}_button`}
             onClick={handleClick}
-        >
-            { children }
-        </button>
+        />
     );
 };
 

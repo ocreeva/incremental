@@ -6,8 +6,8 @@ declare type AccordionProps = React.HTMLAttributes<HTMLDivElement> & {
     id: string;
 };
 
-const Accordion: React.FC<React.PropsWithChildren<AccordionProps>>
-= ({ id, children }) => {
+const Accordion: React.FC<AccordionProps>
+= ({ id, ...props }) => {
     const [openPanel, setOpenPanel] = useState<string | undefined>(undefined);
 
     const onSelectPanel: (id: string) => void
@@ -15,7 +15,10 @@ const Accordion: React.FC<React.PropsWithChildren<AccordionProps>>
 
     return (
         <AccordionContextProvider id={id} openPanel={openPanel} onSelectPanel={onSelectPanel}>
-            { children }
+            <div
+                { ...props }
+                data-reach-accordion=''
+            />
         </AccordionContextProvider>
     )
 };
