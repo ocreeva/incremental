@@ -40,7 +40,8 @@ const slideDown = keyframes`
 `;
 
 const Subcommands = styled(AccordionPanel)`
-overflow: hidden;
+    overflow: hidden;
+
     @media (prefers-reduced-motion: no-preference) {
         animation: ${slideDown} 1000ms;
     }
