@@ -1,4 +1,3 @@
-// import styled from 'styled-components';
 import { Accordion } from '@reach/accordion';
 
 import { CommandId } from '@/constants';
@@ -11,15 +10,22 @@ const commandIds = Object.values(CommandId);
 
 const Lexicon: React.FC = () => {
     const availableCommandIds = commandIds.filter(commandId => designs[commandId].isInLexicon());
+    const style = {
+        '--lexicon_num-commands': `${availableCommandIds.length}`,
+    } as React.CSSProperties;
 
     return (
-        <S.Container>
-            <Accordion id='lexicon'>
-                { availableCommandIds.map(commandId => (
-                    <Command key={commandId as string} commandId={commandId} />
-                )) }
-            </Accordion>
-        </S.Container>
+        <>
+            <S.Spacer style={style} />
+            <S.Container>
+                <Accordion id='lexicon'>
+                    { availableCommandIds.map(commandId => (
+                        <Command key={commandId as string} commandId={commandId} />
+                    )) }
+                </Accordion>
+            </S.Container>
+            <S.Spacer style={style} />
+        </>
     );
 };
 
