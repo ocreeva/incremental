@@ -1,3 +1,5 @@
+import type { CommandId } from '@/constants';
+import type CommandState from './CommandState';
 import type EntityId from './EntityId';
 import type GameModel from './GameModel';
 import type OperationState from './OperationState';
@@ -13,6 +15,7 @@ declare interface UpdateContext {
     setRoutine(routine: RoutineState): void;
     routineIsComplete: boolean;
 
+    updateCommand(id: CommandId, update: CommandState): void;
     updateOperation(id: EntityId, update: Partial<OperationState>): void;
     updateRoutine(update: Partial<RoutineState>): void;
     updateSubroutine(id: EntityId, update: Partial<SubroutineState>): void;

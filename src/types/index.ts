@@ -3,6 +3,7 @@ export type { default as CommandDesign } from './CommandDesign';
 export type { default as CommandState } from './CommandState';
 export type { default as EntityId } from './EntityId';
 export type { default as EntityState } from './EntityState';
+export type { default as GameContext } from './GameContext';
 export type { default as GameModel } from './GameModel';
 export type { default as InstructionState } from './InstructionState';
 export type { default as OperationState } from './OperationState';

@@ -7,9 +7,9 @@ declare type InstructionState = {
     /** The command's ID. */
     readonly id: CommandId;
     /** The command's level. */
-    level: number;
+    level?: number;
     /** The command's progress to next level, as a percentage (0-100). */
-    progress: number;
+    progress?: number;
 };
 
 export default InstructionState;

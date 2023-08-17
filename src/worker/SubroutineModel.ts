@@ -1,5 +1,5 @@
 import { crash } from '@/core';
-import type { EntityId, GameModel, InstructionState, OperationState, SubroutineState, TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameContext, GameModel, InstructionState, OperationState, SubroutineState, TimeContext, UpdateContext } from '@/types';
 
 import { getInstructionAsync, getScriptAsync } from './client';
 import type ModelContext from './ModelContext';
@@ -43,7 +43,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
     public get status(): SubroutineStatus { return this._status; }
     private set status(value: SubroutineStatus) { this._status = value; }
 
-    public start(context: UpdateContext, time: number) {
+    public start(_game: GameContext, context: UpdateContext, time: number) {
         this.assertStatus(SubroutineStatus.pending);
 
         for (let index = this.operationIndex; index < this.operations.length; index++) {
@@ -67,10 +67,10 @@ class SubroutineModel implements GameModel<SubroutineState> {
         this.status = SubroutineStatus.active;
     }
 
-    public update(context: UpdateContext, time: number) {
+    public update(game: GameContext, context: UpdateContext, time: number) {
         this.assertStatus(SubroutineStatus.active, SubroutineStatus.transition, SubroutineStatus.final);
 
-        this.operations[this.operationIndex].update(context, time);
+        this.operations[this.operationIndex].update(game, context, time);
 
         const duration = SubroutineModel.calculateDuration(this.operations);
         if (this.state.duration !== duration) {
@@ -79,7 +79,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
         }
     }
 
-    public finalize(_context: UpdateContext, time: number) {
+    public finalize(_game: GameContext, _context: UpdateContext, time: number) {
         this.assertStatus(SubroutineStatus.active, SubroutineStatus.transition, SubroutineStatus.final);
 
         this.lastActiveTime = time;
@@ -87,7 +87,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
         this.status = SubroutineStatus.idle;
     }
 
-    public progress(context: UpdateContext, time: TimeContext) {
+    public progress(game: GameContext, context: UpdateContext, time: TimeContext) {
         this.assertStatus(SubroutineStatus.active, SubroutineStatus.transition, SubroutineStatus.final);
 
         while (time.delta > 0) {
@@ -95,11 +95,11 @@ class SubroutineModel implements GameModel<SubroutineState> {
                 case SubroutineStatus.active: {
                     const currentOperation = this.operations[this.operationIndex];
                     if (currentOperation.state.progress === 0) {
-                        currentOperation.start(context, time.total - time.delta);
+                        currentOperation.start(game, context, time.total - time.delta);
                     }
-                    currentOperation.progress(context, time);
+                    currentOperation.progress(game, context, time);
                     if (time.delta > 0) {
-                        currentOperation.finalize(context, time.total - time.delta);
+                        currentOperation.finalize(game, context, time.total - time.delta);
                         this.status = this.operationIndex === this.operations.length - 1 ? SubroutineStatus.final : SubroutineStatus.transition;
                     }
                     break;

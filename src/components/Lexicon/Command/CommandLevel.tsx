@@ -8,7 +8,7 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 const CommandLevel: React.FC
 = () => {
     const { commandId } = useCommandContext('CommandLevel');
-    const { level, progress } = useAppSelector(state => selectCommand(state, commandId));
+    const { level = 0, progress = 0 } = useAppSelector(state => selectCommand(state, commandId));
 
     const style = {
         '--command-level_progress': `${progress}%`,

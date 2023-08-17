@@ -1,4 +1,4 @@
-import type { EntityId, GameModel, RoutineState, SubroutineState, TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameContext, GameModel, RoutineState, SubroutineState, TimeContext, UpdateContext } from '@/types';
 
 import type ModelContext from './ModelContext';
 import SubroutineModel, { SubroutineStatus } from './SubroutineModel';
@@ -43,27 +43,27 @@ export class RoutineModel implements GameModel<RoutineState>
         throw Error('Unable to allocate a new subroutine.');
     }
 
-    public start(context: UpdateContext, time: number) {
+    public start(game: GameContext, context: UpdateContext, time: number) {
         context.setRoutine(this.state);
         for (const subroutine of this.subroutines) {
             context.addSubroutine(subroutine.state);
             switch (subroutine.status) {
                 case SubroutineStatus.pending:
-                    subroutine.start(context, time);
+                    subroutine.start(game, context, time);
                     this.state.duration = Math.max(this.state.duration, subroutine.state.duration);
                     break;
             }
         }
     }
 
-    public update(context: UpdateContext, time: number) {
+    public update(game: GameContext, context: UpdateContext, time: number) {
         for (let index = 0; index < this.subroutines.length; index++) {
             const subroutine = this.subroutines[index];
             switch (subroutine.status) {
                 case SubroutineStatus.active:
                 case SubroutineStatus.transition:
                 case SubroutineStatus.final:
-                    subroutine.update(context, time);
+                    subroutine.update(game, context, time);
                     break;
             }
         }
@@ -77,20 +77,20 @@ export class RoutineModel implements GameModel<RoutineState>
         context.routineIsComplete = !this.subroutines.some(subroutine => subroutine.status === SubroutineStatus.active || subroutine.status === SubroutineStatus.transition);
     }
 
-    public finalize(context: UpdateContext, time: number) {
+    public finalize(game: GameContext, context: UpdateContext, time: number) {
         for (let index = 0; index < this.subroutines.length; index++) {
             const subroutine = this.subroutines[index];
             switch (subroutine.status) {
                 case SubroutineStatus.active:
                 case SubroutineStatus.transition:
                 case SubroutineStatus.final:
-                    subroutine.finalize(context, time);
+                    subroutine.finalize(game, context, time);
                     break;
             }
         }
     }
 
-    public progress(context: UpdateContext, time: TimeContext) {
+    public progress(game: GameContext, context: UpdateContext, time: TimeContext) {
         this.state.elapsed += time.delta;
         context.updateRoutine({ elapsed: this.state.elapsed });
 
@@ -101,9 +101,9 @@ export class RoutineModel implements GameModel<RoutineState>
                 case SubroutineStatus.transition:
                 case SubroutineStatus.final: {
                     const timeContext: TimeContext = { delta: time.delta, total: time.total };
-                    subroutine.progress(context, timeContext);
+                    subroutine.progress(game, context, timeContext);
                     if (timeContext.delta > 0) {
-                        subroutine.finalize(context, timeContext.total - timeContext.delta);
+                        subroutine.finalize(game, context, timeContext.total - timeContext.delta);
                     }
                     break;
                 }

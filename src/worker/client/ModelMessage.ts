@@ -1,5 +1,5 @@
 import { crash } from '@/core';
-import type { OperationState, RoutineState, SubroutineState, Update } from '@/types';
+import type { CommandState, OperationState, RoutineState, SubroutineState, Update } from '@/types';
 import type { MessageSendProvider, PayloadMessage } from '@/types/worker';
 
 enum ModelMessage {
@@ -36,6 +36,8 @@ export const [ sendStopMessage ] = createEmptyMessageHandlers(ModelMessage.Stop)
 export const [ sendTickMessage ] = createEmptyMessageHandlers(ModelMessage.Tick);
 
 export declare type UpdatePayload = {
+    commandUpdates: CommandState[];
+
     operationCreates: OperationState[];
     operationUpdates: Update<OperationState>[];
 

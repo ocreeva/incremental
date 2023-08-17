@@ -1,5 +1,5 @@
 import type { CommandId } from '@/constants';
-import type { EntityId, GameModel, OperationState, TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameContext, GameModel, OperationState, TimeContext, UpdateContext } from '@/types';
 
 abstract class CommandModel implements GameModel<OperationState> {
     public readonly state: OperationState;
@@ -18,19 +18,19 @@ abstract class CommandModel implements GameModel<OperationState> {
         };
     }
 
-    public start(_context: UpdateContext, _time: number): void {
+    public start(_game: GameContext, _context: UpdateContext, _time: number): void {
         // noop
     }
 
-    public update(_context: UpdateContext, _time: number): void {
+    public update(_game: GameContext, _context: UpdateContext, _time: number): void {
         // noop
     }
 
-    public finalize(_context: UpdateContext, _time: number): void {
+    public finalize(_game: GameContext, _context: UpdateContext, _time: number): void {
         // noop
     }
 
-    public progress(context: UpdateContext, time: TimeContext): void {
+    public progress(_game: GameContext, context: UpdateContext, time: TimeContext): void {
         this.elapsed += time.delta;
         if (this.elapsed >= this.state.duration) {
             time.delta = this.elapsed - this.state.duration;

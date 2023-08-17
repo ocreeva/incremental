@@ -1,4 +1,5 @@
 import store from '@/App/store';
+import { selectAllCommands, updateCommands } from '@/features/commands';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
 import { addOperations, updateOperations } from '@/features/operations';
@@ -10,6 +11,7 @@ import {
     AsyncModelMessage, ModelMessage,
     createRoutineAsync,
     getUpdateMessage,
+    prepareToGetAllCommands,
     prepareToGetInstruction,
     prepareToGetScript,
     sendStartMessage,
@@ -59,6 +61,13 @@ worker.onmessage = ({ data: message }) => {
 
     const { type } = message as PayloadMessage;
     switch (type as AsyncModelMessage | ModelMessage) {
+        case AsyncModelMessage.GetAllCommands: {
+            const [_, respond] = prepareToGetAllCommands(message);
+            const commands = selectAllCommands(store.getState());
+            respond(messageService, { commands });
+            break;
+        }
+
         case AsyncModelMessage.GetInstruction: {
             const [{ payload: { instructionId } }, respond] = prepareToGetInstruction(message);
             const instruction = selectInstruction(store.getState(), instructionId);
@@ -75,12 +84,15 @@ worker.onmessage = ({ data: message }) => {
 
         case ModelMessage.Update: {
             const { payload: {
+                commandUpdates,
                 operationCreates,
                 operationUpdates,
                 routineIsComplete,
                 routineUpdate,
                 subroutineUpdates,
             } } = getUpdateMessage(message);
+
+            if (commandUpdates.length > 0) store.dispatch(updateCommands(commandUpdates));
 
             if (operationCreates.length > 0) store.dispatch(addOperations(operationCreates));
             if (operationUpdates.length > 0) store.dispatch(updateOperations(operationUpdates));

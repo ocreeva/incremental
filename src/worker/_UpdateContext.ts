@@ -1,11 +1,14 @@
+import { type CommandId } from '@/constants';
 import { crash } from '@/core';
-import type { EntityId, GameModel, OperationState, RoutineState, SubroutineState, Update, UpdateContext } from '@/types';
+import type { CommandState, EntityId, GameModel, OperationState, RoutineState, SubroutineState, UpdateContext } from '@/types';
 
 import { type CreateRoutineResponse, type UpdatePayload } from './client';
 import ModelProcessor from './ModelProcessor';
 
 class _UpdateContext implements UpdateContext {
     private readonly processor: ModelProcessor;
+
+    private readonly commandUpdates: Map<CommandId, CommandState> = new Map<CommandId, CommandState>();
 
     private readonly operationCreates: OperationState[] = [];
     private readonly operationUpdates: Map<EntityId, Partial<OperationState>> = new Map<EntityId, Partial<OperationState>>();
@@ -31,22 +34,13 @@ class _UpdateContext implements UpdateContext {
     }
 
     public getUpdatePayload(): UpdatePayload {
-        const operationUpdatesArray: Update<OperationState>[] = [];
-        for (const [id, changes] of this.operationUpdates) {
-            operationUpdatesArray.push({ id, changes });
-        }
-
-        const subroutineUpdatesArray: Update<SubroutineState>[] = [];
-        for (const [id, changes] of this.subroutineUpdates) {
-            subroutineUpdatesArray.push({ id, changes });
-        }
-
         return {
+            commandUpdates: Array.from(this.commandUpdates.values()),
             operationCreates: this.operationCreates,
-            operationUpdates: operationUpdatesArray,
+            operationUpdates: Array.from(this.operationUpdates.entries()).map(([id, changes]) => ({ id, changes })),
             routineIsComplete: this.routineIsComplete,
             routineUpdate: this.routineUpdate,
-            subroutineUpdates: subroutineUpdatesArray,
+            subroutineUpdates: Array.from(this.subroutineUpdates.entries()).map(([id, changes]) => ({ id, changes })),
         };
     }
 
@@ -73,6 +67,15 @@ class _UpdateContext implements UpdateContext {
 
     public setRoutine(routine: RoutineState): void {
         this.routine = routine;
+    }
+
+    public updateCommand(id: CommandId, update: CommandState): void {
+        if (this.commandUpdates.has(id)) {
+            const previous = this.commandUpdates.get(id);
+            this.commandUpdates.set(id, { ...previous, ...update });
+        } else {
+            this.commandUpdates.set(id, update);
+        }
     }
 
     public updateOperation(id: EntityId, update: Partial<OperationState>): void {

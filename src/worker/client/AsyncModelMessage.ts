@@ -1,5 +1,5 @@
 import { crash } from '@/core';
-import type { EntityId, InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
+import type { CommandState, EntityId, InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
 import type { MessageRequestProvider, MessageRespondProvider, PayloadMessage } from '@/types/worker';
 
 enum AsyncModelMessage {
@@ -7,6 +7,7 @@ enum AsyncModelMessage {
     CreateRoutine = 'Game/CreateRoutine',
 
     // worker -> main
+    GetAllCommands = 'Game/GetAllCommands',
     GetInstruction = 'Game/GetInstruction',
     GetScript = 'Game/GetScript',
 }
@@ -35,6 +36,12 @@ export declare type CreateRoutineResponse = {
     operations: OperationState[];
 };
 export const [ createRoutineAsync, prepareToCreateRoutine ] = createMessageHandlers<CreateRoutineRequest, CreateRoutineResponse>(AsyncModelMessage.CreateRoutine);
+
+export declare type GetAllCommandsRequest = Record<string, never>;
+export declare type GetAllCommandsResponse = {
+    commands: CommandState[];
+};
+export const [ getAllCommandsAsync, prepareToGetAllCommands ] = createMessageHandlers<GetAllCommandsRequest, GetAllCommandsResponse>(AsyncModelMessage.GetAllCommands);
 
 export declare type GetInstructionRequest = {
     instructionId: EntityId;
