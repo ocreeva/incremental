@@ -9,8 +9,8 @@ class ForkModel extends CommandModel {
     private startTime = 0;
     private subroutine: GameModel | null = null;
 
-    public constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId, scriptId: EntityId) {
-        super(CommandId.Fork, parentRoutineId, parentSubroutineId);
+    public constructor(scriptId: EntityId) {
+        super(CommandId.Fork);
 
         this.scriptId = scriptId;
     }
