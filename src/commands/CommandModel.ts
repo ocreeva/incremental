@@ -1,11 +1,21 @@
 import type { CommandId } from '@/constants';
-import type { CommandState, GameContext, GameModel, TimeContext, UpdateContext } from '@/types';
+import type { EntityId, GameContext, GameModel, OperationState, TimeContext, UpdateContext } from '@/types';
 
-abstract class CommandModel implements GameModel<CommandState> {
-    public readonly state: CommandState;
+abstract class CommandModel implements GameModel<OperationState> {
+    public readonly state: OperationState;
 
-    constructor(id: CommandId) {
-        this.state = { id };
+    private elapsed = 0;
+
+    constructor(commandId: CommandId, parentRoutineId: EntityId, parentSubroutineId: EntityId) {
+        this.state = {
+            id: crypto.randomUUID(),
+            commandId,
+            parentRoutineId,
+            parentSubroutineId,
+            delay: 0,
+            duration: 42,
+            progress: 0,
+        };
     }
 
     public start(_game: GameContext, _context: UpdateContext, _time: number): void {
@@ -20,8 +30,17 @@ abstract class CommandModel implements GameModel<CommandState> {
         // noop
     }
 
-    public progress(_game: GameContext, _context: UpdateContext, _time: TimeContext): void {
-        // noop
+    public progress(_game: GameContext, context: UpdateContext, time: TimeContext): void {
+        this.elapsed += time.delta;
+        if (this.elapsed >= this.state.duration) {
+            time.delta = this.elapsed - this.state.duration;
+            this.elapsed = this.state.duration;
+        } else {
+            time.delta = 0;
+        }
+
+        this.state.progress = 100 * this.elapsed / this.state.duration;
+        context.updateOperation(this.state.id, { progress: this.state.progress });
     }
 }
 

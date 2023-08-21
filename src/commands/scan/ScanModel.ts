@@ -1,11 +1,11 @@
 import { CommandId } from '@/constants';
-import type { GameContext, UpdateContext } from '@/types';
+import type { EntityId, GameContext, UpdateContext } from '@/types';
 
 import CommandModel from '../CommandModel';
 
 class ScanModel extends CommandModel {
-    constructor() {
-        super(CommandId.Scan);
+    constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId) {
+        super(CommandId.Scan, parentRoutineId, parentSubroutineId);
     }
 
     public override finalize(game: GameContext, context: UpdateContext, time: number): void {

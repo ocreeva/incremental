@@ -5,7 +5,6 @@ import { getInstructionAsync, getScriptAsync } from './client';
 import type ModelContext from './ModelContext';
 import data from '@/game/data';
 import { CommandId } from '@/constants';
-import OperationModel from './OperationModel';
 
 export enum SubroutineStatus {
     idle = 'idle',
@@ -166,9 +165,7 @@ class SubroutineModel implements GameModel<SubroutineState> {
     private createOperationFromInstruction(instruction: InstructionState): GameModel<OperationState> {
         const { commandId } = instruction;
         const commandData = data[commandId];
-        const commandModel = commandData.createModel(instruction);
-        const operationModel = new OperationModel(commandModel, this.state.parentRoutineId, this.state.id);
-        return operationModel;
+        return commandData.createModel(instruction, this.state.parentRoutineId, this.state.id);
     }
 
     private assertStatus(...expected: SubroutineStatus[]): void {
