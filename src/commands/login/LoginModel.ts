@@ -1,12 +1,14 @@
+import CommandModel, { registerModel } from '@/commands/_/CommandModel';
 import { CommandId } from '@/constants';
 import type { EntityId } from '@/types';
-
-import CommandModel from '../CommandModel';
+import type { IOperationModel } from '@/types/model';
 
 class LoginModel extends CommandModel {
-    constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId) {
-        super(CommandId.Login, parentRoutineId, parentSubroutineId);
+    public static override readonly id: CommandId = CommandId.Login;
+
+    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
+        return new LoginModel(parentRoutineId, parentSubroutineId);
     }
 }
 
-export default LoginModel;
+registerModel(LoginModel);

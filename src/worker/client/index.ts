@@ -1,5 +1,4 @@
-export { default as AsyncModelMessage } from './AsyncModelMessage';
-export { default as ModelMessage } from './ModelMessage';
+export { default as DeltaValue } from './DeltaValue';
 
-export * from './AsyncModelMessage';
-export * from './ModelMessage';
+export * from './AsyncModelMessages';
+export * from './ModelMessages';

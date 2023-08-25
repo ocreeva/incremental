@@ -1,6 +1,6 @@
 import { selectOperation } from '@/features/operations';
-import { useAppSelector, useGlyph } from '@/hooks';
 import designs from '@/game/designs';
+import { useAppSelector, useGlyph } from '@/hooks';
 import type { EntityId } from '@/types';
 
 import * as S from './Operation.styles';
@@ -17,7 +17,7 @@ const Operation: React.FC<OperationProps> = ({ id }) => {
     const style = {
         '--operation_delay': `${delay}`,
         '--operation_duration': `${duration}`,
-        '--operation_progress': `${progress}%`,
+        '--operation_progress': `${progress * 100}%`,
     } as React.CSSProperties;
 
     return (

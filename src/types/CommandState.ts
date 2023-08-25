@@ -8,7 +8,7 @@ declare type InstructionState = {
     readonly id: CommandId;
     /** The command's level. */
     level?: number;
-    /** The command's progress to next level, as a percentage (0-100). */
+    /** The command's progress to next level, as a percentage (0-1). */
     progress?: number;
 };
 

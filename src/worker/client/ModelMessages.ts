@@ -1,13 +1,7 @@
+import { ModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
 import type { CommandState, OperationState, RoutineState, SubroutineState, Update } from '@/types';
 import type { MessageSendProvider, PayloadMessage } from '@/types/worker';
-
-enum ModelMessage {
-    Start = 'Game/Start',
-    Stop = 'Game/Stop',
-    Tick = 'Game/Tick',
-    Update = 'Game/Update',
-}
 
 const assertMessageType: <TPayload>(message: PayloadMessage, type: ModelMessage) => asserts message is PayloadMessage<TPayload, ModelMessage>
 = (message, type) => message.type === type || crash(`Message type (${message.type}) does not match expected type (${type}).`);
@@ -36,16 +30,15 @@ export const [ sendStopMessage ] = createEmptyMessageHandlers(ModelMessage.Stop)
 export const [ sendTickMessage ] = createEmptyMessageHandlers(ModelMessage.Tick);
 
 export declare type UpdatePayload = {
-    commandUpdates: CommandState[];
+    commandUpserts: CommandState[];
 
-    operationCreates: OperationState[];
+    operations: OperationState[];
     operationUpdates: Update<OperationState>[];
 
     routineIsComplete: boolean;
     routineUpdate?: Partial<RoutineState>;
 
+    subroutines: SubroutineState[];
     subroutineUpdates: Update<SubroutineState>[];
 };
 export const [ sendUpdateMessage, getUpdateMessage ] = createMessageHandlers<UpdatePayload>(ModelMessage.Update);
-
-export default ModelMessage;

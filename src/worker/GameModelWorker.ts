@@ -1,9 +1,9 @@
+import { AsyncModelMessage, ModelMessage } from '@/constants/worker';
 import WorkerMessageService from '@/services/WorkerMessageService';
-
-import { AsyncModelMessage, ModelMessage, prepareToCreateRoutine } from './client';
-import ModelProcessor from './ModelProcessor';
-
 import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
+
+import { prepareToCreateRoutine } from './client';
+import ModelProcessor from './ModelProcessor';
 
 const postMessageAction: PayloadMessageAction = (message) => self.postMessage(message);
 

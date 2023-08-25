@@ -1,4 +1,5 @@
 import store from '@/App/store';
+import { AsyncModelMessage, ModelMessage } from '@/constants/worker';
 import { selectAllCommands, updateCommands } from '@/features/commands';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
@@ -7,8 +8,8 @@ import { addRoutine, removeRoutine, selectCurrentRoutineId, setCurrentRoutineId,
 import { selectCurrentScriptId, selectScript } from '@/features/scripts';
 import { addSubroutines, updateSubroutines } from '@/features/subroutines';
 import WorkerMessageService from '@/services/WorkerMessageService';
+import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 import {
-    AsyncModelMessage, ModelMessage,
     createRoutineAsync,
     getUpdateMessage,
     prepareToGetAllCommands,
@@ -18,7 +19,6 @@ import {
     sendStopMessage,
     sendTickMessage,
 } from '@/worker/client';
-import { type PayloadMessage, type PayloadMessageAction } from '@/types/worker';
 
 const worker = new Worker(new URL('@/worker/GameModelWorker', import.meta.url), { type: 'module' });
 
@@ -84,19 +84,21 @@ worker.onmessage = ({ data: message }) => {
 
         case ModelMessage.Update: {
             const { payload: {
-                commandUpdates,
-                operationCreates,
+                commandUpserts: commandUpdates,
+                operations,
                 operationUpdates,
                 routineIsComplete,
                 routineUpdate,
+                subroutines,
                 subroutineUpdates,
             } } = getUpdateMessage(message);
 
             if (commandUpdates.length > 0) store.dispatch(updateCommands(commandUpdates));
 
-            if (operationCreates.length > 0) store.dispatch(addOperations(operationCreates));
+            if (operations.length > 0) store.dispatch(addOperations(operations));
             if (operationUpdates.length > 0) store.dispatch(updateOperations(operationUpdates));
 
+            if (subroutines.length > 0) store.dispatch(addSubroutines(subroutines));
             if (subroutineUpdates.length > 0) store.dispatch(updateSubroutines(subroutineUpdates));
 
             if (routineUpdate !== undefined) store.dispatch(updateCurrentRoutine(routineUpdate));

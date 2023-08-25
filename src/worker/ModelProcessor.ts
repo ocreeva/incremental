@@ -1,84 +1,63 @@
-import { assertIsDefined } from '@/core';
-import type { EntityId, GameContext, GameModel, SubroutineState } from '@/types';
+import commands from '@/commands/models';
+import { type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
+import type { EntityId } from '@/types';
 import type { MessageService } from '@/types/worker';
+import { type CreateRoutineResponse, sendUpdateMessage } from '@/worker/client';
 
-import {
-    type AsyncModelMessage,
-    type CreateRoutineResponse,
-    type ModelMessage,
-    sendUpdateMessage
-} from './client';
-import _GameContext from './_GameContext';
-import TimeContext from './_TimeContext';
-import UpdateContext from './_UpdateContext';
-import ModelContext from './ModelContext';
-import { RoutineModel } from './RoutineModel';
+import GameContext from './GameContext';
+import GameSynchronization from './GameSynchronization';
+import TimeContext from './TimeContext';
 
-class ModelProcessor implements ModelContext {
-    private readonly timeContext: TimeContext = new TimeContext();
-    private gameContext?: GameContext;
+class ModelProcessor {
+    private readonly game: GameContext;
+    private readonly synchronization: GameSynchronization = new GameSynchronization();
+    private readonly time: TimeContext = new TimeContext();
+
+    private hasInitializedCommands = false;
 
     constructor(messageService: MessageService<ModelMessage, AsyncModelMessage>) {
-        this.messageService = messageService;
-    }
-
-    public readonly messageService: MessageService<ModelMessage, AsyncModelMessage>;
-
-    public routine: RoutineModel | undefined;
-
-    public allocateSubroutineAsync(scriptId: EntityId): Promise<GameModel<SubroutineState>> {
-        assertIsDefined(this.routine, `ModelProcessor.allocateSubroutineAsync called before routine was created.`);
-
-        return this.routine.allocateSubroutineAsync(this, scriptId);
+        this.game = new GameContext(messageService, this.synchronization);
     }
 
     public async createRoutineAsync(scriptId: EntityId): Promise<CreateRoutineResponse> {
-        if (this.gameContext === undefined) {
-            this.gameContext = await _GameContext.createAsync(this);
+        this.game.reset();
+        this.time.reset();
+
+        if (!this.hasInitializedCommands) {
+            await Promise.all(Object.values(commands).map(command => command.initializeAsync(this.game)));
+            this.hasInitializedCommands = true;
         }
 
-        this.routine = new RoutineModel();
-        await this.routine.allocateSubroutineAsync(this, scriptId, true);
+        await this.game.routine.initializeAsync(this.game, scriptId);
+        this.game.routine.start(this.time.total);
 
-        const updateContext = new UpdateContext(this);
-        this.routine.start(this.gameContext, updateContext, 0);
-
-        return updateContext.getCreatePayload();
+        return this.synchronization.getCreatePayload();
     }
 
     public start(): void {
-        assertIsDefined(this.gameContext, 'ModelProcessor.start called before game context was created.');
-        assertIsDefined(this.routine, `ModelProcessor.start called before routine was created.`);
-
-        this.timeContext.snapshot();
+        this.time.snapshot();
     }
 
     public update(): void {
-        assertIsDefined(this.gameContext, 'ModelProcessor.update called before game context was created.');
-        assertIsDefined(this.routine, `ModelProcessor.update called before routine was created.`);
+        const timeDelta = this.time.snapshot();
 
-        this.timeContext.snapshot();
+        this.game.routine.update(timeDelta);
+        this.game.routine.synchronize(this.time.total);
 
-        const updateContext = new UpdateContext(this);
-        this.routine.progress(this.gameContext, updateContext, this.timeContext);
-        this.routine.update(this.gameContext, updateContext, this.timeContext.total);
-
-        if (updateContext.hasUpdates()) {
-            sendUpdateMessage(this.messageService, updateContext.getUpdatePayload());
+        if (this.synchronization.hasUpdates()) {
+            sendUpdateMessage(this.game.messageService, this.synchronization.getUpdatePayload());
         }
     }
 
     public finalize(): void {
-        assertIsDefined(this.gameContext, 'ModelProcessor.finalize called before game context was created.');
-        assertIsDefined(this.routine, `ModelProcessor.finalize called before routine was created.`);
+        if (this.game.synchronization.routineIsComplete) {
+            this.game.routine.finalize(this.time.total);
+        } else {
+            this.game.routine.abort(this.time.total);
+        }
 
-        this.timeContext.reset();
-
-        const updateContext = new UpdateContext(this);
-        this.routine.finalize(this.gameContext, updateContext, this.timeContext.total);
-
-        if (updateContext.hasUpdates()) {
-            sendUpdateMessage(this.messageService, updateContext.getUpdatePayload());
+        if (this.synchronization.hasUpdates()) {
+            sendUpdateMessage(this.game.messageService, this.synchronization.getUpdatePayload());
         }
     }
 }

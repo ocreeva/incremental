@@ -1,113 +1,199 @@
-import type { EntityId, GameContext, GameModel, RoutineState, SubroutineState, TimeContext, UpdateContext } from '@/types';
+import { ModelStatus } from '@/constants/worker';
+import { assert } from '@/core';
+import type { EntityId, RoutineState } from '@/types';
+import type { IDeltaValue, IGameContext, IRoutineModel } from '@/types/model';
+import { getScriptAsync } from '@/worker/client';
 
-import type ModelContext from './ModelContext';
-import SubroutineModel, { SubroutineStatus } from './SubroutineModel';
+import SubroutineModel from './SubroutineModel';
 
 /**
  * Provides the gameplay model for a Routine.
  */
-export class RoutineModel implements GameModel<RoutineState>
-{
-    private readonly subroutines: SubroutineModel[];
+class RoutineModel implements IRoutineModel {
+    private readonly state: RoutineState;
 
     public constructor() {
-        const id = crypto.randomUUID();
-
-        this.subroutines = [
-            new SubroutineModel(id),
-            new SubroutineModel(id),
-            new SubroutineModel(id),
-            new SubroutineModel(id),
-        ];
-
         this.state = {
-            id,
-            subroutines: this.subroutines.map(subroutine => subroutine.state.id),
+            id: crypto.randomUUID(),
+            subroutines: [ ],
             duration: 0,
             elapsed: 0,
         };
     }
 
-    public readonly state: RoutineState;
+    public get id(): EntityId { return this.state.id; }
 
-    public async allocateSubroutineAsync(context: ModelContext, scriptId: EntityId, isBoot = false): Promise<GameModel<SubroutineState>> {
-        for (const subroutine of this.subroutines) {
-            switch (subroutine.status) {
-                case SubroutineStatus.idle: {
-                    await subroutine.loadScriptAsync(context, scriptId, isBoot);
-                    return subroutine;
-                }
+    public get subroutines(): EntityId[] { return this.state.subroutines; }
+
+    public get duration(): number { return this.state.duration; }
+    private set duration(duration: number) {
+        if (this.state.duration === duration) return;
+
+        this.state.duration = duration;
+        this.game.synchronization.updateRoutine({ duration });
+    }
+
+    public get elapsed(): number { return this.state.elapsed; }
+    private set elapsed(elapsed: number) {
+        if (this.state.elapsed === elapsed) return;
+
+        this.state.elapsed = elapsed;
+        this.game.synchronization.updateRoutine({ elapsed });
+    }
+
+    private _status: ModelStatus = ModelStatus.idle;
+    public get status(): ModelStatus { return this._status; }
+    private set status(value: ModelStatus) { this._status = value; }
+
+    private _game?: IGameContext;
+    protected get game(): IGameContext {
+        assert(this._game, "OperationModel 'game' property accessed before initialization.");
+        return this._game;
+    }
+    private set game(value: IGameContext) { this._game = value; }
+
+    public async allocateSubroutineAsync(scriptId: EntityId): Promise<EntityId> {
+        this.assertStatus(ModelStatus.loading, ModelStatus.active);
+
+        let subroutine = this.subroutines
+            .map(subroutineId => this.game.getSubroutine(subroutineId))
+            .find(_ => _.status === ModelStatus.idle);
+        if (!subroutine) {
+            if (this.game.subroutines.size < 4) {
+                subroutine = new SubroutineModel(this.id);
+            } else {
+                throw Error('Unable to allocate a new subroutine.');
             }
         }
 
-        throw Error('Unable to allocate a new subroutine.');
+        await subroutine.initializeAsync(this.game, scriptId);
+
+        return subroutine.id;
     }
 
-    public start(game: GameContext, context: UpdateContext, time: number) {
-        context.setRoutine(this.state);
-        for (const subroutine of this.subroutines) {
-            context.addSubroutine(subroutine.state);
-            switch (subroutine.status) {
-                case SubroutineStatus.pending:
-                    subroutine.start(game, context, time);
-                    this.state.duration = Math.max(this.state.duration, subroutine.state.duration);
-                    break;
-            }
-        }
+    public async initializeAsync(game: IGameContext, scriptId: EntityId): Promise<void> {
+        this.assertStatus(ModelStatus.idle);
+        this.status = ModelStatus.loading;
+
+        this.game = game;
+        this.game.synchronization.setRoutine(this.state);
+
+        const subroutineId = await this.allocateSubroutineAsync(scriptId);
+        this.subroutines.push(subroutineId);
+
+        this.assertStatus(ModelStatus.loading);
+        this.status = ModelStatus.pending;
     }
 
-    public update(game: GameContext, context: UpdateContext, time: number) {
-        for (let index = 0; index < this.subroutines.length; index++) {
-            const subroutine = this.subroutines[index];
-            switch (subroutine.status) {
-                case SubroutineStatus.active:
-                case SubroutineStatus.transition:
-                case SubroutineStatus.final:
-                    subroutine.update(game, context, time);
-                    break;
-            }
-        }
+    public start(time: number) {
+        this.assertStatus(ModelStatus.pending);
 
-        const duration = Math.max(...this.subroutines.map(subroutine => subroutine.state.duration));
-        if (duration != this.state.duration) {
-            this.state.duration = duration;
-            context.updateRoutine({ duration });
-        }
-
-        context.routineIsComplete = !this.subroutines.some(subroutine => subroutine.status === SubroutineStatus.active || subroutine.status === SubroutineStatus.transition);
-    }
-
-    public finalize(game: GameContext, context: UpdateContext, time: number) {
-        for (let index = 0; index < this.subroutines.length; index++) {
-            const subroutine = this.subroutines[index];
-            switch (subroutine.status) {
-                case SubroutineStatus.active:
-                case SubroutineStatus.transition:
-                case SubroutineStatus.final:
-                    subroutine.finalize(game, context, time);
-                    break;
-            }
-        }
-    }
-
-    public progress(game: GameContext, context: UpdateContext, time: TimeContext) {
-        this.state.elapsed += time.delta;
-        context.updateRoutine({ elapsed: this.state.elapsed });
-
-        for (let index = 0; index < this.subroutines.length; index++) {
-            const subroutine = this.subroutines[index];
-            switch (subroutine.status) {
-                case SubroutineStatus.active:
-                case SubroutineStatus.transition:
-                case SubroutineStatus.final: {
-                    const timeContext: TimeContext = { delta: time.delta, total: time.total };
-                    subroutine.progress(game, context, timeContext);
-                    if (timeContext.delta > 0) {
-                        subroutine.finalize(game, context, timeContext.total - timeContext.delta);
+        this.subroutines
+            .map(subroutineId => this.game.getSubroutine(subroutineId))
+            .forEach(subroutine => {
+                switch (subroutine.status) {
+                    case ModelStatus.pending: {
+                        subroutine.start(time);
+                        this.duration = Math.max(this.duration, subroutine.duration);
+                        break;
                     }
-                    break;
                 }
-            }
-        }
+            });
+
+        this.status = ModelStatus.active;
+    }
+
+    public synchronize(time: number) {
+        this.assertStatus(ModelStatus.active);
+
+        this.subroutines
+            .map(subroutineId => this.game.getSubroutine(subroutineId))
+            .forEach(subroutine => {
+                switch (subroutine.status) {
+                    case ModelStatus.active:
+                    case ModelStatus.complete: {
+                        subroutine.synchronize(time);
+                    }
+                }
+            });
+
+        this.game.synchronization.routineIsComplete = !this.subroutines
+            .map(subroutineId => this.game.getSubroutine(subroutineId))
+            .some(subroutine => subroutine.status === ModelStatus.active);
+    }
+
+    public finalize(time: number) {
+        this.assertStatus(ModelStatus.active);
+
+        this.subroutines
+            .map(subroutineId => this.game.getSubroutine(subroutineId))
+            .forEach(subroutine => {
+                switch (subroutine.status) {
+                    case ModelStatus.complete:
+                    case ModelStatus.idle:
+                        subroutine.finalize(time);
+                        break;
+    
+                    default:
+                        throw Error(`RoutineModel.finalize called while subroutine (${subroutine.id}) has '${subroutine.status}' status.`);
+                }
+            });
+
+        this.status = ModelStatus.final;
+    }
+
+    public abort(time: number) {
+        this.assertStatus(ModelStatus.active);
+
+        this.subroutines
+            .map(subroutineId => this.game.getSubroutine(subroutineId))
+            .forEach(subroutine => {
+                switch (subroutine.status) {
+                    case ModelStatus.complete:
+                    case ModelStatus.idle:
+                        // gracefully finalize if we can
+                        subroutine.finalize(time);
+                        break;
+    
+                    case ModelStatus.active:
+                    case ModelStatus.loading:
+                    case ModelStatus.pending:
+                        subroutine.abort(time);
+                        break;
+    
+                    default:
+                        throw Error(`RoutineModel.abort called while subroutine (${subroutine.id}) has '${subroutine.status}' status.`);
+                }
+            });
+
+        this.status = ModelStatus.final;
+    }
+
+    public update(timeDelta: IDeltaValue) {
+        this.assertStatus(ModelStatus.active);
+
+        this.subroutines
+            .map(subroutineId => this.game.getSubroutine(subroutineId))
+            .forEach(subroutine => {
+                switch (subroutine.status) {
+                    case ModelStatus.active:
+                    case ModelStatus.complete: {
+                        timeDelta.reset();
+                        subroutine.update(timeDelta);
+                        if (timeDelta.hasUnallocated) {
+                            subroutine.finalize(timeDelta.total);
+                        }
+                        break;
+                    }
+                }
+            });
+
+        this.elapsed += timeDelta.originalDelta;
+    }
+
+    private assertStatus(...expected: ModelStatus[]): void {
+        assert(expected.includes(this.status), `Subroutine status '${this.status}' not in expected value(s): ${expected}`);
     }
 }
+
+export default RoutineModel;

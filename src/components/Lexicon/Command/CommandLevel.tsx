@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { VisuallyHidden } from '@reach/visually-hidden';
+
+import { selectCommand } from '@/features/commands';
+import { useAppSelector } from '@/hooks';
 
 import { useCommandContext } from './CommandContext';
-import { useAppSelector } from '@/hooks';
-import { selectCommand } from '@/features/commands';
-import { VisuallyHidden } from '@reach/visually-hidden';
 
 const CommandLevel: React.FC
 = () => {
@@ -11,7 +12,7 @@ const CommandLevel: React.FC
     const { level = 0, progress = 0 } = useAppSelector(state => selectCommand(state, commandId));
 
     const style = {
-        '--command-level_progress': `${progress}%`,
+        '--command-level_progress': `${progress * 100}%`,
     } as React.CSSProperties;
 
     return (

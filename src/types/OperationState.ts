@@ -8,14 +8,15 @@ import type EntityState from './EntityState';
  */
 declare type OperationState = EntityState & {
     /** The command's ID. */
-    commandId: CommandId;
+    readonly commandId: CommandId;
+    /** The parent subroutine's ID. */
+    readonly parentSubroutineId: EntityId;
+    /** The parent routine's ID. */
+    readonly parentRoutineId: EntityId;
+
     /** The operation's total duration, in game units (20ms / 1px). */
     duration: number;
-    /** The parent subroutine's ID. */
-    parentSubroutineId: EntityId;
-    /** The parent routine's ID. */
-    parentRoutineId: EntityId;
-    /** The operation's progress to completion, as a percentage (0-100). */
+    /** The operation's progress to completion, as a percentage (0-1). */
     progress: number;
 
     /**

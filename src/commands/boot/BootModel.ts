@@ -1,12 +1,14 @@
+import CommandModel, { registerModel } from '@/commands/_/CommandModel';
 import { CommandId } from '@/constants';
 import type { EntityId } from '@/types';
-
-import CommandModel from '../CommandModel';
+import type { IOperationModel } from '@/types/model';
 
 class BootModel extends CommandModel {
-    constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId) {
-        super(CommandId.Boot, parentRoutineId, parentSubroutineId);
+    public static override readonly id: CommandId = CommandId.Boot;
+
+    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
+        return new BootModel(parentRoutineId, parentSubroutineId);
     }
 }
 
-export default BootModel;
+registerModel(BootModel);

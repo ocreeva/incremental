@@ -1,16 +1,7 @@
+import { AsyncModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
 import type { CommandState, EntityId, InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
 import type { MessageRequestProvider, MessageRespondProvider, PayloadMessage } from '@/types/worker';
-
-enum AsyncModelMessage {
-    // main -> worker
-    CreateRoutine = 'Game/CreateRoutine',
-
-    // worker -> main
-    GetAllCommands = 'Game/GetAllCommands',
-    GetInstruction = 'Game/GetInstruction',
-    GetScript = 'Game/GetScript',
-}
 
 const assertMessageType: <TPayload>(message: PayloadMessage, type: AsyncModelMessage) => asserts message is PayloadMessage<TPayload, AsyncModelMessage>
 = (message, type) => message.type === type || crash(`Message type (${message.type}) does not match expected type (${type}).`);
@@ -58,5 +49,3 @@ export declare type GetScriptResponse = {
     script: ScriptState;
 };
 export const [ getScriptAsync, prepareToGetScript ] = createMessageHandlers<GetScriptRequest, GetScriptResponse>(AsyncModelMessage.GetScript);
-
-export default AsyncModelMessage;

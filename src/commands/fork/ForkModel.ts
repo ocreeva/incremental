@@ -1,42 +1,53 @@
+import CommandModel, { registerModel } from '@/commands/_/CommandModel';
 import { CommandId } from '@/constants';
-import type { EntityId, GameContext, GameModel, UpdateContext } from '@/types';
-
-import CommandModel from '../CommandModel';
+import { assert } from '@/core';
+import type { EntityId, InstructionState } from '@/types';
+import type { IGameContext, IOperationModel } from '@/types/model';
+import { DeltaValue } from '@/worker/client';
 
 class ForkModel extends CommandModel {
-    private readonly scriptId: EntityId;
+    public static override readonly id: CommandId = CommandId.Fork;
 
+    private scriptId?: EntityId;
+    private subroutineId?: EntityId;
     private startTime = 0;
-    private subroutine: GameModel | null = null;
 
-    public constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId, scriptId: EntityId) {
-        super(CommandId.Fork, parentRoutineId, parentSubroutineId);
-
-        this.scriptId = scriptId;
+    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
+        return new ForkModel(parentRoutineId, parentSubroutineId);
     }
 
-    public override start(game: GameContext, context: UpdateContext, time: number): void {
-        super.start(game, context, time);
+    public override async initializeAsync(game: IGameContext, instruction: InstructionState): Promise<void> {
+        await super.initializeAsync(game, instruction);
+
+        const { targetEntityId } = instruction;
+        assert(targetEntityId, "Command 'Fork' requires its source instruction to define a 'targetEntityId'.");
+
+        this.scriptId = targetEntityId;
+    }
+
+    public override start(time: number): void {
+        super.start(time);
 
         this.startTime = time;
 
-        context.allocateSubroutineAsync(this.scriptId).then(_ => { this.subroutine = _; });
+        assert(this.scriptId, "ForkModel property 'scriptId' unexpectedly undefined.");
+        ForkModel.game.routine.allocateSubroutineAsync(this.scriptId)
+            .then(subroutineId => { this.subroutineId = subroutineId; });
     }
 
-    public override update(game: GameContext, context: UpdateContext, time: number): void {
-        super.update(game, context, time);
+    public override synchronize(time: number): void {
+        super.synchronize(time);
 
-        if (this.subroutine !== null) {
-            this.subroutine.start(game, context, this.startTime);
+        if (this.subroutineId === undefined) return;
 
-            const delta = time - this.startTime;
-            if (delta > 0) {
-                this.subroutine.progress(game, context, { delta, total: time });
-            }
+        const subroutine = ForkModel.game.getSubroutine(this.subroutineId);
+        subroutine.start(this.startTime);
 
-            this.subroutine = null;
-        }
+        const timeDelta = new DeltaValue(this.startTime, time - this.startTime);
+        subroutine.update(timeDelta);
+
+        this.subroutineId = undefined;
     }
 }
 
-export default ForkModel;
+registerModel(ForkModel);
