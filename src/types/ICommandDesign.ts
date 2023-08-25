@@ -5,7 +5,7 @@ import type InstructionState from './InstructionState';
 /**
  * Represents the UI design data for a Command.
  */
-declare interface CommandDesign {
+declare interface ICommandDesign {
     /** The command's unique ID. */
     readonly id: CommandId;
     /** The command's name. */
@@ -39,4 +39,4 @@ declare interface CommandDesign {
     isInLexicon: () => boolean;
 }
 
-export default CommandDesign;
+export default ICommandDesign;

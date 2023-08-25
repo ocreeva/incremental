@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
+import commands from '@/commands/designs';
 import { GlyphPanelContent } from '@/components/GlyphPanel';
 import { type CommandId } from '@/constants';
-import designs from '@/game/designs';
 
 import AddButton from './AddButton';
 import { CommandProvider } from './CommandContext';
@@ -15,7 +15,7 @@ declare type CommandContentProps = {
 
 const CommandContent: React.FC<CommandContentProps>
 = ({ commandId }) => {
-    const design = designs[commandId];
+    const design = commands[commandId];
     const { name, canBeInstruction, shouldShowProgress, subcommands } = design;
 
     const ContentContainer = subcommands ? canBeInstruction

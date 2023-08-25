@@ -1,9 +1,9 @@
 import styled, { keyframes } from 'styled-components';
 import { AccordionItem, AccordionPanel } from '@reach/accordion';
 
-import { type CommandId } from '@/constants';
+import commands from '@/commands/designs';
 import GlyphPanel from '@/components/GlyphPanel';
-import designs from '@/game/designs';
+import { type CommandId } from '@/constants';
 
 import CommandContent from './CommandContent';
 
@@ -12,7 +12,7 @@ interface CommandProps {
 }
 
 const Command: React.FC<CommandProps> = ({ commandId }) => {
-    const design = designs[commandId];
+    const design = commands[commandId];
     const { subcommands } = design;
 
     return (

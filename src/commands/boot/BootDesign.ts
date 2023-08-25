@@ -1,6 +1,5 @@
+import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandId } from '@/constants';
-
-import CommandDesign, { registerDesign } from '../_CommandDesign';
 
 class BootDesign extends CommandDesign {
     public readonly id = CommandId.Boot;

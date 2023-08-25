@@ -1,8 +1,7 @@
 import { type RootState } from '@/App/store';
+import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandAsInstruction, CommandId } from '@/constants';
 import type { InstructionState } from '@/types';
-
-import CommandDesign, { registerDesign } from '../_CommandDesign';
 
 class ForkDesign extends CommandDesign {
     public readonly id = CommandId.Fork;

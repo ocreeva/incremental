@@ -1,6 +1,5 @@
+import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandId } from '@/constants';
-
-import CommandDesign, { registerDesign } from '../_CommandDesign';
 
 class ScanDesign extends CommandDesign {
     private readonly _subcommands: CommandId[] = [ CommandId.ScanHub ];

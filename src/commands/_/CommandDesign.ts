@@ -1,11 +1,11 @@
 import store, { type RootState } from '@/App/store';
 import { CommandAsInstruction, type CommandId } from '@/constants';
 import { selectCurrentScriptId } from '@/features/scripts';
-import type { CommandDesign, InstructionState } from '@/types';
+import type { ICommandDesign, InstructionState } from '@/types';
 
-import _createCommandRecord from './_createCommandRecord';
+import createCommandRecord from './createCommandRecord';
 
-abstract class _CommandDesign implements CommandDesign {
+abstract class CommandDesign implements ICommandDesign {
     public abstract readonly id: CommandId;
     public abstract readonly name: string;
 
@@ -35,5 +35,5 @@ abstract class _CommandDesign implements CommandDesign {
     }
 }
 
-export const [getDesigns, registerDesign] = _createCommandRecord<CommandDesign>();
-export default _CommandDesign;
+export const [getDesigns, registerDesign] = createCommandRecord<ICommandDesign>();
+export default CommandDesign;

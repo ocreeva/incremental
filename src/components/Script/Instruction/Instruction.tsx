@@ -1,7 +1,7 @@
+import commands from '@/commands/designs';
 import GlyphPanel, { GlyphPanelContent } from '@/components/GlyphPanel';
 import { CommandAsInstruction } from '@/constants';
 import { selectInstruction } from '@/features/instructions';
-import designs from '@/game/designs';
 import { useAppSelector } from '@/hooks';
 import type { EntityId } from '@/types';
 
@@ -21,7 +21,7 @@ const CommandContent: Record<CommandAsInstruction, React.FC> = {
 
 const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
     const { commandId } = useAppSelector(state => selectInstruction(state, id));
-    const { asInstruction } = designs[commandId];
+    const { asInstruction } = commands[commandId];
 
     const InstructionContent = CommandContent[asInstruction];
 

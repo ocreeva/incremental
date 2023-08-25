@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as AddIcon } from '@/assets/add.svg';
+import commands from '@/commands/designs';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { addInstruction } from '@/features/instructions';
 import { addInstructionToCurrentScript } from '@/features/scripts';
-import designs from '@/game/designs';
 import { useAppDispatch } from '@/hooks';
 
 import { useCommandContext } from './CommandContext';
@@ -13,7 +13,7 @@ import { useCommandContext } from './CommandContext';
 const AddButton: React.FC
 = () => {
     const { commandId } = useCommandContext('AddButton');
-    const design = designs[commandId];
+    const design = commands[commandId];
     const { name } = design;
 
     const dispatch = useAppDispatch();
