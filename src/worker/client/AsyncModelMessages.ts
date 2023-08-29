@@ -1,3 +1,4 @@
+import { type CommandId } from '@/constants';
 import { AsyncModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
 import type { CommandState, EntityId, InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
@@ -28,11 +29,13 @@ export declare type CreateRoutineResponse = {
 };
 export const [ createRoutineAsync, prepareToCreateRoutine ] = createMessageHandlers<CreateRoutineRequest, CreateRoutineResponse>(AsyncModelMessage.CreateRoutine);
 
-export declare type GetAllCommandsRequest = Record<string, never>;
-export declare type GetAllCommandsResponse = {
-    commands: CommandState[];
+export declare type GetCommandRequest = {
+    commandId: CommandId;
 };
-export const [ getAllCommandsAsync, prepareToGetAllCommands ] = createMessageHandlers<GetAllCommandsRequest, GetAllCommandsResponse>(AsyncModelMessage.GetAllCommands);
+export declare type GetCommandResponse = {
+    command: CommandState;
+};
+export const [ getCommandAsync, prepareToGetCommand ] = createMessageHandlers<GetCommandRequest, GetCommandResponse>(AsyncModelMessage.GetCommand);
 
 export declare type GetInstructionRequest = {
     instructionId: EntityId;

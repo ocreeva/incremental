@@ -1,12 +1,9 @@
-import type { CommandId } from '@/constants';
-import type { EntityId, InstructionState } from '@/types';
+import type { CommandState, EntityId, InstructionState } from '@/types';
 
 import type IDeltaValue from './IDeltaValue';
 import type IEntityModel from './IEntityModel';
 
-declare interface ICommandModel extends Omit<IEntityModel, 'update'> {
-    readonly id: CommandId;
-
+declare interface _ICommandModel extends Omit<IEntityModel, 'update'> {
     /**
      * Create an operation executing an instruction for this command.
      * 
@@ -24,5 +21,9 @@ declare interface ICommandModel extends Omit<IEntityModel, 'update'> {
 
     update(time: IDeltaValue, completion: IDeltaValue): void;
 }
+
+declare type ICommandModel = {
+    [P in keyof CommandState]: NonNullable<CommandState[P]>;
+} & Omit<IEntityModel, 'update'> & _ICommandModel;
 
 export default ICommandModel;

@@ -1,6 +1,6 @@
 import store from '@/App/store';
 import { AsyncModelMessage, ModelMessage } from '@/constants/worker';
-import { selectAllCommands, updateCommands } from '@/features/commands';
+import { selectCommand, updateCommands } from '@/features/commands';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
 import { addOperations, updateOperations } from '@/features/operations';
@@ -12,7 +12,7 @@ import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 import {
     createRoutineAsync,
     getUpdateMessage,
-    prepareToGetAllCommands,
+    prepareToGetCommand,
     prepareToGetInstruction,
     prepareToGetScript,
     sendStartMessage,
@@ -61,10 +61,10 @@ worker.onmessage = ({ data: message }) => {
 
     const { type } = message as PayloadMessage;
     switch (type as AsyncModelMessage | ModelMessage) {
-        case AsyncModelMessage.GetAllCommands: {
-            const [_, respond] = prepareToGetAllCommands(message);
-            const commands = selectAllCommands(store.getState());
-            respond(messageService, { commands });
+        case AsyncModelMessage.GetCommand: {
+            const [{ payload: { commandId } }, respond] = prepareToGetCommand(message);
+            const command = selectCommand(store.getState(), commandId);
+            respond(messageService, { command });
             break;
         }
 

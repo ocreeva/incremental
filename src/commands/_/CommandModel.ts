@@ -1,13 +1,30 @@
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
-import type { EntityId, InstructionState } from '@/types';
+import type { CommandState, EntityId, InstructionState } from '@/types';
 import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
+import { getCommandAsync } from '@/worker/client';
 
 import createCommandRecord from './createCommandRecord';
 import OperationModel from './OperationModel';
 
 //@staticImplements<ICommandModel>()
 abstract class CommandModel extends OperationModel {
+    public static get level(): number { return this.state.level || 0; }
+    protected static set level(level: number) {
+        if (this.state.level === level) return;
+
+        this.state.level = level;
+        this.game.synchronization.upsertCommand({ id: this.id, level });
+    }
+
+    public static get progress(): number { return this.state.progress || 0; }
+    protected static set progress(progress: number) {
+        if (this.state.progress === progress) return;
+
+        this.state.progress = progress;
+        this.game.synchronization.upsertCommand({ id: this.id, progress });
+    }
+
     private static _status: ModelStatus = ModelStatus.idle;
     public static get status(): ModelStatus { return this._status; }
     private static set status(value: ModelStatus) { this._status = value; }
@@ -18,6 +35,10 @@ abstract class CommandModel extends OperationModel {
         return this._game;
     }
     private static set game(game: IGameContext) { this._game = game; }
+
+    private static _state: CommandState;
+    protected static get state(): CommandState { return this._state; }
+    private static set state(value: CommandState) { this._state = value; }
 
     public static start(_time: number): void {
         this.assertStatus(ModelStatus.active);
@@ -59,6 +80,7 @@ abstract class CommandModel extends OperationModel {
         this.status = ModelStatus.loading;
 
         this.game = game;
+        ({ command: this.state } = await getCommandAsync(this.game.messageService, { commandId: this.id }));
 
         this.assertStatus(ModelStatus.loading);
         this.status = ModelStatus.active;
