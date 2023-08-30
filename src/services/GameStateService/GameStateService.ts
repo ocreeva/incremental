@@ -84,7 +84,7 @@ worker.onmessage = ({ data: message }) => {
 
         case ModelMessage.Update: {
             const { payload: {
-                commandUpserts: commandUpdates,
+                commands,
                 operations,
                 operationUpdates,
                 routineIsComplete,
@@ -93,7 +93,7 @@ worker.onmessage = ({ data: message }) => {
                 subroutineUpdates,
             } } = getUpdateMessage(message);
 
-            if (commandUpdates.length > 0) store.dispatch(updateCommands(commandUpdates));
+            if (commands.length > 0) store.dispatch(updateCommands(commands));
 
             if (operations.length > 0) store.dispatch(addOperations(operations));
             if (operationUpdates.length > 0) store.dispatch(updateOperations(operationUpdates));

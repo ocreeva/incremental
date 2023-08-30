@@ -6,6 +6,10 @@ import type { CommandId } from '@/constants';
 declare type InstructionState = {
     /** The command's ID. */
     readonly id: CommandId;
+
+    /** Whether the command is available in the lexicon. */
+    isInLexicon?: boolean;
+
     /** The command's level. */
     level?: number;
     /** The command's progress to next level, as a percentage (0-1). */

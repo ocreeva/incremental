@@ -10,6 +10,12 @@ class ScanModel extends CommandModel {
         return new ScanModel(parentRoutineId, parentSubroutineId);
     }
 
+    public static override synchronize(time: number) {
+        super.synchronize(time);
+
+        this.isInLexicon = true;
+    }
+
     public static override update(time: IDeltaValue, completion: IDeltaValue): void {
         ScanHubModel.update(time, completion);
     }

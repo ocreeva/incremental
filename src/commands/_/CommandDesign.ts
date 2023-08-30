@@ -30,14 +30,18 @@ abstract class CommandDesign implements ICommandDesign {
 
     public get id(): CommandId { return this.state.id; }
 
+    public get isInLexicon(): boolean { return this.state.isInLexicon ?? false; }
+
+    public get level(): number { return this.state.level ?? 0; }
+
+    public get progress(): number { return this.state.progress ?? 0; }
+
     private get derived(): ICommandDesign { return this.constructor as unknown as ICommandDesign; }
 
     public createInstruction(): InstructionState {
         const state = store.getState();
         return this._createInstruction(state);
     }
-
-    public get isInLexicon(): boolean { return false; }
 
     protected _createInstruction(state: RootState): InstructionState {
         return {

@@ -7,10 +7,6 @@ class LoginDesign extends CommandDesign {
     public readonly name = 'Login';
 
     public override readonly canBeInstruction = true;
-
-    public override isInLexicon(): boolean {
-        return true;
-    }
 }
 
 registerDesign(LoginDesign);

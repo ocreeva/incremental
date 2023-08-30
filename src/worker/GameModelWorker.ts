@@ -39,3 +39,5 @@ self.onmessage = ({ data: message }) => {
             console.warn(`gameLoopWorker.onmessage received message with unhandled type (${type}).`);
     }
 };
+
+modelProcessor.initializeAsync();

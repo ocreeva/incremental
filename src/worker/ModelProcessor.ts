@@ -13,20 +13,24 @@ class ModelProcessor {
     private readonly synchronization: GameSynchronization = new GameSynchronization();
     private readonly time: TimeContext = new TimeContext();
 
-    private hasInitializedCommands = false;
-
     constructor(messageService: MessageService<ModelMessage, AsyncModelMessage>) {
         this.game = new GameContext(messageService, this.synchronization);
+    }
+
+    public async initializeAsync(): Promise<void> {
+        await Promise.all(Object.values(commands).map(command => command.initializeAsync(this.game)));
+        Object.values(commands).forEach(command => command.synchronize(0));
+
+        if (this.synchronization.hasUpdates()) {
+            sendUpdateMessage(this.game.messageService, this.synchronization.getUpdatePayload());
+        }
+
+        // BUGBUG: other ModelProcessor methods can be invoked before initializeAsync completes
     }
 
     public async createRoutineAsync(scriptId: EntityId): Promise<CreateRoutineResponse> {
         this.game.reset();
         this.time.reset();
-
-        if (!this.hasInitializedCommands) {
-            await Promise.all(Object.values(commands).map(command => command.initializeAsync(this.game)));
-            this.hasInitializedCommands = true;
-        }
 
         await this.game.routine.initializeAsync(this.game, scriptId);
         this.game.routine.start(this.time.total);

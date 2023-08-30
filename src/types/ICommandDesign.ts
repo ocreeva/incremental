@@ -1,13 +1,12 @@
 import type { CommandAsInstruction, CommandId } from '@/constants';
 
+import type CommandState from './CommandState';
 import type InstructionState from './InstructionState';
 
 /**
  * Represents the UI design data for a Command.
  */
-declare interface ICommandDesign {
-    /** The command's unique ID. */
-    readonly id: CommandId;
+declare interface _ICommandDesign {
     /** The command's name. */
     readonly name: string;
     /** The path to the command's glyph. */
@@ -20,8 +19,6 @@ declare interface ICommandDesign {
 
     /** Whether the command can be an instruction in a script. */
     readonly canBeInstruction: boolean;
-    /** Whether the command should be available in the Lexicon. */
-    readonly isInLexicon: boolean;
     /** Whether the command should display its progress. */
     readonly shouldShowProgress: boolean;
 
@@ -32,5 +29,9 @@ declare interface ICommandDesign {
      */
     createInstruction: () => InstructionState;
 }
+
+declare type ICommandDesign = {
+    readonly [P in keyof CommandState]-?: NonNullable<CommandState[P]>;
+} & _ICommandDesign;
 
 export default ICommandDesign;

@@ -11,10 +11,6 @@ class ScanDesign extends CommandDesign {
     public override readonly canBeInstruction = true;
 
     public override get subcommands() { return this._subcommands; }
-
-    public override isInLexicon(): boolean {
-        return true;
-    }
 }
 
 class ScanHubDesign extends CommandDesign {

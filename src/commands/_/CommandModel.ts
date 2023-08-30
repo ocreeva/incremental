@@ -9,7 +9,15 @@ import OperationModel from './OperationModel';
 
 //@staticImplements<ICommandModel>()
 abstract class CommandModel extends OperationModel {
-    public static get level(): number { return this.state.level || 0; }
+    public static get isInLexicon(): boolean { return this.state.isInLexicon ?? false; }
+    protected static set isInLexicon(isInLexicon: boolean) {
+        if (this.state.isInLexicon === isInLexicon) return;
+
+        this.state.isInLexicon = isInLexicon;
+        this.game.synchronization.upsertCommand({ id: this.id, isInLexicon });
+    }
+
+    public static get level(): number { return this.state.level ?? 0; }
     protected static set level(level: number) {
         if (this.state.level === level) return;
 
@@ -17,7 +25,7 @@ abstract class CommandModel extends OperationModel {
         this.game.synchronization.upsertCommand({ id: this.id, level });
     }
 
-    public static get progress(): number { return this.state.progress || 0; }
+    public static get progress(): number { return this.state.progress ?? 0; }
     protected static set progress(progress: number) {
         if (this.state.progress === progress) return;
 

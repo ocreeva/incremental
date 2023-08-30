@@ -30,7 +30,7 @@ export const [ sendStopMessage ] = createEmptyMessageHandlers(ModelMessage.Stop)
 export const [ sendTickMessage ] = createEmptyMessageHandlers(ModelMessage.Tick);
 
 export declare type UpdatePayload = {
-    commandUpserts: CommandState[];
+    commands: CommandState[];
 
     operations: OperationState[];
     operationUpdates: Update<OperationState>[];
