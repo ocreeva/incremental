@@ -18,6 +18,12 @@ const CommandLevel: React.FC
     return (
         <Container style={style}>
             <Progress>
+                <ProgressEnd />
+                <ProgressMarker />
+                <ProgressMarker />
+                <ProgressMarker />
+                <ProgressMarker />
+                <ProgressEnd />
                 <VisuallyHidden>{progress}% to next level</VisuallyHidden>
             </Progress>
             <Level><VisuallyHidden>Level </VisuallyHidden>{ level }</Level>
@@ -65,6 +71,21 @@ const Progress = styled.div`
         transparent var(--command-level_progress),
         transparent
     );
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+`;
+
+const ProgressEnd = styled.div`
+    width: 1px;
+`;
+
+const ProgressMarker = styled.div`
+    background: var(--color-background);
+    height: 2px;
+    width: 2px;
 `;
 
 CommandLevel.displayName = 'CommandLevel';
