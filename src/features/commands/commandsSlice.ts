@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import adapter from './commandsSlice.adapter';
 import * as reducers from './commandsSlice.reducers';
-import type { AdditionalSliceState } from './commandsSlice.types';
+import { CommandId } from '@/constants';
 
-const initialState = adapter.getInitialState<AdditionalSliceState>({ });
+let initialState = adapter.getInitialState();
+initialState = adapter.addMany(initialState, Object.values(CommandId).map(id => ({ id })));
 
 export default createSlice({
     name: 'commands',

@@ -1,13 +1,34 @@
+import { createSelector } from '@reduxjs/toolkit';
+import { createCachedSelector } from 're-reselect';
+
 import { type RootState } from '@/App/store';
-import { type CommandId } from '@/constants';
-import type { CommandState } from '@/types';
+import designs from '@/commands/designs';
+import { CommandId } from '@/constants';
+import type { CommandState, ICommandDesign } from '@/types';
 
-import adapter from './commandsSlice.adapter';
+import { selectById } from './commandsSlice.adapter';
+import { SliceState } from './commandsSlice.types';
 
-const { selectAll, selectById } = adapter.getSelectors();
-
-export const selectAllCommands: (state: RootState) => CommandState[]
-= ({ commands }) => selectAll(commands);
+const selectState: (state: RootState) => SliceState = ({ commands }) => commands;
+const selectId: (state: RootState, id: CommandId) => CommandId = (_state, id) => id;
 
 export const selectCommand: (state: RootState, id: CommandId) => CommandState
-= ({ commands }, id) => selectById(commands, id) || { id };
+= createCachedSelector(
+    [selectState, selectId],
+    (commands, id) => selectById(commands, id)
+)(selectId);
+
+export const selectDesign: (state: RootState, id: CommandId) => ICommandDesign
+= createCachedSelector(
+    [selectCommand, selectId],
+    (command, id) => {
+        const constructor = designs[id];
+        return new constructor(command);
+    }
+)(selectId);
+
+export const selectNumberOfAvailableCommands: (state: RootState) => number
+= createSelector(
+    Object.values(CommandId).map(commandId => (state: RootState) => selectDesign(state, commandId)),
+    (...designs) => designs.reduce((value, design) => value + (design.isInLexicon ? 1 : 0), 0)
+);

@@ -1,9 +1,10 @@
 import styled, { keyframes } from 'styled-components';
 import { AccordionItem, AccordionPanel } from '@reach/accordion';
 
-import commands from '@/commands/designs';
 import GlyphPanel from '@/components/GlyphPanel';
 import { type CommandId } from '@/constants';
+import { selectDesign } from '@/features/commands';
+import { useParamSelector } from '@/hooks';
 
 import CommandContent from './CommandContent';
 
@@ -12,8 +13,10 @@ interface CommandProps {
 }
 
 const Command: React.FC<CommandProps> = ({ commandId }) => {
-    const design = commands[commandId];
-    const { subcommands } = design;
+    const design = useParamSelector(selectDesign, commandId);
+    const { isInLexicon, subcommands } = design;
+
+    if (!isInLexicon) return null;
 
     return (
         <GlyphPanel>

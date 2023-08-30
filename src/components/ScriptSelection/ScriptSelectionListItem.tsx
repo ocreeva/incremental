@@ -1,5 +1,5 @@
 import { selectScript } from '@/features/scripts';
-import { useAppSelector } from '@/hooks';
+import { useParamSelector } from '@/hooks';
 
 import * as S from './ScriptSelectionListItem.styles';
 import { useScriptSelectionContext } from './ScriptSelectionContext';
@@ -10,7 +10,7 @@ declare type ScriptSelectionListItemProps = {
 
 const ScriptSelectionListItem: React.FC<ScriptSelectionListItemProps>
 = ({ scriptId }) => {
-    const { name } = useAppSelector(state => selectScript(state, scriptId));
+    const { name } = useParamSelector(selectScript, scriptId);
     const { scriptId: selectedScriptId, setScriptId } = useScriptSelectionContext('ScriptSelectionListItem');
 
     const isSelected = scriptId === selectedScriptId;

@@ -1,7 +1,9 @@
 import type { CommandState } from '@/types';
 
-import { createConceptStateEntityAdapter } from '../_utility';
+import { createConceptStateEntityAdapter, getConceptStateEntitySelectors } from '@/features/_utility';
 
-const adapter = createConceptStateEntityAdapter<CommandState>();
+export const adapter = createConceptStateEntityAdapter<CommandState>();
+
+export const { selectById } = getConceptStateEntitySelectors('commands', adapter);
 
 export default adapter;

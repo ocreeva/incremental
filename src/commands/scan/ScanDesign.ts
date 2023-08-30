@@ -2,9 +2,10 @@ import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandId } from '@/constants';
 
 class ScanDesign extends CommandDesign {
+    public static override readonly id: CommandId = CommandId.Scan;
+
     private readonly _subcommands: CommandId[] = [ CommandId.ScanHub ];
 
-    public readonly id = CommandId.Scan;
     public readonly name = 'Scan';
 
     public override readonly canBeInstruction = true;
@@ -17,11 +18,12 @@ class ScanDesign extends CommandDesign {
 }
 
 class ScanHubDesign extends CommandDesign {
-    public readonly id = CommandId.ScanHub;
+    public static override readonly id: CommandId = CommandId.ScanHub;
+
     public readonly name = 'Scan Hub';
 
     public override readonly shouldShowProgress = true;
 }
 
-registerDesign(new ScanDesign());
-registerDesign(new ScanHubDesign());
+registerDesign(ScanDesign);
+registerDesign(ScanHubDesign);

@@ -3,9 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import adapter from './subroutinesSlice.adapter';
 import extraReducers from './subroutinesSlice.extras';
 import * as reducers from './subroutinesSlice.reducers';
-import { type AdditionalSliceState } from './subroutinesSlice.types';
 
-const initialState = adapter.getInitialState<AdditionalSliceState>({ });
+const initialState = adapter.getInitialState();
 
 export default createSlice({
     name: 'subroutines',

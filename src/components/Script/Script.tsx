@@ -1,5 +1,5 @@
 import { selectCurrentScriptId, selectScript } from '@/features/scripts';
-import { useAppSelector } from '@/hooks';
+import { useAppSelector, useParamSelector } from '@/hooks';
 import { type EntityId } from '@/types';
 
 import * as S from './Script.styles';
@@ -12,7 +12,7 @@ declare type ScriptProps = {
 const Script: React.FC<ScriptProps>
 = ({ existingInstructionIds }) => {
     const scriptId = useAppSelector(selectCurrentScriptId);
-    const { instructions } = useAppSelector(state => selectScript(state, scriptId));
+    const { instructions } = useParamSelector(selectScript, scriptId);
 
     return (
         <S.Container>

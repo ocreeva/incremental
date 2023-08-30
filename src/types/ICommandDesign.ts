@@ -20,6 +20,8 @@ declare interface ICommandDesign {
 
     /** Whether the command can be an instruction in a script. */
     readonly canBeInstruction: boolean;
+    /** Whether the command should be available in the Lexicon. */
+    readonly isInLexicon: boolean;
     /** Whether the command should display its progress. */
     readonly shouldShowProgress: boolean;
 
@@ -29,14 +31,6 @@ declare interface ICommandDesign {
      * @returns The instruction.
      */
     createInstruction: () => InstructionState;
-
-    /**
-     * Determines whether the command should be available in the Lexicon.
-     * 
-     * @returns 'true' if the command should be available in the Lexicon;
-     * otherwise, 'false'.
-     */
-    isInLexicon: () => boolean;
 }
 
 export default ICommandDesign;

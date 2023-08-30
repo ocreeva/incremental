@@ -1,12 +1,15 @@
 import store, { type RootState } from '@/App/store';
 import { CommandAsInstruction, type CommandId } from '@/constants';
+import { assert } from '@/core';
 import { selectCurrentScriptId } from '@/features/scripts';
-import type { ICommandDesign, InstructionState } from '@/types';
+import type { CommandState, ICommandDesign, ICommandDesignConstructor, InstructionState } from '@/types';
 
 import createCommandRecord from './createCommandRecord';
 
+//@staticImplements<ICommandDesignConstructor>()
 abstract class CommandDesign implements ICommandDesign {
-    public abstract readonly id: CommandId;
+    private readonly state: CommandState;
+
     public abstract readonly name: string;
 
     public readonly asInstruction: CommandAsInstruction = CommandAsInstruction.Default;
@@ -17,14 +20,24 @@ abstract class CommandDesign implements ICommandDesign {
     public get glyphPath() { return this.id as string; }
     public get subcommands(): CommandId[] | undefined { return undefined; }
 
+    constructor(state: CommandState) {
+        assert(state.id === this.derived.id, `State command '${state.id}' does not match design command '${this.derived.id}'.`);
+
+        this.state = state;
+    }
+
+    public static get id(): CommandId { throw Error("CommandDesign derived class has not overridden the static 'id' property."); }
+
+    public get id(): CommandId { return this.state.id; }
+
+    private get derived(): ICommandDesign { return this.constructor as unknown as ICommandDesign; }
+
     public createInstruction(): InstructionState {
         const state = store.getState();
         return this._createInstruction(state);
     }
 
-    public isInLexicon(): boolean {
-        return false;
-    }
+    public get isInLexicon(): boolean { return false; }
 
     protected _createInstruction(state: RootState): InstructionState {
         return {
@@ -35,5 +48,5 @@ abstract class CommandDesign implements ICommandDesign {
     }
 }
 
-export const [getDesigns, registerDesign] = createCommandRecord<ICommandDesign>();
+export const [getDesigns, registerDesign] = createCommandRecord<ICommandDesignConstructor>();
 export default CommandDesign;

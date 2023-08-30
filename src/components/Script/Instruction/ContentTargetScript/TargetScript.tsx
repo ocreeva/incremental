@@ -7,17 +7,17 @@ import { ScriptSelectionDialog, type SelectScriptEventHandler } from '@/componen
 import { assertIsDefined } from '@/core';
 import { selectInstruction, updateInstruction } from '@/features/instructions';
 import { selectScript } from '@/features/scripts';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useInstructionContext } from '../InstructionContext';
 
 const TargetScript: React.FC
 = () => {
     const { instructionId } = useInstructionContext('TargetScript');
-    const { targetEntityId } = useAppSelector(state => selectInstruction(state, instructionId));
+    const { targetEntityId } = useParamSelector(selectInstruction, instructionId);
 
     assertIsDefined(targetEntityId, `Instruction '${instructionId}' does not have 'targetEntityId'.`);
-    const { name: scriptName } = useAppSelector(state => selectScript(state, targetEntityId));
+    const { name: scriptName } = useParamSelector(selectScript, targetEntityId);
 
     const [dialogIsOpen, setDialogIsOpen] = useState(false);
 

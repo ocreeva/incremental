@@ -1,6 +1,6 @@
-import commands from '@/commands/designs';
+import { selectDesign } from '@/features/commands';
 import { selectOperation } from '@/features/operations';
-import { useAppSelector, useGlyph } from '@/hooks';
+import { useGlyph, useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
 
 import * as S from './Operation.styles';
@@ -10,8 +10,8 @@ declare type OperationProps = {
 };
 
 const Operation: React.FC<OperationProps> = ({ id }) => {
-    const { commandId, delay, duration, progress } = useAppSelector(state => selectOperation(state, id));
-    const { glyphPath } = commands[commandId];
+    const { commandId, delay, duration, progress } = useParamSelector(selectOperation, id);
+    const { glyphPath } = useParamSelector(selectDesign, commandId);
     const { GlyphComponent } = useGlyph(glyphPath);
 
     const style = {

@@ -1,8 +1,8 @@
-import commands from '@/commands/designs';
 import GlyphPanel, { GlyphPanelContent } from '@/components/GlyphPanel';
 import { CommandAsInstruction } from '@/constants';
+import { selectDesign } from '@/features/commands';
 import { selectInstruction } from '@/features/instructions';
-import { useAppSelector } from '@/hooks';
+import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
 
 import ContentDefault from './ContentDefault';
@@ -20,8 +20,8 @@ const CommandContent: Record<CommandAsInstruction, React.FC> = {
 };
 
 const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
-    const { commandId } = useAppSelector(state => selectInstruction(state, id));
-    const { asInstruction } = commands[commandId];
+    const { commandId } = useParamSelector(selectInstruction, id);
+    const { asInstruction } = useParamSelector(selectDesign, commandId);
 
     const InstructionContent = CommandContent[asInstruction];
 

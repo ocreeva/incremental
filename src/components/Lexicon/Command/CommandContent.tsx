@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
-import commands from '@/commands/designs';
 import { GlyphPanelContent } from '@/components/GlyphPanel';
 import { type CommandId } from '@/constants';
+import { selectDesign } from '@/features/commands';
+import { useParamSelector } from '@/hooks';
 
 import AddButton from './AddButton';
 import { CommandProvider } from './CommandContext';
@@ -15,7 +16,7 @@ declare type CommandContentProps = {
 
 const CommandContent: React.FC<CommandContentProps>
 = ({ commandId }) => {
-    const design = commands[commandId];
+    const design = useParamSelector(selectDesign, commandId);
     const { name, canBeInstruction, shouldShowProgress, subcommands } = design;
 
     const ContentContainer = subcommands ? canBeInstruction

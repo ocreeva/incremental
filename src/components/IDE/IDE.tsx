@@ -4,14 +4,14 @@ import Lexicon from '@/components/Lexicon';
 import Script from '@/components/Script';
 import { FocusTarget } from '@/constants';
 import { selectCurrentScriptId, selectScript } from '@/features/scripts';
-import { useAppSelector } from '@/hooks';
+import { useAppSelector, useParamSelector } from '@/hooks';
 
 import * as S from './IDE.styles';
 
 const IDE: React.FC = () => {
     const currentScriptId = useAppSelector(selectCurrentScriptId);
 
-    const { instructions } = useAppSelector(state => selectScript(state, currentScriptId));
+    const { instructions } = useParamSelector(selectScript, currentScriptId);
     const hasInstructions = instructions.length > 0;
     const [existingInstructionIds, setExistingInstructionIds] = useState(instructions);
 

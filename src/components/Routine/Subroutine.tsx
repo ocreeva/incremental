@@ -1,5 +1,5 @@
 import { selectSubroutine } from '@/features/subroutines';
-import { useAppSelector } from '@/hooks';
+import { useParamSelector } from '@/hooks';
 import { type EntityId } from '@/types';
 
 import * as S from './Subroutine.styles';
@@ -10,7 +10,7 @@ declare type SubroutineProps = {
 };
 
 const Subroutine: React.FC<SubroutineProps> = ({ id }) => {
-    const { duration, operations } = useAppSelector(state => selectSubroutine(state, id));
+    const { duration, operations } = useParamSelector(selectSubroutine, id);
     if (duration === 0) return null;
 
     const style = {

@@ -4,7 +4,7 @@ import { CommandAsInstruction, CommandId } from '@/constants';
 import type { InstructionState } from '@/types';
 
 class ForkDesign extends CommandDesign {
-    public readonly id = CommandId.Fork;
+    public static override readonly id: CommandId = CommandId.Fork;
 
     public readonly name = 'Fork';
 
@@ -22,4 +22,4 @@ class ForkDesign extends CommandDesign {
     }
 }
 
-registerDesign(new ForkDesign());
+registerDesign(ForkDesign);

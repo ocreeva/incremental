@@ -2,18 +2,18 @@ import styled from 'styled-components';
 import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as AddIcon } from '@/assets/add.svg';
-import commands from '@/commands/designs';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
+import { selectDesign } from '@/features/commands';
 import { addInstruction } from '@/features/instructions';
 import { addInstructionToCurrentScript } from '@/features/scripts';
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useCommandContext } from './CommandContext';
 
 const AddButton: React.FC
 = () => {
     const { commandId } = useCommandContext('AddButton');
-    const design = commands[commandId];
+    const design = useParamSelector(selectDesign, commandId);
     const { name } = design;
 
     const dispatch = useAppDispatch();
