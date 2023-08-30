@@ -23,7 +23,7 @@ declare interface _ICommandModel extends Omit<IEntityModel, 'update'> {
 }
 
 declare type ICommandModel = {
-    [P in keyof CommandState]: NonNullable<CommandState[P]>;
+    [P in keyof CommandState]-?: NonNullable<CommandState[P]>;
 } & Omit<IEntityModel, 'update'> & _ICommandModel;
 
 export default ICommandModel;
