@@ -83,10 +83,8 @@ abstract class OperationModel implements IOperationModel {
         this.status = ModelStatus.active;
     }
 
-    public synchronize(time: number): void {
+    public synchronize(_time: number): void {
         this.assertStatus(ModelStatus.active);
-
-        this.derived.synchronize(time);
     }
 
     public finalize(time: number): void {

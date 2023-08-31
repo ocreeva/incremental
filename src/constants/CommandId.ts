@@ -6,6 +6,7 @@ enum CommandId {
     Child = 'child',
     Fork = 'fork',
     Login = 'login',
+    Overclock = 'overclock',
     Scan = 'scan',
     ScanHub = 'scan-hub',
 }

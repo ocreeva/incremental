@@ -2,6 +2,7 @@ import './boot/BootModel';
 import './child/ChildModel';
 import './fork/ForkModel';
 import './login/LoginModel';
+import './overclock/OverclockModel';
 import './scan/ScanModel';
 
 import { getModels } from './_/CommandModel';

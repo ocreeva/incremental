@@ -19,7 +19,7 @@ class ModelProcessor {
 
     public async initializeAsync(): Promise<void> {
         await Promise.all(Object.values(commands).map(command => command.initializeAsync(this.game)));
-        Object.values(commands).forEach(command => command.synchronize(0));
+        this.synchronizeAllCommands();
 
         if (this.synchronization.hasUpdates()) {
             sendUpdateMessage(this.game.messageService, this.synchronization.getUpdatePayload());
@@ -47,6 +47,7 @@ class ModelProcessor {
 
         this.game.routine.update(timeDelta);
         this.game.routine.synchronize(this.time.total);
+        this.synchronizeAllCommands();
 
         if (this.time.hasExpired) {
             this.synchronization.routineIsComplete = true;
@@ -68,9 +69,15 @@ class ModelProcessor {
                 break;
         }
 
+        this.synchronizeAllCommands();
+
         if (this.synchronization.hasUpdates()) {
             sendUpdateMessage(this.game.messageService, this.synchronization.getUpdatePayload());
         }
+    }
+
+    private synchronizeAllCommands(): void {
+        Object.values(commands).forEach(command => command.synchronize(this.time.total));
     }
 }
 
