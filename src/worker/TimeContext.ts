@@ -2,15 +2,17 @@ import type { IDeltaValue } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
 
 class TimeContext {
+    private static maxTime = 1_000 + 2 * 60 * 60 * 24 * 7 * 2 / 1_000; // 2 μfortn + 1s in ms, because reasons
     private previous: number | undefined;
+    private limit: IDeltaValue = new DeltaValue(0, TimeContext.maxTime);
 
-    private _total = 0;
-    public get total() { return this._total; }
-    private set total(value: number) { this._total = value; }
+    public get hasExpired(): boolean { return !this.limit.hasUnallocated; }
+
+    public get total() { return this.limit.total; }
 
     public reset(): void {
+        this.limit = new DeltaValue(0, TimeContext.maxTime);
         this.previous = undefined;
-        this.total = 0;
     }
 
     public snapshot(): IDeltaValue {
@@ -18,16 +20,12 @@ class TimeContext {
 
         let delta = 0;
         if (this.previous !== undefined) {
-            delta = TimeContext.convertToGameUnits(now - this.previous);
+            delta = TimeContext.convertToGameUnits(this.limit.allocate(now - this.previous));
         }
 
-        // create the snapshot before updating the overall total
-        const snapshot = new DeltaValue(this.total, delta);
-
         this.previous = now;
-        this.total += delta;
 
-        return snapshot;
+        return new DeltaValue(this.limit.total - delta, delta);
     }
 
     private static convertToGameUnits(time: number): number {

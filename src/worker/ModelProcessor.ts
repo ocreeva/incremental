@@ -1,5 +1,5 @@
 import commands from '@/commands/models';
-import { type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
+import { ModelStatus, type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
 import type { EntityId } from '@/types';
 import type { MessageService } from '@/types/worker';
 import { type CreateRoutineResponse, sendUpdateMessage } from '@/worker/client';
@@ -48,16 +48,24 @@ class ModelProcessor {
         this.game.routine.update(timeDelta);
         this.game.routine.synchronize(this.time.total);
 
+        if (this.time.hasExpired) {
+            this.synchronization.routineIsComplete = true;
+        }
+
         if (this.synchronization.hasUpdates()) {
             sendUpdateMessage(this.game.messageService, this.synchronization.getUpdatePayload());
         }
     }
 
     public finalize(): void {
-        if (this.game.synchronization.routineIsComplete) {
-            this.game.routine.finalize(this.time.total);
-        } else {
-            this.game.routine.abort(this.time.total);
+        switch (this.game.routine.status) {
+            case ModelStatus.complete:
+                this.game.routine.finalize(this.time.total);
+                break;
+
+            default:
+                this.game.routine.abort(this.time.total);
+                break;
         }
 
         if (this.synchronization.hasUpdates()) {
