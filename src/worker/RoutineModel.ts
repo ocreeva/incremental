@@ -2,7 +2,6 @@ import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import type { EntityId, RoutineState } from '@/types';
 import type { IDeltaValue, IGameContext, IRoutineModel } from '@/types/model';
-import { getScriptAsync } from '@/worker/client';
 
 import SubroutineModel from './SubroutineModel';
 

@@ -11,7 +11,7 @@ class OverclockModel extends CommandModel {
         super.synchronize(time);
 
         const scanHubCommand = commands[CommandId.ScanHub];
-        if ((scanHubCommand.level > 0) || (scanHubCommand.progress >= 0.2)) {
+        if ((scanHubCommand.level > 0) || (scanHubCommand.sublevel > 0)) {
             this.isInLexicon = true;
         }
     }

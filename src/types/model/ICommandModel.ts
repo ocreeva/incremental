@@ -4,6 +4,9 @@ import type IDeltaValue from './IDeltaValue';
 import type IEntityModel from './IEntityModel';
 
 declare interface _ICommandModel extends Omit<IEntityModel, 'update'> {
+    /** The command's sublevel (partial progress to next level). */
+    readonly sublevel: number;
+
     /**
      * Create an operation executing an instruction for this command.
      * 

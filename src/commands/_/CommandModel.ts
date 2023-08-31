@@ -25,6 +25,8 @@ abstract class CommandModel extends OperationModel {
         this.game.synchronization.upsertCommand({ id: this.id, level });
     }
 
+    public static get sublevel(): number { return Math.floor(this.progress / 0.2); }
+
     public static get progress(): number { return this.state.progress ?? 0; }
     protected static set progress(progress: number) {
         if (this.state.progress === progress) return;

@@ -1,4 +1,4 @@
-import { type CommandId } from '@/constants';
+import { epsilon, type CommandId } from '@/constants';
 import { assert } from '@/core';
 import type { EntityId, InstructionState, OperationState } from '@/types';
 import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
@@ -6,7 +6,7 @@ import { DeltaValue } from '@/worker/client';
 import { ModelStatus } from '@/constants/worker';
 
 abstract class OperationModel implements IOperationModel {
-    private state: OperationState;
+    private readonly state: OperationState;
     private remaining: number;
 
     protected constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId) {
@@ -20,7 +20,8 @@ abstract class OperationModel implements IOperationModel {
             progress: 0,
         };
 
-        this.remaining = this.state.duration;
+        // add epsilon to overshoot any floating point math loss
+        this.remaining = this.duration + epsilon;
     }
 
     public static get id(): CommandId { throw Error("OperationModel derived class has not overridden the static 'id' property."); }
