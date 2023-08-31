@@ -2,7 +2,7 @@ import type { IDeltaValue } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
 
 class TimeContext {
-    private static maxTime = 1_000 + 2 * 60 * 60 * 24 * 7 * 2 / 1_000; // 2 μfortn + 1s in ms, because reasons
+    private static maxTime = 1_000 + 2 * 60 * 60 * 24 * 7 * 2 / 1_000; // 2 µfortn + 1s in ms, because reasons
     private previous: number | undefined;
     private limit: IDeltaValue = new DeltaValue(0, TimeContext.maxTime);
 
