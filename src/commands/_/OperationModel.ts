@@ -79,7 +79,7 @@ abstract class OperationModel implements IOperationModel {
     public start(time: number): void {
         this.assertStatus(ModelStatus.pending);
 
-        this.derived.start(time);
+        this.derived.start(this.id, time);
 
         this.status = ModelStatus.active;
     }
@@ -91,7 +91,7 @@ abstract class OperationModel implements IOperationModel {
     public finalize(time: number): void {
         this.assertStatus(ModelStatus.complete);
 
-        this.derived.finalize(time);
+        this.derived.finalize(this.id, time);
 
         this.status = ModelStatus.final;
     }
@@ -99,7 +99,7 @@ abstract class OperationModel implements IOperationModel {
     public abort(time: number): void {
         this.assertStatus(ModelStatus.active);
 
-        this.derived.abort(time);
+        this.derived.abort(this.id, time);
 
         this.status = ModelStatus.final;
     }
@@ -111,7 +111,7 @@ abstract class OperationModel implements IOperationModel {
         this.remaining -= delta;
 
         const completionDelta = new DeltaValue(this.progress, delta / this.duration);
-        this.derived.update(time, completionDelta);
+        this.derived.update(completionDelta, this.id, time.total);
 
         // ensure all 'completion' delta has been allocated, in case the command model didn't allocate it
         completionDelta.allocate(1);

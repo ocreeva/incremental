@@ -10,21 +10,25 @@ class ScanModel extends CommandModel {
         return new ScanModel(parentRoutineId, parentSubroutineId);
     }
 
-    public static override synchronize(time: number) {
-        super.synchronize(time);
+    public static override synchronize(operationId: EntityId, time: number) {
+        super.synchronize(operationId, time);
 
         this.isInLexicon = true;
     }
 
-    public static override update(time: IDeltaValue, completion: IDeltaValue): void {
-        ScanHubModel.update(time, completion);
+    public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {
+        super.update(completion, operationId, time);
+
+        ScanHubModel.update(completion, operationId, time);
     }
 }
 
 class ScanHubModel extends CommandModel {
     public static override readonly id: CommandId = CommandId.ScanHub;
 
-    public static override update(_time: IDeltaValue, completion: IDeltaValue) {
+    public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
+        super.update(completion, operationId, time);
+
         while (completion.hasUnallocated && this.level < 1) {
             const remaining = (this.sublevel + 1) * 0.2 - this.progress;
             const multiplier = 5 * (this.level + 1) * (this.sublevel + 1);

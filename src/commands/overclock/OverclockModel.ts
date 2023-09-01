@@ -7,8 +7,8 @@ import type { IOperationModel } from '@/types/model';
 class OverclockModel extends CommandModel {
     public static override readonly id: CommandId = CommandId.Overclock;
 
-    public static override synchronize(time: number) {
-        super.synchronize(time);
+    public static override synchronize(operationId: EntityId, time: number) {
+        super.synchronize(operationId, time);
 
         const scanHubCommand = commands[CommandId.ScanHub];
         if ((scanHubCommand.level > 0) || (scanHubCommand.sublevel > 0)) {

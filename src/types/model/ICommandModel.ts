@@ -1,9 +1,13 @@
+import type { ModelStatus } from '@/constants/worker';
 import type { CommandState, EntityId, InstructionState } from '@/types';
 
 import type IDeltaValue from './IDeltaValue';
-import type IEntityModel from './IEntityModel';
+import type IGameContext from './IGameContext';
 
-declare interface _ICommandModel extends Omit<IEntityModel, 'update'> {
+declare interface _ICommandModel {
+    /** The model's status. */
+    readonly status: ModelStatus;
+
     /** The command's sublevel (partial progress to next level). */
     readonly sublevel: number;
 
@@ -22,11 +26,18 @@ declare interface _ICommandModel extends Omit<IEntityModel, 'update'> {
         parentSubroutineId: EntityId,
     ) => Promise<EntityId>;
 
-    update(time: IDeltaValue, completion: IDeltaValue): void;
+    initializeAsync(game: IGameContext): Promise<void>;
+
+    start(operationId: EntityId, time: number): void;
+    synchronize(operationId: EntityId, time: number): void;
+    finalize(operationId: EntityId, time: number): void;
+    abort(operationId: EntityId, time: number): void;
+
+    update(completion: IDeltaValue, operationId: EntityId, time: number): void;
 }
 
 declare type ICommandModel = {
     [P in keyof CommandState]-?: NonNullable<CommandState[P]>;
-} & Omit<IEntityModel, 'update'> & _ICommandModel;
+} & _ICommandModel;
 
 export default ICommandModel;

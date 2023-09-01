@@ -4,6 +4,7 @@ import type IDeltaValue from './IDeltaValue';
 import type IGameContext from './IGameContext';
 
 declare interface IEntityModel<TSource = void> {
+    /** The model's status. */
     readonly status: ModelStatus;
 
     initializeAsync(game: IGameContext, source: TSource): Promise<void>;

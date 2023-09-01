@@ -50,23 +50,23 @@ abstract class CommandModel extends OperationModel {
     protected static get state(): CommandState { return this._state; }
     private static set state(value: CommandState) { this._state = value; }
 
-    public static start(_time: number): void {
+    public static start(_operationId: EntityId, _time: number): void {
         this.assertStatus(ModelStatus.active);
     }
 
-    public static synchronize(_time: number): void {
+    public static synchronize(_operationId: EntityId, _time: number): void {
         this.assertStatus(ModelStatus.active);
     }
 
-    public static finalize(_time: number): void {
+    public static finalize(_operationId: EntityId, _time: number): void {
         this.assertStatus(ModelStatus.active);
     }
 
-    public static abort(_time: number): void {
+    public static abort(_operationId: EntityId, _time: number): void {
         this.assertStatus(ModelStatus.active);
     }
 
-    public static update(_time: IDeltaValue, _completion: IDeltaValue): void {
+    public static update(_completion: IDeltaValue, _operationId: EntityId, _time: number): void {
         this.assertStatus(ModelStatus.active);
     }
 
