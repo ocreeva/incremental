@@ -23,9 +23,7 @@ class ScanModel extends CommandModel {
     }
 }
 
-class ScanHubModel extends CommandModel {
-    public static override readonly id: CommandId = CommandId.ScanHub;
-
+abstract class ScanNodeModel extends CommandModel {
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
         super.update(completion, operationId, time);
 
@@ -42,5 +40,14 @@ class ScanHubModel extends CommandModel {
     }
 }
 
+class ScanFilesModel extends ScanNodeModel {
+    public static override readonly id: CommandId = CommandId.ScanFiles;
+}
+
+class ScanHubModel extends ScanNodeModel {
+    public static override readonly id: CommandId = CommandId.ScanHub;
+}
+
 registerModel(ScanModel);
+registerModel(ScanFilesModel);
 registerModel(ScanHubModel);

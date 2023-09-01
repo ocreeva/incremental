@@ -8,6 +8,7 @@ enum CommandId {
     Login = 'login',
     Overclock = 'overclock',
     Scan = 'scan',
+    ScanFiles = 'scan-files',
     ScanHub = 'scan-hub',
 }
 
