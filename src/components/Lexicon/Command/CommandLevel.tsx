@@ -9,7 +9,7 @@ import { useCommandContext } from './CommandContext';
 const CommandLevel: React.FC
 = () => {
     const { commandId } = useCommandContext('CommandLevel');
-    const { level, progress } = useParamSelector(selectDesign, commandId);
+    const { level, progress, shouldShowProgress } = useParamSelector(selectDesign, commandId);
 
     const style = {
         '--command-level_progress': `${progress * 100}%`,
@@ -17,15 +17,17 @@ const CommandLevel: React.FC
 
     return (
         <Container style={style}>
-            <Progress>
-                <ProgressEnd />
-                <ProgressMarker />
-                <ProgressMarker />
-                <ProgressMarker />
-                <ProgressMarker />
-                <ProgressEnd />
-                <VisuallyHidden>{progress}% to next level</VisuallyHidden>
-            </Progress>
+            { shouldShowProgress && (
+                <Progress>
+                    <ProgressEnd />
+                    <ProgressMarker />
+                    <ProgressMarker />
+                    <ProgressMarker />
+                    <ProgressMarker />
+                    <ProgressEnd />
+                    <VisuallyHidden>{progress}% to next level</VisuallyHidden>
+                </Progress>
+            ) }
             <Level><VisuallyHidden>Level </VisuallyHidden>{ level }</Level>
         </Container>
     );

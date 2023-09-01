@@ -15,7 +15,8 @@ abstract class CommandDesign implements ICommandDesign {
     public readonly asInstruction: CommandAsInstruction = CommandAsInstruction.Default;
 
     public readonly canBeInstruction: boolean = false;
-    public readonly shouldShowProgress: boolean = false;
+    public readonly shouldShowLevel: boolean = false;
+    public get shouldShowProgress(): boolean { return this.shouldShowLevel; }
 
     public get glyphPath() { return this.id as string; }
     public get subcommands(): CommandId[] | undefined { return undefined; }

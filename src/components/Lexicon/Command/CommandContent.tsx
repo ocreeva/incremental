@@ -17,7 +17,7 @@ declare type CommandContentProps = {
 const CommandContent: React.FC<CommandContentProps>
 = ({ commandId }) => {
     const design = useParamSelector(selectDesign, commandId);
-    const { name, canBeInstruction, shouldShowProgress, subcommands } = design;
+    const { name, canBeInstruction, shouldShowLevel, subcommands } = design;
 
     const ContentContainer = subcommands ? canBeInstruction
         ? PanelWithExpandAndAdd
@@ -29,7 +29,7 @@ const CommandContent: React.FC<CommandContentProps>
             <CommandProvider commandId={commandId}>
                 <ContentContainer>
                     <Name>{ name }</Name>
-                    { shouldShowProgress && <CommandLevel /> }
+                    { shouldShowLevel && <CommandLevel /> }
                     { subcommands && <ExpandButton /> }
                     { canBeInstruction && <AddButton /> }
                 </ContentContainer>

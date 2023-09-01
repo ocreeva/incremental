@@ -19,6 +19,8 @@ declare interface _ICommandDesign {
 
     /** Whether the command can be an instruction in a script. */
     readonly canBeInstruction: boolean;
+    /** Whether the command should display its level. */
+    readonly shouldShowLevel: boolean;
     /** Whether the command should display its progress. */
     readonly shouldShowProgress: boolean;
 

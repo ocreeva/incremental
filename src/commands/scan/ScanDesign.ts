@@ -18,7 +18,7 @@ class ScanFilesDesign extends CommandDesign {
 
     public readonly name = 'Scan Files';
 
-    public override readonly shouldShowProgress = true;
+    public override readonly shouldShowLevel = true;
 }
 
 class ScanHubDesign extends CommandDesign {
@@ -26,7 +26,7 @@ class ScanHubDesign extends CommandDesign {
 
     public readonly name = 'Scan Hub';
 
-    public override readonly shouldShowProgress = true;
+    public override readonly shouldShowLevel = true;
 }
 
 registerDesign(ScanDesign);
