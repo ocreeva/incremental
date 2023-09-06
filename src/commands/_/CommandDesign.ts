@@ -1,5 +1,5 @@
 import store, { type RootState } from '@/App/store';
-import { CommandAsInstruction, type CommandId } from '@/constants';
+import { type CommandId, CommandTarget } from '@/constants';
 import { assert } from '@/core';
 import { selectCurrentScriptId } from '@/features/scripts';
 import type { CommandState, ICommandDesign, ICommandDesignConstructor, InstructionState } from '@/types';
@@ -12,7 +12,7 @@ abstract class CommandDesign implements ICommandDesign {
 
     public abstract readonly name: string;
 
-    public readonly asInstruction: CommandAsInstruction = CommandAsInstruction.Default;
+    public readonly targetType: CommandTarget = CommandTarget.None;
 
     public readonly canBeInstruction: boolean = false;
     public readonly shouldShowLevel: boolean = false;
@@ -41,10 +41,10 @@ abstract class CommandDesign implements ICommandDesign {
 
     public createInstruction(): InstructionState {
         const state = store.getState();
-        return this._createInstruction(state);
+        return this.createInstructionState(state);
     }
 
-    protected _createInstruction(state: RootState): InstructionState {
+    protected createInstructionState(state: RootState): InstructionState {
         return {
             id: crypto.randomUUID(),
             commandId: this.id,

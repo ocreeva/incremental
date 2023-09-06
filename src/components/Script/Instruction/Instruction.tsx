@@ -1,11 +1,12 @@
 import GlyphPanel, { GlyphPanelContent } from '@/components/GlyphPanel';
-import { CommandAsInstruction } from '@/constants';
+import { CommandTarget } from '@/constants';
 import { selectDesign } from '@/features/commands';
 import { selectInstruction } from '@/features/instructions';
 import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
 
 import ContentDefault from './ContentDefault';
+import ContentTargetHost from './ContentTargetHost';
 import ContentTargetScript from './ContentTargetScript';
 import { InstructionProvider } from './InstructionContext';
 
@@ -14,14 +15,15 @@ declare type InstructionProps = {
     shouldAnimate: boolean;
 };
 
-const CommandContent: Record<CommandAsInstruction, React.FC> = {
-    [CommandAsInstruction.Default]: ContentDefault,
-    [CommandAsInstruction.TargetScript]: ContentTargetScript,
+const CommandContent: Record<CommandTarget, React.FC> = {
+    [CommandTarget.None]: ContentDefault,
+    [CommandTarget.Host]: ContentTargetHost,
+    [CommandTarget.Script]: ContentTargetScript,
 };
 
 const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
     const { commandId } = useParamSelector(selectInstruction, id);
-    const { asInstruction } = useParamSelector(selectDesign, commandId);
+    const { targetType: asInstruction } = useParamSelector(selectDesign, commandId);
 
     const InstructionContent = CommandContent[asInstruction];
 

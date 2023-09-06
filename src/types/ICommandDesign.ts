@@ -1,4 +1,4 @@
-import type { CommandAsInstruction, CommandId } from '@/constants';
+import type { CommandTarget, CommandId } from '@/constants';
 
 import type CommandState from './CommandState';
 import type InstructionState from './InstructionState';
@@ -12,10 +12,10 @@ declare interface _ICommandDesign {
     /** The path to the command's glyph. */
     readonly glyphPath: string;
 
-    /** The behavior of the command when presented as an instruction. */
-    readonly asInstruction: CommandAsInstruction;
     /** The command's subcommands. */
     readonly subcommands?: CommandId[];
+    /** The entity type targeted by this command. */
+    readonly targetType: CommandTarget;
 
     /** Whether the command can be an instruction in a script. */
     readonly canBeInstruction: boolean;
