@@ -24,9 +24,9 @@ const Subroutine: React.FC<SubroutineProps> = ({ id }) => {
         <>
             <S.Container style={style}>
                 <S.Host></S.Host>
-                <S.Spacer />
+                <S.StartSpacer />
                 { operations.map(operationId => <Operation key={operationId} id={operationId} />) }
-                <S.Spacer />
+                <S.EndSpacer />
                 <S.Role><RoleGlyph /></S.Role>
             </S.Container>
         </>

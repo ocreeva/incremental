@@ -18,8 +18,12 @@ export const Container = styled.div`
     }
 `;
 
-export const Spacer = styled.div`
+export const StartSpacer = styled.div`
     width: calc(50vw - 100px);
+`;
+
+export const EndSpacer = styled.div`
+    width: calc(50vw - 100px + 1px * (var(--routine_duration) - var(--subroutine_duration)));
 `;
 
 const Information = styled.div`

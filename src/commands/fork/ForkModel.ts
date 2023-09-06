@@ -12,8 +12,8 @@ class ForkModel extends CommandModel {
     private subroutineId?: EntityId;
     private startTime = 0;
 
-    public static override synchronize(operationId: EntityId, time: number) {
-        super.synchronize(operationId, time);
+    public static override synchronize(time: number) {
+        super.synchronize(time);
 
         this.isInLexicon = true;
     }
@@ -53,9 +53,16 @@ class ForkModel extends CommandModel {
         childSubroutine.role = parentSubroutine.role;
 
         childSubroutine.start(this.startTime);
+        this.game.routine.duration = Math.max(this.game.routine.duration, childSubroutine.duration);
 
         const timeDelta = new DeltaValue(this.startTime, time - this.startTime);
         childSubroutine.update(timeDelta);
+
+        // put the subroutine in the routine's collection, if necessary
+        if (!this.game.routine.subroutines.includes(this.subroutineId)) {
+            this.game.routine.subroutines.push(this.subroutineId);
+            this.game.synchronization.updateRoutine({ subroutines: this.game.routine.subroutines });
+        }
 
         this.subroutineId = undefined;
     }

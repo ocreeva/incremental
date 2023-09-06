@@ -29,7 +29,7 @@ declare interface _ICommandModel {
     initializeAsync(game: IGameContext): Promise<void>;
 
     start(operationId: EntityId, time: number): void;
-    synchronize(operationId: EntityId, time: number): void;
+    synchronize(time: number): void;
     finalize(operationId: EntityId, time: number): void;
     abort(operationId: EntityId, time: number): void;
 

@@ -6,8 +6,8 @@ import type { IOperationModel } from '@/types/model';
 class ElevateModel extends CommandModel {
     public static override readonly id: CommandId = CommandId.Elevate;
 
-    public static override synchronize(operationId: EntityId, time: number) {
-        super.synchronize(operationId, time);
+    public static override synchronize(time: number) {
+        super.synchronize(time);
 
         this.isInLexicon = true;
     }

@@ -11,16 +11,16 @@ class TimeContext {
     public get total() { return this.limit.total; }
 
     public reset(): void {
-        this.limit = new DeltaValue(0, TimeContext.maxTime);
+        this.limit = new DeltaValue(0, TimeContext.convertToGameUnits(TimeContext.maxTime));
         this.previous = undefined;
     }
 
     public snapshot(): IDeltaValue {
-        const now = performance.now();
+        const now = TimeContext.convertToGameUnits(performance.now());
 
         let delta = 0;
         if (this.previous !== undefined) {
-            delta = TimeContext.convertToGameUnits(this.limit.allocate(now - this.previous));
+            delta = this.limit.allocate(now - this.previous);
         }
 
         this.previous = now;

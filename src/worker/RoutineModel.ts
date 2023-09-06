@@ -1,7 +1,7 @@
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import type { EntityId, RoutineState } from '@/types';
-import type { IDeltaValue, IGameContext, IRoutineModel } from '@/types/model';
+import type { IDeltaValue, IGameContext, IRoutineModel, ISubroutineModel } from '@/types/model';
 
 import SubroutineModel from './SubroutineModel';
 
@@ -25,7 +25,7 @@ class RoutineModel implements IRoutineModel {
     public get subroutines(): EntityId[] { return this.state.subroutines; }
 
     public get duration(): number { return this.state.duration; }
-    private set duration(duration: number) {
+    public set duration(duration: number) {
         if (this.state.duration === duration) return;
 
         this.state.duration = duration;
@@ -171,21 +171,23 @@ class RoutineModel implements IRoutineModel {
     public update(timeDelta: IDeltaValue) {
         this.assertStatus(ModelStatus.active);
 
-        this.subroutines
-            .map(subroutineId => this.game.getSubroutine(subroutineId))
-            .forEach(subroutine => {
-                switch (subroutine.status) {
-                    case ModelStatus.active:
-                    case ModelStatus.complete: {
-                        timeDelta.reset();
-                        subroutine.update(timeDelta);
-                        if (timeDelta.hasUnallocated) {
-                            subroutine.finalize(timeDelta.total);
-                        }
-                        break;
-                    }
-                }
-            });
+        const resolvedSubroutines = this.subroutines.map(subroutineId => this.game.getSubroutine(subroutineId));
+
+        const handleSubroutine = (subroutine: ISubroutineModel) => {
+            timeDelta.reset();
+            subroutine.update(timeDelta);
+            if (timeDelta.hasUnallocated) {
+                subroutine.finalize(timeDelta.total);
+            }
+        };
+
+        // handle the complete subroutines first, so they can be re-allocated if needed
+        resolvedSubroutines
+            .filter(subroutine => subroutine.status === ModelStatus.complete)
+            .forEach(handleSubroutine);
+        resolvedSubroutines
+            .filter(subroutine => subroutine.status === ModelStatus.active)
+            .forEach(handleSubroutine);
 
         this.elapsed += timeDelta.originalDelta;
     }

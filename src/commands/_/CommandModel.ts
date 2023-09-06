@@ -54,7 +54,7 @@ abstract class CommandModel extends OperationModel {
         this.assertStatus(ModelStatus.active);
     }
 
-    public static synchronize(_operationId: EntityId, _time: number): void {
+    public static synchronize(_time: number): void {
         this.assertStatus(ModelStatus.active);
     }
 

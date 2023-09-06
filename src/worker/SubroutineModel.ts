@@ -1,5 +1,5 @@
 import commands from '@/commands/models';
-import { CommandId, Role } from '@/constants';
+import { CommandId, Role, epsilon } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import type { EntityId, InstructionState, SubroutineState } from '@/types';
@@ -65,6 +65,9 @@ class SubroutineModel implements ISubroutineModel {
         this.status = ModelStatus.loading;
 
         this.game = game;
+
+        const isFirstSubroutine = this.game.subroutines.size === 0;
+
         if (!this.game.subroutines.has(this.id)) {
             this.game.subroutines.set(this.id, this);
             this.game.synchronization.addSubroutine(this.state);
@@ -73,10 +76,11 @@ class SubroutineModel implements ISubroutineModel {
         const { script } = await getScriptAsync(this.game.messageService, { scriptId });
 
         const operationIds = [
-            await this.createBootOperationAsync(script.id),
+            await this.createBootOperationAsync(script.id, isFirstSubroutine),
             ...await Promise.all(script.instructions.map(instructionId => this.createOperationAsync(instructionId)))
         ];
         operationIds.forEach(operationId => this.operations.push(operationId));
+        this.game.synchronization.updateSubroutine(this.id, { operations: this.operations });
 
         this.calculateDuration();
 
@@ -124,7 +128,11 @@ class SubroutineModel implements ISubroutineModel {
 
         this.lastActiveTime = time;
 
-        this.status = ModelStatus.final;
+        switch (this.status) {
+            case ModelStatus.complete:
+                this.status = ModelStatus.final;
+                break;
+        }
     }
 
     public abort(time: number) {
@@ -147,6 +155,7 @@ class SubroutineModel implements ISubroutineModel {
             } else {
                 this.lastActiveTime = timeDelta.total;
                 this.status = ModelStatus.idle;
+                return;
             }
         }
     }
@@ -184,9 +193,9 @@ class SubroutineModel implements ISubroutineModel {
             .reduce((total, { delay, duration }) => total + delay + duration + SubroutineModel.transitionDuration, -SubroutineModel.transitionDuration);
     }
 
-    private createBootOperationAsync(parentScriptId: EntityId): Promise<EntityId> {
+    private createBootOperationAsync(parentScriptId: EntityId, isBoot: boolean): Promise<EntityId> {
         // the first subroutine uses a Boot command; all others use Child commands
-        const commandId = Object.keys(this.game.subroutines).length === 0 ? CommandId.Boot : CommandId.Child;
+        const commandId = isBoot ? CommandId.Boot : CommandId.Child;
         return this.createOperationFromInstructionAsync({
             id: 0,
             commandId,

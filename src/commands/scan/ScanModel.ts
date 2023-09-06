@@ -10,8 +10,8 @@ class ScanModel extends CommandModel {
         return new ScanModel(parentRoutineId, parentSubroutineId);
     }
 
-    public static override synchronize(operationId: EntityId, time: number) {
-        super.synchronize(operationId, time);
+    public static override synchronize(time: number) {
+        super.synchronize(time);
 
         this.isInLexicon = true;
     }
