@@ -4,6 +4,7 @@
 enum CommandId {
     Boot = 'boot',
     Child = 'child',
+    Elevate = 'elevate',
     Fork = 'fork',
     Login = 'login',
     Overclock = 'overclock',

@@ -8,7 +8,6 @@ export const Container = styled.div`
     display: flex;
     flex-direction: row;
     gap: 8px;
-    padding-inline: calc(50vw - 21px);
 
     background: var(--color-background);
     filter: drop-shadow(0 0 2px var(--color-background));
@@ -17,4 +16,38 @@ export const Container = styled.div`
     &:first-of-type {
         padding-block-start: 4px;
     }
+`;
+
+export const Spacer = styled.div`
+    width: calc(50vw - 100px);
+`;
+
+const Information = styled.div`
+    position: sticky;
+    left: 0;
+    right: 0;
+    z-index: 1;
+
+    height: 42px;
+    padding: 4px;
+    width: 63px;
+
+    background: linear-gradient(
+        to var(--subroutine_direction),
+        var(--color-background),
+        var(--color-background) 65%,
+        transparent
+    );
+`;
+
+export const Host = styled(Information)`
+    --subroutine_direction: right;
+
+    padding-inline-end: 25px;
+`;
+
+export const Role = styled(Information)`
+    --subroutine_direction: left;
+
+    padding-inline-start: 25px;
 `;

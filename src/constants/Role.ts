@@ -1,9 +1,9 @@
 enum Role {
-    Anon = 'anon',
-    Guest = 'guest',
-    User = 'user',
-    Admin = 'admin',
-    Root = 'root',
+    Anon = 'role-anon',
+    Guest = 'role-guest',
+    User = 'role-user',
+    Admin = 'role-admin',
+    Root = 'role-root',
 }
 
 export default Role;

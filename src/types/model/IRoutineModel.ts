@@ -17,7 +17,7 @@ declare interface _IRoutineModel {
  * Represents the model for a routine.
  */
 declare type IRoutineModel = {
-    [P in keyof RoutineState]: RoutineState[P];
+    [P in keyof RoutineState]-?: NonNullable<RoutineState[P]>;
 } & IEntityModel<EntityId> & _IRoutineModel;
 
 export default IRoutineModel;

@@ -1,5 +1,6 @@
 import './boot/BootDesign';
 import './child/ChildDesign';
+import './elevate/ElevateDesign';
 import './fork/ForkDesign';
 import './login/LoginDesign';
 import './overclock/OverclockDesign';
