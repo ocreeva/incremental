@@ -2,25 +2,25 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as RemoveScriptIcon } from '@/assets/script-remove.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
-import { useScriptSelectionContext } from '@/components/ScriptSelection';
+import { useSelectionContext } from '@/components/SelectionList';
 import { assertIsDefined } from '@/core';
+import { type DeleteScriptProps, deleteScript, selectScriptIds } from '@/features/scripts';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { DeleteScriptProps, deleteScript, selectScriptIds } from '@/features/scripts';
 
 const DeleteScriptButton: React.FC
 = () => {
     const scriptIds = useAppSelector(selectScriptIds);
 
-    const { scriptId, setScriptId } = useScriptSelectionContext('RemoveScriptButton');
+    const { entityId, setEntityId } = useSelectionContext('RemoveScriptButton');
     const dispatch = useAppDispatch();
     const handleClick: React.MouseEventHandler<HTMLButtonElement>
     = () => {
-        const props: DeleteScriptProps = { scriptId };
+        const props: DeleteScriptProps = { scriptId: entityId };
         dispatch(deleteScript(props));
 
         const { currentScriptId } = props;
         assertIsDefined(currentScriptId, "'deleteScript' reducer did not set the 'currentScriptId' prop.");
-        setScriptId(currentScriptId);
+        setEntityId(currentScriptId);
     };
 
     const isDisabled = scriptIds.length <= 1;

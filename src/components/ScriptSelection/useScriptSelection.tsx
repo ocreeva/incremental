@@ -1,14 +1,13 @@
 import { useState } from 'react';
 
-import { EntityId } from '@/types';
-
-import { ScriptSelection } from './ScriptSelectionContext';
+import { SelectionContext } from '@/components/SelectionList';
+import type { EntityId } from '@/types';
 
 const useScriptSelection: (initialScriptId: EntityId) => [ React.FC<React.PropsWithChildren>, EntityId, React.Dispatch<React.SetStateAction<EntityId>> ]
 = (initialScriptId) => {
     const [scriptId, setScriptId] = useState(initialScriptId);
     return [
-        (props) => (<ScriptSelection scriptId={scriptId} setScriptId={setScriptId} {...props} />),
+        (props) => (<SelectionContext entityId={scriptId} name='script' setEntityId={setScriptId} {...props} />),
         scriptId,
         setScriptId
     ];

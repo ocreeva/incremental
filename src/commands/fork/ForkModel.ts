@@ -12,6 +12,12 @@ class ForkModel extends CommandModel {
     private subroutineId?: EntityId;
     private startTime = 0;
 
+    public static override synchronize(operationId: EntityId, time: number) {
+        super.synchronize(operationId, time);
+
+        this.isInLexicon = true;
+    }
+
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new ForkModel(parentRoutineId, parentSubroutineId);
     }

@@ -1,7 +1,7 @@
+import { SelectionList } from '@/components/SelectionList';
 import { selectScriptIds } from '@/features/scripts';
 import { useAppSelector } from '@/hooks';
 
-import * as S from './ScriptSelectionList.styles';
 import ScriptSelectionListItem from "./ScriptSelectionListItem";
 
 const ScriptSelectionList: React.FC
@@ -9,9 +9,9 @@ const ScriptSelectionList: React.FC
     const scriptIds = useAppSelector(selectScriptIds);
 
     return (
-        <S.Container>
+        <SelectionList>
             { scriptIds.map(scriptId => <ScriptSelectionListItem key={scriptId} scriptId={scriptId} />) }
-        </S.Container>
+        </SelectionList>
     );
 };
 
