@@ -40,11 +40,16 @@ class ForkModel extends CommandModel {
 
         if (this.subroutineId === undefined) return;
 
-        const subroutine = ForkModel.game.getSubroutine(this.subroutineId);
-        subroutine.start(this.startTime);
+        const childSubroutine = this.game.getSubroutine(this.subroutineId);
+
+        // children inherit the parent's role
+        const parentSubroutine = this.game.getSubroutine(this.parentSubroutineId);
+        childSubroutine.role = parentSubroutine.role;
+
+        childSubroutine.start(this.startTime);
 
         const timeDelta = new DeltaValue(this.startTime, time - this.startTime);
-        subroutine.update(timeDelta);
+        childSubroutine.update(timeDelta);
 
         this.subroutineId = undefined;
     }
