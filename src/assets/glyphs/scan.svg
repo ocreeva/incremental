@@ -1,64 +1,18 @@
-<svg viewBox="-2 -2 28 28" class="glyph" xmlns="http://www.w3.org/2000/svg">
-    <g fill="currentColor">
-        <path d="
-            M 7 8
-            a 1 1 0 0 1 2 0
-            v 8
-            a 1 1 0 0 1 -2 0
-            z" />
-        <path d="
-            M 11 6
-            a 1 1 0 0 1 2 0
-            v 12
-            a 1 1 0 0 1 -2 0
-            z" />
-        <path d="
-            M 15 8
-            a 1 1 0 0 1 2 0
-            v 8
-            a 1 1 0 0 1 -2 0
-            z" />
-        <g fill-opacity="0.5">
-            <path d="
-                M 0 5
-                a 5 5 0 0 1 5 -5
-                h 3
-                a 1 1 0 0 1 0 2
-                h -3
-                a 3 3 0 0 0 -3 3
-                v 3
-                a 1 1 0 0 1 -2 0
-                z" />
-            <path d="
-                M 19 0
-                a 5 5 0 0 1 5 5
-                v 3
-                a 1 1 0 0 1 -2 0
-                v -3
-                a 3 3 0 0 0 -3 -3
-                h -3
-                a 1 1 0 0 1 0 -2
-                z" />
-            <path d="
-                M 24 19
-                a 5 5 0 0 1 -5 5
-                h -3
-                a 1 1 0 0 1 0 -2
-                h 3
-                a 3 3 0 0 0 3 -3
-                v -3
-                a 1 1 0 0 1 2 0
-                z" />
-            <path d="
-                M 5 24
-                a 5 5 0 0 1 -5 -5
-                v -3
-                a 1 1 0 0 1 2 0
-                v 3
-                a 3 3 0 0 0 3 3
-                h 3
-                a 1 1 0 0 1 0 2
-                z" />
+<svg viewBox="-14 -14 28 28" class="glyph" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <!-- Scan components -->
+        <g id="glyph_scan">
+            <path d="M -1 -6 a 1 1 0 0 1 2 0 v 12 a 1 1 0 0 1 -2 0" />
+            <path id="glyph_scan_sidebar" d="M -5 -4 a 1 1 0 0 1 2 0 v 8 a 1 1 0 0 1 -2 0" />
+            <use href="#glyph_scan_sidebar" transform="translate(8)" />
+            <g id="glyph_scan_frame" fill-opacity="0.5">
+                <path id="glyph_scan_corner" d="M -12 -7 a 5 5 0 0 1 5 -5 h 3 a 1 1 0 0 1 0 2 h -3 a 3 3 0 0 0 -3 3 v 3 a 1 1 0 0 1 -2 0" />
+                <use href="#glyph_scan_corner" transform="rotate(90)" />
+                <use href="#glyph_scan_corner" transform="rotate(180)" />
+                <use href="#glyph_scan_corner" transform="rotate(270)" />
+            </g>
         </g>
-    </g>
+    </defs>
+
+    <use href="#glyph_scan" fill="currentColor" />
 </svg>
