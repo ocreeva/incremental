@@ -1,21 +1,10 @@
-<svg viewBox="-14 -14 28 28" class="glyph" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <!-- Login components -->
-        <path id="glyph_login_arrow-barb" d="M 0 -1 h 5 c 1 0 1 2 0 2 h -5" />
-        <g id="glyph_login_arrow" transform="translate(2)">
-            <use href="#glyph_login_arrow-barb" transform="rotate(-120) translate(0 -1)" />
-            <use href="#glyph_login_arrow-barb" transform="rotate(120) translate(0 1)" />
-            <path d="M -1 -1 h -12 a 1 1 0 0 0 0 2 h 12" />
-        </g>
-        <g id="glyph_login_arrow-exit" transform="translate(-11)">
-        </g>
-        <path id="glyph_login_frame" fill-opacity="0.5" d="
-            M -4 -7 a 5 5 0 0 1 5 -5 h 6 a 5 5 0 0 1 5 5 v 14 a 5 5 0 0 1 -5 5 h -6 a 5 5 0 0 1 -5 -5 a 1 1 0 0 1 2 0
-            a 3 3 0 0 0 3 3 h 6 a 3 3 0 0 0 3 -3 v -14 a 3 3 0 0 0 -3 -3 h -6 a 3 3 0 0 0 -3 3 a 1 1 0 0 1 -2 0" />
-    </defs>
-
-    <g fill="currentColor">
-        <use href="#glyph_login_arrow" />
-        <use href="#glyph_login_frame" />
+<svg class="glyph" fill="currentColor" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(2) rotate(120)">
+        <path d="M 0 0 h 5 c 1 0 1 2 0 2 h -5" />
+        <path transform="rotate(120)" d="M 0 0 h 5 c 1 0 1 -2 0 -2 h -5" />
     </g>
+    <path d="M 1 -1 h -12 a 1 1 0 0 0 0 2 h 12" />
+    <path fill-opacity="0.5" d="
+        M -4 -7 a 5 5 0 0 1 5 -5 h 6 a 5 5 0 0 1 5 5 v 14 a 5 5 0 0 1 -5 5 h -6 a 5 5 0 0 1 -5 -5 a 1 1 0 0 1 2 0
+        a 3 3 0 0 0 3 3 h 6 a 3 3 0 0 0 3 -3 v -14 a 3 3 0 0 0 -3 -3 h -6 a 3 3 0 0 0 -3 3 a 1 1 0 0 1 -2 0" />
 </svg>

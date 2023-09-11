@@ -1,34 +1,27 @@
-<svg viewBox="-14 -14 28 28" class="glyph" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-        <!-- Scan components -->
-        <g id="glyph_scan_frame" fill-opacity="0.5">
-            <path id="glyph_scan_corner" d="M -12 -7 a 5 5 0 0 1 5 -5 h 3 a 1 1 0 0 1 0 2 h -3 a 3 3 0 0 0 -3 3 v 3 a 1 1 0 0 1 -2 0" />
-            <use href="#glyph_scan_corner" transform="rotate(90)" />
-            <use href="#glyph_scan_corner" transform="rotate(180)" />
-            <use href="#glyph_scan_corner" transform="rotate(270)" />
-        </g>
+<svg class="glyph" fill="currentColor" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
+    <!-- Scan components -->
+    <g fill-opacity="0.5">
+        <path id="glyph_scan-root_frame-corner" d="M -12 -7 a 5 5 0 0 1 5 -5 h 3 a 1 1 0 0 1 0 2 h -3 a 3 3 0 0 0 -3 3 v 3 a 1 1 0 0 1 -2 0" />
+        <use href="#glyph_scan-root_frame-corner" transform="rotate(90)" />
+        <use href="#glyph_scan-root_frame-corner" transform="rotate(180)" />
+        <use href="#glyph_scan-root_frame-corner" transform="rotate(270)" />
+    </g>
 
-        <!-- Root components (microchip) -->
-        <g id="glyph_root">
-            <path id="glyph_root_chip" d="
-                M -9 -7 a 2 2 0 0 1 2 -2 h 14 a 2 2 0 0 1 2 2 v 14 a 2 2 0 0 1 -2 2 h -14 a 2 2 0 0 1 -2 -2 z
-                m 3 0 a 1 1 0 0 0 -1 1 v 12 a 1 1 0 0 0 1 1 h 12 a 1 1 0 0 0 1 -1 v -12 a 1 1 0 0 0 -1 -1" />
-            <g fill-opacity="0.5">
-                <g id="glyph_root_pin-row">
-                    <path id="glyph_root_pin" d="M -7 9 v 2 c 0 1 2 1 2 0 v -2" />
-                    <use href="#glyph_root_pin" transform="translate(4)" />
-                    <use href="#glyph_root_pin" transform="translate(8)" />
-                    <use href="#glyph_root_pin" transform="translate(12)" />
-                </g>
-                <use href="#glyph_root_pin-row" transform="rotate(90)" />
-                <use href="#glyph_root_pin-row" transform="rotate(180)" />
-                <use href="#glyph_root_pin-row" transform="rotate(270)" />
+    <!-- Root components (microchip) -->
+    <g transform="scale(0.72)">
+        <path d="
+            M -9 -7 a 2 2 0 0 1 2 -2 h 14 a 2 2 0 0 1 2 2 v 14 a 2 2 0 0 1 -2 2 h -14 a 2 2 0 0 1 -2 -2 z
+            m 3 0 a 1 1 0 0 0 -1 1 v 12 a 1 1 0 0 0 1 1 h 12 a 1 1 0 0 0 1 -1 v -12 a 1 1 0 0 0 -1 -1" />
+        <g fill-opacity="0.5">
+            <g id="glyph_scan-root_pin-row">
+                <path id="glyph_scan-root_pin" d="M -7 9 v 2 c 0 1 2 1 2 0 v -2" />
+                <use href="#glyph_scan-root_pin" transform="translate(4)" />
+                <use href="#glyph_scan-root_pin" transform="translate(8)" />
+                <use href="#glyph_scan-root_pin" transform="translate(12)" />
             </g>
+            <use href="#glyph_scan-root_pin-row" transform="rotate(90)" />
+            <use href="#glyph_scan-root_pin-row" transform="rotate(180)" />
+            <use href="#glyph_scan-root_pin-row" transform="rotate(270)" />
         </g>
-    </defs>
-
-    <g fill="currentColor">
-        <use href="#glyph_scan_frame" />
-        <use href="#glyph_root" transform="scale(0.72)" />
     </g>
 </svg>
