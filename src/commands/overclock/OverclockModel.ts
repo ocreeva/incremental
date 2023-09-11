@@ -10,7 +10,7 @@ class OverclockModel extends CommandModel {
     public static override synchronize(time: number) {
         super.synchronize(time);
 
-        const scanHubCommand = commands[CommandId.ScanHub];
+        const scanHubCommand = commands[CommandId.Scan_Hub];
         if ((scanHubCommand.level > 0) || (scanHubCommand.sublevel > 0)) {
             this.isInLexicon = true;
         }

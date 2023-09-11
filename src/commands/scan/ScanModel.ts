@@ -41,13 +41,28 @@ abstract class ScanNodeModel extends CommandModel {
 }
 
 class ScanFilesModel extends ScanNodeModel {
-    public static override readonly id: CommandId = CommandId.ScanFiles;
+    public static override readonly id: CommandId = CommandId.Scan_Files;
+}
+
+class ScanHRModel extends ScanNodeModel {
+    public static override readonly id: CommandId = CommandId.Scan_HR;
 }
 
 class ScanHubModel extends ScanNodeModel {
-    public static override readonly id: CommandId = CommandId.ScanHub;
+    public static override readonly id: CommandId = CommandId.Scan_Hub;
+}
+
+class ScanRootModel extends ScanNodeModel {
+    public static override readonly id: CommandId = CommandId.Scan_Root;
+}
+
+class ScanSecurityModel extends ScanNodeModel {
+    public static override readonly id: CommandId = CommandId.Scan_Security;
 }
 
 registerModel(ScanModel);
 registerModel(ScanFilesModel);
+registerModel(ScanHRModel);
 registerModel(ScanHubModel);
+registerModel(ScanRootModel);
+registerModel(ScanSecurityModel);

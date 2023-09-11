@@ -17,4 +17,31 @@ class LoginModel extends CommandModel {
     }
 }
 
+abstract class LoginNodeModel extends CommandModel { }
+
+class LoginFilesModel extends LoginNodeModel {
+    public static override readonly id: CommandId = CommandId.Login_Files;
+}
+
+class LoginHRModel extends LoginNodeModel {
+    public static override readonly id: CommandId = CommandId.Login_HR;
+}
+
+class LoginHubModel extends LoginNodeModel {
+    public static override readonly id: CommandId = CommandId.Login_Hub;
+}
+
+class LoginRootModel extends LoginNodeModel {
+    public static override readonly id: CommandId = CommandId.Login_Root;
+}
+
+class LoginSecurityModel extends LoginNodeModel {
+    public static override readonly id: CommandId = CommandId.Login_Security;
+}
+
 registerModel(LoginModel);
+registerModel(LoginFilesModel);
+registerModel(LoginHRModel);
+registerModel(LoginHubModel);
+registerModel(LoginRootModel);
+registerModel(LoginSecurityModel);
