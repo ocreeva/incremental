@@ -9,6 +9,8 @@ import OperationModel from './OperationModel';
 
 //@staticImplements<ICommandModel>()
 abstract class CommandModel extends OperationModel {
+    private static state: CommandState;
+
     public static get isInLexicon(): boolean { return this.state.isInLexicon ?? false; }
     protected static set isInLexicon(isInLexicon: boolean) {
         if (this.state.isInLexicon === isInLexicon) return;
@@ -45,10 +47,6 @@ abstract class CommandModel extends OperationModel {
         return this._game;
     }
     private static set game(game: IGameContext) { this._game = game; }
-
-    private static _state: CommandState;
-    protected static get state(): CommandState { return this._state; }
-    private static set state(value: CommandState) { this._state = value; }
 
     public static start(_operationId: EntityId, _time: number): void {
         this.assertStatus(ModelStatus.active);

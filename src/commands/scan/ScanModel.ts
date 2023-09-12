@@ -53,7 +53,7 @@ class ScanHubModel extends ScanNodeModel {
 }
 
 class ScanRootModel extends ScanNodeModel {
-    public static override readonly id: CommandId = CommandId.Scan_Root;
+    public static override readonly id: CommandId = CommandId.Scan_Core;
 }
 
 class ScanSecurityModel extends ScanNodeModel {

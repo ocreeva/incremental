@@ -13,18 +13,18 @@ enum CommandId {
     Login = 'login',
     Login_Files = 'login-files',
     Login_HR = 'login-hr',
-    Login_Hub = 'login-hub',
-    Login_Root = 'login-root',
     Login_Security = 'login-security',
+    Login_Core = 'login-core',
+    Login_Hub = 'login-hub',
 
     Overclock = 'overclock',
 
     Scan = 'scan',
+    Scan_Hub = 'scan-hub',
     Scan_Files = 'scan-files',
     Scan_HR = 'scan-hr',
-    Scan_Hub = 'scan-hub',
-    Scan_Root = 'scan-root',
     Scan_Security = 'scan-security',
+    Scan_Core = 'scan-core',
 }
 
 export default CommandId;

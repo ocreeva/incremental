@@ -9,7 +9,7 @@ class ScanDesign extends CommandDesign {
         CommandId.Scan_Files,
         CommandId.Scan_HR,
         CommandId.Scan_Security,
-        CommandId.Scan_Root,
+        CommandId.Scan_Core,
     ];
 
     public readonly name = 'Scan';
@@ -42,7 +42,7 @@ class ScanHubDesign extends ScanNodeDesign {
 }
 
 class ScanRootDesign extends ScanNodeDesign {
-    public static override readonly id: CommandId = CommandId.Scan_Root;
+    public static override readonly id: CommandId = CommandId.Scan_Core;
 
     public readonly name = 'Scan Root';
 }
