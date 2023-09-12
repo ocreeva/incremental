@@ -1,3 +1,9 @@
+import { ReactComponent as LoginGlyph } from '@/assets/glyphs/login.svg';
+import LoginCoreGlyph from './LoginCoreGlyph';
+import LoginFilesGlyph from './LoginFilesGlyph';
+import LoginHRGlyph from './LoginHRGlyph';
+import { ReactComponent as LoginHubGlyph } from '@/assets/glyphs/login-hub.svg';
+import LoginSecurityGlyph from './LoginSecurityGlyph';
 import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandId } from '@/constants';
 
@@ -14,6 +20,8 @@ class LoginDesign extends CommandDesign {
 
     public readonly name = 'Login';
 
+    public override get GlyphComponent() { return LoginGlyph; }
+
     public override get subcommands() { return this._subcommands; }
 }
 
@@ -25,35 +33,45 @@ class LoginFilesDesign extends LoginNodeDesign {
     public static override readonly id: CommandId = CommandId.Login_Files;
 
     public readonly name = 'Login to Files';
+
+    public override get GlyphComponent() { return LoginFilesGlyph; }
 }
 
 class LoginHRDesign extends LoginNodeDesign {
     public static override readonly id: CommandId = CommandId.Login_HR;
 
     public readonly name = 'Login to HR';
+
+    public override get GlyphComponent() { return LoginHRGlyph; }
 }
 
 class LoginSecurityDesign extends LoginNodeDesign {
     public static override readonly id: CommandId = CommandId.Login_Security;
 
     public readonly name = 'Login to Security';
+
+    public override get GlyphComponent() { return LoginSecurityGlyph; }
 }
 
-class LoginRootDesign extends LoginNodeDesign {
+class LoginCoreDesign extends LoginNodeDesign {
     public static override readonly id: CommandId = CommandId.Login_Core;
 
     public readonly name = 'Login to Root';
+
+    public override get GlyphComponent() { return LoginCoreGlyph; }
 }
 
 class LoginHubDesign extends LoginNodeDesign {
     public static override readonly id: CommandId = CommandId.Login_Hub;
 
     public readonly name = 'Return to Hub';
+
+    public override get GlyphComponent() { return LoginHubGlyph; }
 }
 
 registerDesign(LoginDesign);
 registerDesign(LoginFilesDesign);
 registerDesign(LoginHRDesign);
 registerDesign(LoginSecurityDesign);
-registerDesign(LoginRootDesign);
+registerDesign(LoginCoreDesign);
 registerDesign(LoginHubDesign);

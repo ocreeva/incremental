@@ -1,3 +1,4 @@
+import { ReactComponent as MissingGlyph } from '@/assets/glyphs/error.svg';
 import store, { type RootState } from '@/App/store';
 import { type CommandId, CommandTarget } from '@/constants';
 import { assert } from '@/core';
@@ -18,7 +19,8 @@ abstract class CommandDesign implements ICommandDesign {
     public readonly shouldShowLevel: boolean = false;
     public get shouldShowProgress(): boolean { return this.shouldShowLevel; }
 
-    public get glyphPath() { return this.id as string; }
+    public get GlyphComponent() { return MissingGlyph; }
+
     public get subcommands(): CommandId[] | undefined { return undefined; }
 
     constructor(state: CommandState) {

@@ -1,3 +1,4 @@
+import { ReactComponent as ForkGlyph } from '@/assets/glyphs/fork.svg';
 import { type RootState } from '@/App/store';
 import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandId, CommandTarget } from '@/constants';
@@ -10,6 +11,8 @@ class ForkDesign extends CommandDesign {
 
     public override readonly targetType: CommandTarget = CommandTarget.Script;
     public override readonly canBeInstruction = true;
+
+    public override get GlyphComponent() { return ForkGlyph; }
 
     protected override createInstructionState(state: RootState): InstructionState {
         const instruction = super.createInstructionState(state);

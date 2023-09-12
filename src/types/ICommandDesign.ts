@@ -9,8 +9,8 @@ import type InstructionState from './InstructionState';
 declare interface _ICommandDesign {
     /** The command's name. */
     readonly name: string;
-    /** The path to the command's glyph. */
-    readonly glyphPath: string;
+    /** The command's glyph. */
+    readonly GlyphComponent: React.FC;
 
     /** The command's subcommands. */
     readonly subcommands?: CommandId[];

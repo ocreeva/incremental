@@ -1,6 +1,6 @@
 import { type CommandId } from '@/constants';
 import { selectDesign } from '@/features/commands';
-import { useParamSelector, useGlyph } from '@/hooks';
+import { useParamSelector } from '@/hooks';
 
 import * as S from './GlyphPanelContent.styles';
 
@@ -10,8 +10,7 @@ declare type GlyphPanelContentProps = {
 
 const GlyphPanelContent: React.FC<React.PropsWithChildren<GlyphPanelContentProps>>
 = ({ children, commandId }) => {
-    const { glyphPath } = useParamSelector(selectDesign, commandId);
-    const { GlyphComponent } = useGlyph(glyphPath);
+    const { GlyphComponent } = useParamSelector(selectDesign, commandId);
 
     return (
         <S.Container>
