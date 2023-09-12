@@ -1,27 +1,7 @@
 import CommandModel, { registerModel } from '@/commands/_/CommandModel';
-import { CommandId } from '@/constants';
+import { CommandId, Host } from '@/constants';
 import type { EntityId } from '@/types';
-import type { IDeltaValue, IOperationModel } from '@/types/model';
-
-class ScanModel extends CommandModel {
-    public static override readonly id: CommandId = CommandId.Scan;
-
-    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
-        return new ScanModel(parentRoutineId, parentSubroutineId);
-    }
-
-    public static override synchronize(time: number) {
-        super.synchronize(time);
-
-        this.isInLexicon = true;
-    }
-
-    public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {
-        super.update(completion, operationId, time);
-
-        ScanHubModel.update(completion, operationId, time);
-    }
-}
+import type { ICommandModel, IDeltaValue, IOperationModel } from '@/types/model';
 
 abstract class ScanNodeModel extends CommandModel {
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
@@ -40,6 +20,10 @@ abstract class ScanNodeModel extends CommandModel {
     }
 }
 
+class ScanHubModel extends ScanNodeModel {
+    public static override readonly id: CommandId = CommandId.Scan_Hub;
+}
+
 class ScanFilesModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Files;
 }
@@ -48,21 +32,48 @@ class ScanHRModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_HR;
 }
 
-class ScanHubModel extends ScanNodeModel {
-    public static override readonly id: CommandId = CommandId.Scan_Hub;
+class ScanSecurityModel extends ScanNodeModel {
+    public static override readonly id: CommandId = CommandId.Scan_Security;
 }
 
-class ScanRootModel extends ScanNodeModel {
+class ScanCoreModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Core;
 }
 
-class ScanSecurityModel extends ScanNodeModel {
-    public static override readonly id: CommandId = CommandId.Scan_Security;
+const modelLookup: Record<Host, ICommandModel> = {
+    [Host.Hub]: ScanHubModel,
+    [Host.Files]: ScanFilesModel,
+    [Host.HR]: ScanHRModel,
+    [Host.Security]: ScanSecurityModel,
+    [Host.Core]: ScanCoreModel,
+};
+
+class ScanModel extends CommandModel {
+    public static override readonly id: CommandId = CommandId.Scan;
+
+    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
+        return new ScanModel(parentRoutineId, parentSubroutineId);
+    }
+
+    public static override synchronize(time: number) {
+        super.synchronize(time);
+
+        this.isInLexicon = true;
+    }
+
+    public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {
+        super.update(completion, operationId, time);
+
+        const { parentSubroutineId } = this.game.getOperation(operationId);
+        const { host } = this.game.getSubroutine(parentSubroutineId);
+        const model = modelLookup[host];
+        model.update(completion, operationId, time);
+    }
 }
 
 registerModel(ScanModel);
 registerModel(ScanFilesModel);
 registerModel(ScanHRModel);
 registerModel(ScanHubModel);
-registerModel(ScanRootModel);
+registerModel(ScanCoreModel);
 registerModel(ScanSecurityModel);
