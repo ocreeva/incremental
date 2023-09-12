@@ -1,0 +1,31 @@
+<svg class="glyph" fill="currentColor" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="glyph_host-hr_meeple-clip-body">
+            <path d="
+                M -24 -24 v 48 h 48 v -48 z
+                M -11 12 a 2 2 0 0 1 -2 -2 v -2 a 8 7 0 0 1 16 0 v 2 a 2 2 0 0 1 -2 2" />
+        </clipPath>
+        <clipPath id="glyph_host-hr_meeple-clip" clip-path="url(#glyph_host-hr_meeple-clip-body)">
+            <path d="
+                M -24 -24 v 48 h 48 v -48 z
+                M -5 2 a 5 5 0 0 1 0 -10 a 5 5 0 0 1 0 10" />
+        </clipPath>
+    </defs>
+
+    <g id="glyph_host-hr_meeple">
+        <path d="
+            M -5 1 a 4 4 0 0 1 0 -8 a 4 4 0 0 1 0 8
+            m 0 -2 a 2 2 0 0 0 0 -4 a 2 2 0 0 0 0 4" />
+        <path d="
+            M -11 11 a 1 1 0 0 1 -1 -1 v -2 a 7 6 0 0 1 14 0 v 2 a 1 1 0 0 1 -1 1 z
+            M -0.5 9 a 0.5 0.5 0 0 0 0.5 -0.5 v -0.5 a 5 4 0 0 0 -10 0 v 0.5 a 0.5 0.5 0 0 0 0.5 0.5" />
+        <g fill-opacity="0.25">
+            <path d="M -5 -1 a 2 2 0 0 1 0 -4 a 2 2 0 0 1 0 4" />
+            <path d="M -0.5 9 a 0.5 0.5 0 0 0 0.5 -0.5 v -0.5 a 5 4 0 0 0 -10 0 v 0.5 a 0.5 0.5 0 0 0 0.5 0.5" />
+        </g>
+    </g>
+    <g id="glyph_host-hr_meeple-offset" clip-path="url(#glyph_host-hr_meeple-clip)">
+        <use href="#glyph_host-hr_meeple" transform="translate(5 -2)" />
+    </g>
+    <use href="#glyph_host-hr_meeple-offset" transform="translate(5 -2)" />
+</svg>

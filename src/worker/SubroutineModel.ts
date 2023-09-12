@@ -1,5 +1,5 @@
 import commands from '@/commands/models';
-import { CommandId, Role, epsilon } from '@/constants';
+import { CommandId, Host, Role } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import type { EntityId, InstructionState, SubroutineState } from '@/types';
@@ -24,6 +24,7 @@ class SubroutineModel implements ISubroutineModel {
             duration: 0,
             operations: [],
             parentRoutineId,
+            host: Host.Hub,
             role: Role.Anon,
         };
     }
@@ -37,6 +38,14 @@ class SubroutineModel implements ISubroutineModel {
 
         this.state.duration = duration;
         this.game.synchronization.updateSubroutine(this.id, { duration });
+    }
+
+    public get host(): Host { return this.state.host; }
+    public set host(host: Host) {
+        if (host == this.state.host) return;
+
+        this.state.host = host;
+        this.game.synchronization.updateSubroutine(this.id, { host });
     }
 
     public get operations(): EntityId[] { return this.state.operations; }

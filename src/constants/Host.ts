@@ -1,9 +1,9 @@
 enum Host {
-    Hub = 'hub',
-    Files = 'files',
-    HR = 'hr',
-    Security = 'security',
-    Core = 'core',
+    Hub = 'host-hub',
+    Files = 'host-files',
+    HR = 'host-hr',
+    Security = 'host-security',
+    Core = 'host-core',
 }
 
 export default Host;

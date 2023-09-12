@@ -1,4 +1,4 @@
-import type { Role } from '@/constants';
+import type { Host, Role } from '@/constants';
 
 import type EntityId from './EntityId';
 import type EntityState from './EntityState';
@@ -13,6 +13,8 @@ declare type SubroutineState = EntityState & {
     operations: EntityId[];
     /** The parent routine's ID. */
     parentRoutineId: EntityId;
+    /** The subroutine's host. */
+    host: Host;
     /** The subroutine's role. */
     role: Role;
 };
