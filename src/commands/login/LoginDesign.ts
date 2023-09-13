@@ -1,11 +1,12 @@
 import { ReactComponent as LoginGlyph } from '@/assets/glyphs/login.svg';
+import { ReactComponent as LoginHubGlyph } from '@/assets/glyphs/login-hub.svg';
+import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
+import { CommandId } from '@/constants';
+
 import LoginCoreGlyph from './glyphs/LoginCoreGlyph';
 import LoginFilesGlyph from './glyphs/LoginFilesGlyph';
 import LoginHRGlyph from './glyphs/LoginHRGlyph';
-import { ReactComponent as LoginHubGlyph } from '@/assets/glyphs/login-hub.svg';
 import LoginSecurityGlyph from './glyphs/LoginSecurityGlyph';
-import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
-import { CommandId } from '@/constants';
 
 class LoginDesign extends CommandDesign {
     public static override readonly id: CommandId = CommandId.Login;
