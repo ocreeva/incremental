@@ -1,6 +1,6 @@
-import CommandModel, { registerModel } from '@/commands/_/CommandModel';
 import { CommandId } from '@/constants';
 import { assert } from '@/core';
+import CommandModel, { registerModel } from '@/game/commands/_/CommandModel';
 import type { EntityId, InstructionState } from '@/types';
 import type { IGameContext, IOperationModel } from '@/types/model';
 import { DeltaValue } from '@/worker/client';

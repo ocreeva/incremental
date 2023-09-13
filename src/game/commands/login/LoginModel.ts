@@ -1,5 +1,5 @@
-import CommandModel, { registerModel } from '@/commands/_/CommandModel';
 import { CommandId, Host } from '@/constants';
+import CommandModel, { registerModel } from '@/game/commands/_/CommandModel';
 import type { EntityId } from '@/types';
 import type { IOperationModel } from '@/types/model';
 

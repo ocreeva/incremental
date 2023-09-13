@@ -2,8 +2,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import { createCachedSelector } from 're-reselect';
 
 import { type RootState } from '@/App/store';
-import designs from '@/commands/designs';
 import { CommandId } from '@/constants';
+import commandDesigns from '@/game/commands/designs';
 import type { CommandState, ICommandDesign } from '@/types';
 
 import { selectById } from './commandsSlice.adapter';
@@ -22,7 +22,7 @@ export const selectDesign: (state: RootState, id: CommandId) => ICommandDesign
 = createCachedSelector(
     [selectCommand, selectId],
     (command, id) => {
-        const constructor = designs[id];
+        const constructor = commandDesigns[id];
         return new constructor(command);
     }
 )(selectId);

@@ -1,7 +1,7 @@
 import { ReactComponent as ForkGlyph } from '@/assets/glyphs/fork.svg';
 import { type RootState } from '@/App/store';
-import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandId, CommandTarget } from '@/constants';
+import CommandDesign, { registerDesign } from '@/game/commands/_/CommandDesign';
 import type { InstructionState } from '@/types';
 
 class ForkDesign extends CommandDesign {

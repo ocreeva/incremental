@@ -1,7 +1,7 @@
 import { ReactComponent as LoginGlyph } from '@/assets/glyphs/login.svg';
 import { ReactComponent as LoginHubGlyph } from '@/assets/glyphs/login-hub.svg';
-import CommandDesign, { registerDesign } from '@/commands/_/CommandDesign';
 import { CommandId } from '@/constants';
+import CommandDesign, { registerDesign } from '@/game/commands/_/CommandDesign';
 
 import LoginCoreGlyph from './glyphs/LoginCoreGlyph';
 import LoginFilesGlyph from './glyphs/LoginFilesGlyph';

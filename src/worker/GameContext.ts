@@ -1,7 +1,7 @@
-import commandModels from '@/commands/models';
 import { type CommandId } from '@/constants';
 import { type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
 import { assert } from '@/core';
+import commandModels from '@/game/commands/models';
 import type { EntityId } from '@/types';
 import type { ICommandModel, IGameContext, IGameSynchronization, IOperationModel, IRoutineModel, ISubroutineModel } from '@/types/model';
 import type { MessageService } from '@/types/worker';
