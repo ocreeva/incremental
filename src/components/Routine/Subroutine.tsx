@@ -1,11 +1,13 @@
+import { VisuallyHidden } from '@reach/visually-hidden';
+
+import { selectHostDesign } from '@/features/hosts';
 import { selectRoleDesign } from '@/features/roles';
 import { selectSubroutine } from '@/features/subroutines';
-import { useGlyph, useParamSelector } from '@/hooks';
-import { type EntityId } from '@/types';
+import { useParamSelector } from '@/hooks';
+import type { EntityId } from '@/types';
 
 import * as S from './Subroutine.styles';
 import Operation from './Operation';
-import { VisuallyHidden } from '@reach/visually-hidden';
 
 declare type SubroutineProps = {
     id: EntityId;
@@ -14,7 +16,7 @@ declare type SubroutineProps = {
 const Subroutine: React.FC<SubroutineProps> = ({ id }) => {
     const { duration, host, operations, role } = useParamSelector(selectSubroutine, id);
 
-    const { GlyphComponent: HostGlyph } = useGlyph(host);
+    const { GlyphComponent: HostGlyph, name: hostName } = useParamSelector(selectHostDesign, host);
     const { GlyphComponent: RoleGlyph, name: roleName } = useParamSelector(selectRoleDesign, role);
 
     if (duration === 0) return null;
@@ -26,7 +28,10 @@ const Subroutine: React.FC<SubroutineProps> = ({ id }) => {
     return (
         <>
             <S.Container style={style}>
-                <S.Host><HostGlyph /></S.Host>
+                <S.Host>
+                    <HostGlyph />
+                    <VisuallyHidden>Host: { hostName }</VisuallyHidden>
+                </S.Host>
                 <S.StartSpacer />
                 { operations.map(operationId => <Operation key={operationId} id={operationId} />) }
                 <S.EndSpacer />

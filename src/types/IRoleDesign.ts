@@ -1,8 +1,5 @@
-declare interface IRoleDesign {
-    /** The role's name. */
-    readonly name: string;
-    /** The role's glyph. */
-    readonly GlyphComponent: React.FC;
-}
+import IGlyphDesign from './IGlyphDesign';
+
+declare type IRoleDesign = IGlyphDesign;
 
 export default IRoleDesign;

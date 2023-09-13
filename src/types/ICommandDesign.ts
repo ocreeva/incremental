@@ -1,17 +1,13 @@
 import type { CommandId, CommandTarget } from '@/constants';
 
 import type CommandState from './CommandState';
+import type IGlyphDesign from './IGlyphDesign';
 import type InstructionState from './InstructionState';
 
 /**
  * Represents the UI design data for a Command.
  */
-declare interface _ICommandDesign {
-    /** The command's name. */
-    readonly name: string;
-    /** The command's glyph. */
-    readonly GlyphComponent: React.FC;
-
+declare interface _ICommandDesign extends IGlyphDesign {
     /** The command's subcommands. */
     readonly subcommands?: CommandId[];
     /** The entity type targeted by this command. */

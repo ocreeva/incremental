@@ -1,3 +1,4 @@
+import { Role } from '@/constants';
 import type { IRoleDesign } from '@/types';
 
 import { ReactComponent as AdminGlyph } from './glyphs/role-admin.svg';
@@ -5,7 +6,6 @@ import { ReactComponent as AnonGlyph } from './glyphs/role-anon.svg';
 import { ReactComponent as GuestGlyph } from './glyphs/role-guest.svg';
 import { ReactComponent as RootGlyph } from './glyphs/role-root.svg';
 import { ReactComponent as UserGlyph } from './glyphs/role-user.svg';
-import { Role } from '@/constants';
 
 const AnonDesign: IRoleDesign = {
     name: "Anonymous",
