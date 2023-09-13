@@ -6,11 +6,8 @@ import type { IOperationModel } from '@/types/model';
 class ElevateModel extends CommandModel {
     public static override readonly id: CommandId = CommandId.Elevate;
 
-    public static override synchronize(time: number) {
-        super.synchronize(time);
-
-        this.isInLexicon = true;
-    }
+    protected static override readonly unlockCommandId?: CommandId = CommandId.Scan_Hub;
+    protected static override readonly unlockLevel: number = 0;
 
     public override finalize(time: number): void {
         super.finalize(time);

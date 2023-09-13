@@ -1,4 +1,4 @@
-import type { CommandTarget, CommandId } from '@/constants';
+import type { CommandId, CommandTarget } from '@/constants';
 
 import type CommandState from './CommandState';
 import type InstructionState from './InstructionState';
@@ -19,6 +19,8 @@ declare interface _ICommandDesign {
 
     /** Whether the command can be an instruction in a script. */
     readonly canBeInstruction: boolean;
+    /** Whether the command is available in the lexicon. */
+    readonly isInLexicon: boolean;
     /** Whether the command should display its level. */
     readonly shouldShowLevel: boolean;
     /** Whether the command should display its progress. */

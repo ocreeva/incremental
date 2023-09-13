@@ -1,4 +1,3 @@
-import commands from '@/commands/models';
 import { ModelStatus, type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
 import type { EntityId } from '@/types';
 import type { MessageService } from '@/types/worker';
@@ -18,7 +17,7 @@ class ModelProcessor {
     }
 
     public async initializeAsync(): Promise<void> {
-        await Promise.all(Object.values(commands).map(command => command.initializeAsync(this.game)));
+        await Promise.all(Object.values(this.game.commands).map(command => command.initializeAsync(this.game)));
         this.synchronizeAllCommands();
 
         if (this.synchronization.hasUpdates()) {
@@ -77,7 +76,7 @@ class ModelProcessor {
     }
 
     private synchronizeAllCommands(): void {
-        Object.values(commands).forEach(command => command.synchronize(this.time.total));
+        Object.values(this.game.commands).forEach(command => command.synchronize(this.time.total));
     }
 }
 

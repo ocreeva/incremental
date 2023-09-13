@@ -54,6 +54,7 @@ const ThemeStyles = css`
     }
 
     button:disabled, input:disabled {
+        --color-add: currentColor;
         --color-minus: currentColor;
         --color-plus: currentColor;
         --color-star: currentColor;

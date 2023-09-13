@@ -1,7 +1,9 @@
+import commandModels from '@/commands/models';
+import { type CommandId } from '@/constants';
 import { type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
 import { assert } from '@/core';
 import type { EntityId } from '@/types';
-import type { IGameContext, IGameSynchronization, IOperationModel, IRoutineModel, ISubroutineModel } from '@/types/model';
+import type { ICommandModel, IGameContext, IGameSynchronization, IOperationModel, IRoutineModel, ISubroutineModel } from '@/types/model';
 import type { MessageService } from '@/types/worker';
 
 import RoutineModel from './RoutineModel';
@@ -13,6 +15,8 @@ class GameContext implements IGameContext {
     }
 
     public readonly messageService: MessageService<ModelMessage, AsyncModelMessage>;
+
+    public readonly commands: Record<CommandId, ICommandModel> = commandModels;
 
     public readonly operations: Map<EntityId, IOperationModel> = new Map<EntityId, IOperationModel>;
 

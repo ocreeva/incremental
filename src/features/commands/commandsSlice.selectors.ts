@@ -30,5 +30,5 @@ export const selectDesign: (state: RootState, id: CommandId) => ICommandDesign
 export const selectNumberOfAvailableCommands: (state: RootState) => number
 = createSelector(
     Object.values(CommandId).map(commandId => (state: RootState) => selectDesign(state, commandId)),
-    (...designs) => designs.reduce((value, design) => value + (design.isInLexicon ? 1 : 0), 0)
+    (...designs) => designs.reduce((value, design) => value + (design.isInLexicon && design.isVisible ? 1 : 0), 0)
 );

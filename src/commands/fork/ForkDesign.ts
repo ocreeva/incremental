@@ -11,6 +11,7 @@ class ForkDesign extends CommandDesign {
 
     public override readonly targetType: CommandTarget = CommandTarget.Script;
     public override readonly canBeInstruction = true;
+    public override readonly isInLexicon: boolean = true;
 
     public override get GlyphComponent() { return ForkGlyph; }
 

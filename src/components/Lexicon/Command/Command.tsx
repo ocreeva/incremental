@@ -14,9 +14,9 @@ interface CommandProps {
 
 const Command: React.FC<CommandProps> = ({ commandId }) => {
     const design = useParamSelector(selectDesign, commandId);
-    const { isInLexicon, subcommands } = design;
+    const { isInLexicon, isVisible, subcommands } = design;
 
-    if (!isInLexicon) return null;
+    if (!isInLexicon || !isVisible) return null;
 
     return (
         <GlyphPanel>

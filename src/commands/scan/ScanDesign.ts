@@ -21,6 +21,7 @@ class ScanDesign extends CommandDesign {
     public readonly name = 'Scan';
 
     public override readonly canBeInstruction = true;
+    public override readonly isInLexicon: boolean = true;
 
     public override get GlyphComponent() { return ScanGlyph; }
 

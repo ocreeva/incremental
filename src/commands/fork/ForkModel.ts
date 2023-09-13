@@ -8,15 +8,12 @@ import { DeltaValue } from '@/worker/client';
 class ForkModel extends CommandModel {
     public static override readonly id: CommandId = CommandId.Fork;
 
+    protected static override readonly unlockCommandId: CommandId = CommandId.Scan_HR;
+    protected static override readonly unlockLevel: number = 2;
+
     private scriptId?: EntityId;
     private subroutineId?: EntityId;
     private startTime = 0;
-
-    public static override synchronize(time: number) {
-        super.synchronize(time);
-
-        this.isInLexicon = true;
-    }
 
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new ForkModel(parentRoutineId, parentSubroutineId);

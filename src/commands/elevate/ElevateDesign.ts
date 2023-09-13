@@ -8,6 +8,7 @@ class ElevateDesign extends CommandDesign {
     public readonly name = 'Elevate';
 
     public override readonly canBeInstruction = true;
+    public override readonly isInLexicon: boolean = true;
 
     public override get GlyphComponent() { return ElevateGlyph; }
 }

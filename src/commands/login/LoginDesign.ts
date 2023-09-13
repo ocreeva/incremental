@@ -21,6 +21,8 @@ class LoginDesign extends CommandDesign {
 
     public readonly name = 'Login';
 
+    public override readonly isInLexicon: boolean = true;
+
     public override get GlyphComponent() { return LoginGlyph; }
 
     public override get subcommands() { return this._subcommands; }

@@ -1,7 +1,9 @@
+import type { CommandId } from '@/constants';
 import type { AsyncModelMessage, ModelMessage } from '@/constants/worker';
 import type { EntityId } from '@/types';
 import type { MessageService } from '@/types/worker';
 
+import type ICommandModel from './ICommandModel';
 import type IGameSynchronization from './IGameSynchronization';
 import type IOperationModel from './IOperationModel';
 import type IRoutineModel from './IRoutineModel';
@@ -13,6 +15,9 @@ import type ISubroutineModel from './ISubroutineModel';
 declare interface IGameContext {
     /** A worker message service. */
     readonly messageService: MessageService<ModelMessage, AsyncModelMessage>;
+
+    /** The command models. */
+    readonly commands: Record<CommandId, ICommandModel>;
 
     /** The operation models. */
     readonly operations: Map<EntityId, IOperationModel>;

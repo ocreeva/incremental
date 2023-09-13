@@ -1,4 +1,3 @@
-import commands from '@/commands/models';
 import { CommandId, Host, Role } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
@@ -219,7 +218,7 @@ class SubroutineModel implements ISubroutineModel {
 
     private async createOperationFromInstructionAsync(instruction: InstructionState): Promise<EntityId> {
         const { commandId } = instruction;
-        const command = commands[commandId];
+        const command = this.game.commands[commandId];
         return await command.createOperationAsync(instruction, this.parentRoutineId, this.id);
     }
 }

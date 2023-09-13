@@ -16,6 +16,7 @@ abstract class CommandDesign implements ICommandDesign {
     public readonly targetType: CommandTarget = CommandTarget.None;
 
     public readonly canBeInstruction: boolean = false;
+    public readonly isInLexicon: boolean = false;
     public readonly shouldShowLevel: boolean = false;
     public get shouldShowProgress(): boolean { return this.shouldShowLevel; }
 
@@ -33,7 +34,8 @@ abstract class CommandDesign implements ICommandDesign {
 
     public get id(): CommandId { return this.state.id; }
 
-    public get isInLexicon(): boolean { return this.state.isInLexicon ?? false; }
+    public get isEnabled(): boolean { return this.state.isEnabled ?? false; }
+    public get isVisible(): boolean { return this.state.isVisible ?? false; }
 
     public get level(): number { return this.state.level ?? 0; }
 

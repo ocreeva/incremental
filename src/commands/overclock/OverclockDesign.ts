@@ -22,6 +22,7 @@ class OverclockDesign extends CommandDesign {
     public readonly name = 'Overclock';
 
     public override readonly canBeInstruction = true;
+    public override readonly isInLexicon: boolean = true;
     public override readonly shouldShowLevel = true;
     public override get shouldShowProgress(): boolean { return false; }
 

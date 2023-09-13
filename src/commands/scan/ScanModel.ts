@@ -4,6 +4,8 @@ import type { EntityId } from '@/types';
 import type { ICommandModel, IDeltaValue, IOperationModel } from '@/types/model';
 
 abstract class ScanNodeModel extends CommandModel {
+    protected static override readonly unlockCommandId: CommandId = CommandId.Scan_Hub;
+
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
         super.update(completion, operationId, time);
 
@@ -22,22 +24,35 @@ abstract class ScanNodeModel extends CommandModel {
 
 class ScanHubModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Hub;
+
+    // unlock ourself, with no level or progress requirements
+    protected static override readonly unlockLevel: number = 0;
+    protected static override readonly unlockVisibleSublevel: number = 0;
+    protected static override readonly unlockEnabledSublevel: number = 0;
 }
 
 class ScanFilesModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Files;
+
+    protected static override readonly unlockLevel: number = 1;
 }
 
 class ScanHRModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_HR;
+
+    protected static override readonly unlockLevel: number = 2;
 }
 
 class ScanSecurityModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Security;
+
+    protected static override readonly unlockLevel: number = 3;
 }
 
 class ScanCoreModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Core;
+
+    protected static override readonly unlockLevel: number = 4;
 }
 
 const modelLookup: Record<Host, ICommandModel> = {
@@ -51,14 +66,14 @@ const modelLookup: Record<Host, ICommandModel> = {
 class ScanModel extends CommandModel {
     public static override readonly id: CommandId = CommandId.Scan;
 
+    // unlock ourself, with no level or progress requirements
+    protected static override readonly unlockCommandId: CommandId = CommandId.Scan;
+    protected static override readonly unlockLevel: number = 0;
+    protected static override readonly unlockVisibleSublevel: number = 0;
+    protected static override readonly unlockEnabledSublevel: number = 0;
+
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new ScanModel(parentRoutineId, parentSubroutineId);
-    }
-
-    public static override synchronize(time: number) {
-        super.synchronize(time);
-
-        this.isInLexicon = true;
     }
 
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {

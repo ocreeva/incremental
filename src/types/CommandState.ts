@@ -7,8 +7,10 @@ declare type InstructionState = {
     /** The command's ID. */
     readonly id: CommandId;
 
-    /** Whether the command is available in the lexicon. */
-    isInLexicon?: boolean;
+    /** Whether the command is enabled in the lexicon. */
+    isEnabled?: boolean;
+    /** Whether the command is visible in the lexicon. */
+    isVisible?: boolean;
 
     /** The command's level. */
     level?: number;

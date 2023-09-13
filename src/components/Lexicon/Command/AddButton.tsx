@@ -14,7 +14,7 @@ const AddButton: React.FC
 = () => {
     const { commandId } = useCommandContext('AddButton');
     const design = useParamSelector(selectDesign, commandId);
-    const { name } = design;
+    const { isEnabled, name } = design;
 
     const dispatch = useAppDispatch();
     const handleAddInstruction: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -25,7 +25,7 @@ const AddButton: React.FC
 
     return (
         <Container>
-            <GlowButton shape={GlowButtonShape.Circle} onClick={handleAddInstruction}>
+            <GlowButton disabled={!isEnabled} shape={GlowButtonShape.Circle} onClick={handleAddInstruction}>
                 <AddIcon />
                 <VisuallyHidden>Add {name} Instruction to Script</VisuallyHidden>
             </GlowButton>

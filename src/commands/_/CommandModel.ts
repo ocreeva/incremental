@@ -1,3 +1,4 @@
+import { type CommandId } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import type { CommandState, EntityId, InstructionState } from '@/types';
@@ -11,12 +12,26 @@ import OperationModel from './OperationModel';
 abstract class CommandModel extends OperationModel {
     private static state: CommandState;
 
-    public static get isInLexicon(): boolean { return this.state.isInLexicon ?? false; }
-    protected static set isInLexicon(isInLexicon: boolean) {
-        if (this.state.isInLexicon === isInLexicon) return;
+    // define standard pattern for unlocking a command (isEnabled)
+    protected static readonly unlockCommandId?: CommandId;
+    protected static readonly unlockLevel: number = 0;
+    protected static readonly unlockVisibleSublevel: number = 1;
+    protected static readonly unlockEnabledSublevel: number = 2;
 
-        this.state.isInLexicon = isInLexicon;
-        this.game.synchronization.upsertCommand({ id: this.id, isInLexicon });
+    public static get isEnabled(): boolean { return this.state.isEnabled ?? false; }
+    protected static set isEnabled(isEnabled: boolean) {
+        if (this.state.isEnabled === isEnabled) return;
+
+        this.state.isEnabled = isEnabled;
+        this.game.synchronization.upsertCommand({ id: this.id, isEnabled });
+    }
+
+    public static get isVisible(): boolean { return this.state.isVisible ?? false; }
+    protected static set isVisible(isVisible: boolean) {
+        if (this.state.isVisible === isVisible) return;
+
+        this.state.isVisible = isVisible;
+        this.game.synchronization.upsertCommand({ id: this.id, isVisible });
     }
 
     public static get level(): number { return this.state.level ?? 0; }
@@ -54,6 +69,29 @@ abstract class CommandModel extends OperationModel {
 
     public static synchronize(_time: number): void {
         this.assertStatus(ModelStatus.active);
+
+        this.synchronize_unlock();
+    }
+
+    private static synchronize_unlock(): void {
+        if (this.isEnabled) return;
+        if (!this.unlockCommandId) return;
+
+        const { level, sublevel } = this.game.commands[this.unlockCommandId];
+        if (level < this.unlockLevel) return;
+        if (level > this.unlockLevel) {
+            this.isVisible = true;
+            this.isEnabled = true;
+            return;
+        }
+
+        if (sublevel >= this.unlockVisibleSublevel) {
+            this.isVisible = true;
+        }
+
+        if (sublevel >= this.unlockEnabledSublevel) {
+            this.isEnabled = true;
+        }
     }
 
     public static finalize(_operationId: EntityId, _time: number): void {
