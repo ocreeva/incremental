@@ -1,10 +1,12 @@
 <svg viewBox="-2 -2 28 28" class="glyph" xmlns="http://www.w3.org/2000/svg">
     <g fill="currentColor">
-        <path transform="rotate(200 12 14)" d="
+        <path transform="rotate(220 12 14)" d="
             M 10.5 13
             l -6.5 0.4
             c -0.6 0.1 -0.6 1.1 0 1.2
-            l 6.5 0.4" />
+            l 6.5 0.4">
+            <animateTransform attributeName="transform" type="rotate" from="200 12 14" to="220 12 14" dur="1s" />
+        </path>
         <path d="
             M 12 12
             a 2 2 0 0 0 0 4
