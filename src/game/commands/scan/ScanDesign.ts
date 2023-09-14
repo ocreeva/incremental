@@ -1,11 +1,12 @@
-import { ReactComponent as ScanGlyph } from '@/assets/glyphs/scan.svg';
-import { ReactComponent as ScanFilesGlyph } from '@/assets/glyphs/scan-files.svg';
-import { ReactComponent as ScanHRGlyph } from '@/assets/glyphs/scan-hr.svg';
-import { ReactComponent as ScanSecurityGlyph } from '@/assets/glyphs/scan-security.svg';
-import { ReactComponent as ScanCoreGlyph } from '@/assets/glyphs/scan-core.svg';
-import { ReactComponent as ScanHubGlyph } from '@/assets/glyphs/scan-hub.svg';
 import { CommandId } from '@/constants';
 import CommandDesign, { registerDesign } from '@/game/commands/_/CommandDesign';
+
+import { ReactComponent as ScanGlyph } from './glyphs/scan.svg';
+import { ReactComponent as ScanFilesGlyph } from './glyphs/scan-files.svg';
+import { ReactComponent as ScanHRGlyph } from './glyphs/scan-hr.svg';
+import { ReactComponent as ScanSecurityGlyph } from './glyphs/scan-security.svg';
+import { ReactComponent as ScanCoreGlyph } from './glyphs/scan-core.svg';
+import { ReactComponent as ScanHubGlyph } from './glyphs/scan-hub.svg';
 
 class ScanDesign extends CommandDesign {
     public static override readonly id: CommandId = CommandId.Scan;

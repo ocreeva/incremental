@@ -1,11 +1,12 @@
-import { ReactComponent as Overclock0Glyph } from '@/assets/glyphs/overclock-0.svg';
-import { ReactComponent as Overclock1Glyph } from '@/assets/glyphs/overclock-1.svg';
-import { ReactComponent as Overclock2Glyph } from '@/assets/glyphs/overclock-2.svg';
-import { ReactComponent as Overclock3Glyph } from '@/assets/glyphs/overclock-3.svg';
-import { ReactComponent as Overclock4Glyph } from '@/assets/glyphs/overclock-4.svg';
-import { ReactComponent as Overclock5Glyph } from '@/assets/glyphs/overclock-5.svg';
 import { CommandId } from '@/constants';
 import CommandDesign, { registerDesign } from '@/game/commands/_/CommandDesign';
+
+import { ReactComponent as Overclock0Glyph } from './glyphs/overclock-0.svg';
+import { ReactComponent as Overclock1Glyph } from './glyphs/overclock-1.svg';
+import { ReactComponent as Overclock2Glyph } from './glyphs/overclock-2.svg';
+import { ReactComponent as Overclock3Glyph } from './glyphs/overclock-3.svg';
+import { ReactComponent as Overclock4Glyph } from './glyphs/overclock-4.svg';
+import { ReactComponent as Overclock5Glyph } from './glyphs/overclock-5.svg';
 
 const GlyphByLevel: Record<number, React.FC> = {
     0: Overclock0Glyph,

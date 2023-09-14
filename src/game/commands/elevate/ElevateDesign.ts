@@ -1,6 +1,7 @@
-import { ReactComponent as ElevateGlyph } from '@/assets/glyphs/elevate.svg';
 import { CommandId } from '@/constants';
 import CommandDesign, { registerDesign } from '@/game/commands/_/CommandDesign';
+
+import { ReactComponent as ElevateGlyph } from './glyphs/elevate.svg';
 
 class ElevateDesign extends CommandDesign {
     public static override readonly id: CommandId = CommandId.Elevate;

@@ -1,8 +1,9 @@
-import { ReactComponent as ForkGlyph } from '@/assets/glyphs/fork.svg';
 import { type RootState } from '@/App/store';
 import { CommandId, CommandTarget } from '@/constants';
 import CommandDesign, { registerDesign } from '@/game/commands/_/CommandDesign';
 import type { InstructionState } from '@/types';
+
+import { ReactComponent as ForkGlyph } from './glyphs/fork.svg';
 
 class ForkDesign extends CommandDesign {
     public static override readonly id: CommandId = CommandId.Fork;
