@@ -10,6 +10,13 @@ enum CommandId {
 
     Fork = 'fork',
 
+    Index = 'index',
+    Index_Hub = 'index-hub',
+    Index_Files = 'index-files',
+    Index_HR = 'index-hr',
+    Index_Security = 'index-security',
+    Index_Core = 'index-core',
+
     Login = 'login',
     Login_Files = 'login-files',
     Login_HR = 'login-hr',

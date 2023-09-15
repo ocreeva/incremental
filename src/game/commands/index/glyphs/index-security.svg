@@ -1,0 +1,30 @@
+<svg class="glyph" fill="currentColor" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="glyph_index-security_clip">
+            <path d="M -14 -14 h 28 v 28 h -28 z M -7.24 0.48 a 1 1 0 0 0 13.52 0 a 1 1 0 0 0 -13.52 0 m 3.44 0 a 1 1 0 0 1 6.64 0 a 1 1 0 0 1 -6.64 0" />
+        </clipPath>
+    </defs>
+
+    <!-- Index components -->
+    <g transform="scale(0.72)" transform-origin="-12 12">
+        <g transform="rotate(45 4 -4)">
+            <path d="M -4 -4 a 1 1 0 0 1 16 0 a 1 1 0 0 1 -16 0 m 2 0 a 1 1 0 0 0 12 0 a 1 1 0 0 0 -12 0" />
+            <path d="M 2.5 7 c 0 -1.5 3 -1.5 3 0 v 9.4 a 1 1 0 0 1 -3 0" />
+            <path fill-opacity="0.5" d="M 3 3 v 4 h 2 v -4" />
+            <path fill-opacity="0.25" d="M -2 -4 a 1 1 0 0 1 12 0 a 1 1 0 0 1 -12 0" />
+        </g>
+    </g>
+
+    <!-- Security components (shield) -->
+    <g clip-path="url(#glyph_index-security_clip)">
+        <g transform="scale(0.72) translate(2)" transform-origin="12 -12">
+            <path d="
+                M 0 -12 l 9.24 3.83 v 10.21 a 8 8 0 0 1 -4 6.93 l -5.24 3.03 l -5.24 -3.03 a 8 8 0 0 1 -4 -6.93 v -10.21 z
+                m 0 2.31 l -7.24 2.86 v 8.87 a 6 6 0 0 0 3 5.2 l 4.24 2.45 l 4.24 -2.45 a 6 6 0 0 0 3 -5.2 v -8.87" />
+            <g fill-opacity="0.25">
+                <path d="M 0 0 v -9.69 l 7.24 2.86 v 6.83" />
+                <path d="M 0 0 v 9.69 l -4.24 -2.45 a 6 6 0 0 1 -3 -5.2 v -2.04" />
+            </g>
+        </g>
+    </g>
+</svg>

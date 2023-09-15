@@ -15,7 +15,7 @@
         M -4 -7 a 5 5 0 0 1 5 -5 h 6 a 5 5 0 0 1 5 5 v 14 a 5 5 0 0 1 -5 5 h -6 a 5 5 0 0 1 -5 -5 a 1 1 0 0 1 2 0
         a 3 3 0 0 0 3 3 h 6 a 3 3 0 0 0 3 -3 v -14 a 3 3 0 0 0 -3 -3 h -6 a 3 3 0 0 0 -3 3 a 1 1 0 0 1 -2 0" />
 
-    <!-- Root components (microchip) -->
+    <!-- Core components (microchip) -->
     <g clip-path="url(#glyph_login-root_frame-clip)">
         <g transform="translate(-1) scale(0.72) translate(12)">
             <path d="

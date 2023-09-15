@@ -7,7 +7,7 @@
         <use href="#glyph_scan-root_frame-corner" transform="rotate(270)" />
     </g>
 
-    <!-- Root components (microchip) -->
+    <!-- Core components (microchip) -->
     <g transform="scale(0.72)">
         <path d="
             M -9 -7 a 2 2 0 0 1 2 -2 h 14 a 2 2 0 0 1 2 2 v 14 a 2 2 0 0 1 -2 2 h -14 a 2 2 0 0 1 -2 -2 z

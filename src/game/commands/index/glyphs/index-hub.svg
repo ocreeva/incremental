@@ -1,0 +1,33 @@
+<svg class="glyph" fill="currentColor" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="glyph_index-hub_clip">
+            <path d="M -14 -14 h 28 v 28 h -28 z M -7.24 0.48 a 1 1 0 0 0 13.52 0 a 1 1 0 0 0 -13.52 0 m 3.44 0 a 1 1 0 0 1 6.64 0 a 1 1 0 0 1 -6.64 0" />
+        </clipPath>
+    </defs>
+
+    <!-- Index components -->
+    <g transform="scale(0.72)" transform-origin="-12 12">
+        <g transform="rotate(45 4 -4)">
+            <path d="M -4 -4 a 1 1 0 0 1 16 0 a 1 1 0 0 1 -16 0 m 2 0 a 1 1 0 0 0 12 0 a 1 1 0 0 0 -12 0" />
+            <path d="M 2.5 7 c 0 -1.5 3 -1.5 3 0 v 9.4 a 1 1 0 0 1 -3 0" />
+            <path fill-opacity="0.5" d="M 3 3 v 4 h 2 v -4" />
+            <path fill-opacity="0.25" d="M -2 -4 a 1 1 0 0 1 12 0 a 1 1 0 0 1 -12 0" />
+        </g>
+    </g>
+
+    <!-- Hub components -->
+    <g clip-path="url(#glyph_index-hub_clip)">
+        <g transform="scale(0.72)" transform-origin="12 -12">
+        <path d="M 0 5 a 5 5 0 0 1 0 -10 a 5 5 0 0 1 0 10 m 0 -2 a 3 3 0 0 0 0 -6 a 3 3 0 0 0 0 6" />
+        <path fill-opacity="0.25" d="M 0 3 a 3 3 0 0 1 0 -6 a 3 3 0 0 1 0 6" />
+        <g id="glyph_scan-hub_node" fill-opacity="0.5" transform="rotate(-30)">
+            <path d="M 6 1 a 1 1 0 0 1 0 -2 a 1 1 0 0 1 0 2" />
+            <path d="M 10 3 a 3 3 0 0 1 0 -6 a 3 3 0 0 1 0 6 m 0 -1.5 a 1.5 1.5 0 0 0 0 -3 a 1.5 1.5 0 0 0 0 3" />
+            <path fill-opacity="0.25" d="M 10 1.5 a 1.5 1.5 0 0 1 0 -3 a 1.5 1.5 0 0 1 0 3" />
+        </g>
+        <use href="#glyph_scan-hub_node" transform="rotate(90)" />
+        <use href="#glyph_scan-hub_node" transform="rotate(180)" />
+        <use href="#glyph_scan-hub_node" transform="rotate(270)" />
+        </g>
+    </g>
+</svg>
