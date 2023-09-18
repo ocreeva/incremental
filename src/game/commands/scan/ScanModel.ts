@@ -1,4 +1,4 @@
-import { CommandId, Host } from '@/constants';
+import { CommandId, Host, MaxLevelByRole } from '@/constants';
 import CommandModel, { registerModel } from '@/game/commands/_/CommandModel';
 import type { EntityId } from '@/types';
 import type { ICommandModel, IDeltaValue, IOperationModel } from '@/types/model';
@@ -9,7 +9,11 @@ abstract class ScanNodeModel extends CommandModel {
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
         super.update(completion, operationId, time);
 
-        while (completion.hasUnallocated && this.level < 1) {
+        const { parentSubroutineId } = this.game.getOperation(operationId);
+        const { role } = this.game.getSubroutine(parentSubroutineId);
+        const maxLevel = MaxLevelByRole[role];
+
+        while (completion.hasUnallocated && this.level < maxLevel) {
             const remaining = (this.sublevel + 1) * 0.2 - this.progress;
             const multiplier = 5 * (this.level + 1) * (this.sublevel + 1);
             this.progress += completion.allocate(remaining * multiplier) / multiplier;
