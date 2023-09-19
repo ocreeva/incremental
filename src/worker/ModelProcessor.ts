@@ -10,10 +10,11 @@ import TimeContext from './TimeContext';
 class ModelProcessor {
     private readonly game: GameContext;
     private readonly synchronization: GameSynchronization = new GameSynchronization();
-    private readonly time: TimeContext = new TimeContext();
+    private readonly time: TimeContext;
 
     constructor(messageService: MessageService<ModelMessage, AsyncModelMessage>) {
         this.game = new GameContext(messageService, this.synchronization);
+        this.time = new TimeContext(this.game);
     }
 
     public async initializeAsync(): Promise<void> {
