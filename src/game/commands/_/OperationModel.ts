@@ -1,4 +1,4 @@
-import { epsilon, type CommandId } from '@/constants';
+import { epsilon, type CommandId, Role, Host } from '@/constants';
 import { assert } from '@/core';
 import type { EntityId, InstructionState, OperationState } from '@/types';
 import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
@@ -17,7 +17,9 @@ abstract class OperationModel implements IOperationModel {
             parentSubroutineId,
             delay: 0,
             duration: 42,
+            host: Host.Hub,
             progress: 0,
+            role: Role.Anon,
         };
 
         // add epsilon to overshoot any floating point math loss
@@ -41,6 +43,14 @@ abstract class OperationModel implements IOperationModel {
 
     public get duration() { return this.state.duration; }
 
+    public get host() { return this.state.host; }
+    public set host(host: Host) {
+        if (this.state.host === host) return;
+
+        this.state.host = host;
+        this.game.synchronization.updateOperation(this.id, { host });
+    }
+
     public get progress() { return this.state.progress; }
     private set progress(value: number) {
         const progress = Math.min(Math.max(value, 0), 1);
@@ -48,6 +58,14 @@ abstract class OperationModel implements IOperationModel {
 
         this.state.progress = progress;
         this.game.synchronization.updateOperation(this.id, { progress });
+    }
+
+    public get role() { return this.state.role; }
+    public set role(role: Role) {
+        if (this.state.role === role) return;
+
+        this.state.role = role;
+        this.game.synchronization.updateOperation(this.id, { role });
     }
 
     private _status: ModelStatus = ModelStatus.idle;
@@ -78,6 +96,10 @@ abstract class OperationModel implements IOperationModel {
 
     public start(time: number): void {
         this.assertStatus(ModelStatus.pending);
+
+        const { host, role } = this.game.getSubroutine(this.parentSubroutineId);
+        this.host = host;
+        this.role = role;
 
         this.derived.start(this.id, time);
 

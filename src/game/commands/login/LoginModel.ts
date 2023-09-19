@@ -13,13 +13,13 @@ class LoginModel extends CommandModel {
 abstract class LoginNodeModel extends CommandModel {
     protected static override readonly unlockCommandId: CommandId = CommandId.Scan_Hub;
 
-    public abstract host: Host;
+    public abstract readonly destination: Host;
 
     public override finalize(time: number): void {
         super.finalize(time);
 
         const subroutine = this.game.getSubroutine(this.parentSubroutineId);
-        subroutine.host = this.host;
+        subroutine.host = this.destination;
     }
 }
 
@@ -28,7 +28,7 @@ class LoginFilesModel extends LoginNodeModel {
 
     protected static override readonly unlockLevel: number = 1;
 
-    public override host: Host = Host.Files;
+    public override readonly destination: Host = Host.Files;
 
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new LoginFilesModel(parentRoutineId, parentSubroutineId);
@@ -40,7 +40,7 @@ class LoginHRModel extends LoginNodeModel {
 
     protected static override readonly unlockLevel: number = 2;
 
-    public override host: Host = Host.HR;
+    public override readonly destination: Host = Host.HR;
 
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new LoginHRModel(parentRoutineId, parentSubroutineId);
@@ -52,7 +52,7 @@ class LoginSecurityModel extends LoginNodeModel {
 
     protected static override readonly unlockLevel: number = 3;
 
-    public override host: Host = Host.Security;
+    public override readonly destination: Host = Host.Security;
 
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new LoginSecurityModel(parentRoutineId, parentSubroutineId);
@@ -64,7 +64,7 @@ class LoginCoreModel extends LoginNodeModel {
 
     protected static override readonly unlockLevel: number = 4;
 
-    public override host: Host = Host.Core;
+    public override readonly destination: Host = Host.Core;
 
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new LoginCoreModel(parentRoutineId, parentSubroutineId);
@@ -76,7 +76,7 @@ class LoginHubModel extends LoginNodeModel {
 
     protected static override readonly unlockLevel: number = 1;
 
-    public override host: Host = Host.Hub;
+    public override readonly destination: Host = Host.Hub;
 
     protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
         return new LoginHubModel(parentRoutineId, parentSubroutineId);

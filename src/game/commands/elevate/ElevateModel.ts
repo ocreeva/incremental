@@ -13,7 +13,7 @@ class ElevateModel extends CommandModel {
         super.finalize(time);
 
         const subroutine = this.game.getSubroutine(this.parentSubroutineId);
-        switch (subroutine.role) {
+        switch (this.role) {
             case Role.Anon:
                 subroutine.role = Role.Guest;
                 break;

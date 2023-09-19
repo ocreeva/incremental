@@ -9,8 +9,7 @@ abstract class ScanNodeModel extends CommandModel {
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
         super.update(completion, operationId, time);
 
-        const { parentSubroutineId } = this.game.getOperation(operationId);
-        const { role } = this.game.getSubroutine(parentSubroutineId);
+        const { role } = this.game.getOperation(operationId);
         const maxLevel = MaxLevelByRole[role];
 
         while (completion.hasUnallocated && this.level < maxLevel) {
@@ -83,8 +82,7 @@ class ScanModel extends CommandModel {
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {
         super.update(completion, operationId, time);
 
-        const { parentSubroutineId } = this.game.getOperation(operationId);
-        const { host } = this.game.getSubroutine(parentSubroutineId);
+        const { host } = this.game.getOperation(operationId);
         const model = modelLookup[host];
         model.update(completion, operationId, time);
     }

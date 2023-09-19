@@ -45,10 +45,9 @@ class ForkModel extends CommandModel {
 
         const childSubroutine = this.game.getSubroutine(this.subroutineId);
 
-        // children inherit the parent's host and role
-        const parentSubroutine = this.game.getSubroutine(this.parentSubroutineId);
-        childSubroutine.host = parentSubroutine.host;
-        childSubroutine.role = parentSubroutine.role;
+        // children inherit the source's host and role
+        childSubroutine.host = this.host;
+        childSubroutine.role = this.role;
 
         childSubroutine.start(this.startTime);
         this.game.routine.duration = Math.max(this.game.routine.duration, childSubroutine.duration);

@@ -76,8 +76,7 @@ class IndexModel extends CommandModel {
     public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {
         super.update(completion, operationId, time);
 
-        const { parentSubroutineId } = this.game.getOperation(operationId);
-        const { host } = this.game.getSubroutine(parentSubroutineId);
+        const { host } = this.game.getOperation(operationId);
         const model = modelLookup[host];
         model.update(completion, operationId, time);
     }
