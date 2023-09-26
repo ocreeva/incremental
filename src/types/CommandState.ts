@@ -3,7 +3,7 @@ import type { CommandId } from '@/constants';
 /**
  * Provides the UI state for a Command.
  */
-declare type InstructionState = {
+declare type CommandState = {
     /** The command's ID. */
     readonly id: CommandId;
 
@@ -18,4 +18,4 @@ declare type InstructionState = {
     progress?: number;
 };
 
-export default InstructionState;
+export default CommandState;
