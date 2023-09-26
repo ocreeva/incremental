@@ -4,6 +4,7 @@ import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
 
 import * as S from './Operation.styles';
+import { useOperationDialogContext } from './OperationDialogContext';
 
 declare type OperationProps = {
     id: EntityId;
@@ -12,6 +13,10 @@ declare type OperationProps = {
 const Operation: React.FC<OperationProps> = ({ id }) => {
     const { commandId, delay, duration, progress } = useParamSelector(selectOperation, id);
     const { GlyphComponent } = useParamSelector(selectDesign, commandId);
+    const { setOperationId } = useOperationDialogContext('Operation');
+
+    const handleClick: React.MouseEventHandler<HTMLButtonElement>
+    = () => setOperationId(id);
 
     const style = {
         '--operation_delay': `${delay}`,
@@ -20,10 +25,10 @@ const Operation: React.FC<OperationProps> = ({ id }) => {
     } as React.CSSProperties;
 
     return (
-        <S.ProgressBorder style={style}>
+        <S.ProgressBorder style={style} onClick={handleClick}>
             <S.Container>
                 <S.GlyphContainer>
-                    <GlyphComponent className='glyph' />
+                    <GlyphComponent />
                 </S.GlyphContainer>
             </S.Container>
         </S.ProgressBorder>

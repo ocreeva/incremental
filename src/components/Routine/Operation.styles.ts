@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 
-export const ProgressBorder = styled.div`
+export const ProgressBorder = styled.button`
     /* --operation_delay: 0; */
     /* --operation_duration: 42; */
     /* --operation_progress: 50%; */
