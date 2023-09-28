@@ -3,15 +3,15 @@ import type { IDeltaValue, IGameContext } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
 
 class TimeContext {
-    private static readonly bootTime = 1_000;
-    private static readonly microfortnight = 60 * 60 * 24 * 7 * 2 / 1_000;
+    private static readonly bootTimeInMS = 1_000;
+    private static readonly gameTimeInMS = 60 * 60 * 24 * 7 * 2 / 1_000;
     private static readonly maxTimeByOverclockLevel: Record<number, number> = {
-        [0]: TimeContext.bootTime +  2 * TimeContext.microfortnight,
-        [1]: TimeContext.bootTime +  5 * TimeContext.microfortnight,
-        [2]: TimeContext.bootTime +  9 * TimeContext.microfortnight,
-        [3]: TimeContext.bootTime + 14 * TimeContext.microfortnight,
-        [4]: TimeContext.bootTime + 20 * TimeContext.microfortnight,
-        [5]: TimeContext.bootTime + 27 * TimeContext.microfortnight,
+        [0]: Math.floor(TimeContext.bootTimeInMS +  2 * TimeContext.gameTimeInMS),
+        [1]: Math.floor(TimeContext.bootTimeInMS +  5 * TimeContext.gameTimeInMS),
+        [2]: Math.floor(TimeContext.bootTimeInMS +  9 * TimeContext.gameTimeInMS),
+        [3]: Math.floor(TimeContext.bootTimeInMS + 14 * TimeContext.gameTimeInMS),
+        [4]: Math.floor(TimeContext.bootTimeInMS + 20 * TimeContext.gameTimeInMS),
+        [5]: Math.floor(TimeContext.bootTimeInMS + 27 * TimeContext.gameTimeInMS),
     };
 
     private readonly game: IGameContext;
