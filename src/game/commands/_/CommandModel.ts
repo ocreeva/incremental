@@ -1,8 +1,9 @@
 import { type CommandId } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
-import { assert } from '@/core';
+import { assert, EventEmitter } from '@/core';
 import { getDefaultCommandView } from '@/game/commands/view';
 import type { CommandData, CommandView, EntityId, InstructionState } from '@/types';
+import type { EventKey, EventReceiver, IEventEmitter } from '@/types/event';
 import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
 import { getCommandDataAsync } from '@/worker/client';
 
@@ -11,6 +12,7 @@ import OperationModel from './OperationModel';
 
 //@staticImplements<ICommandModel>()
 abstract class CommandModel extends OperationModel {
+    private static readonly events: IEventEmitter<CommandView> = new EventEmitter<CommandView>();
     private static data: CommandData;
     private static view: CommandView;
 
@@ -26,6 +28,7 @@ abstract class CommandModel extends OperationModel {
 
         this.view.isEnabled = isEnabled;
         this.game.synchronization.updateCommandView(this.id, { isEnabled });
+        this.events.emit('isEnabled', isEnabled);
     }
 
     public static get isVisible(): boolean { return this.view.isVisible ?? false; }
@@ -34,6 +37,7 @@ abstract class CommandModel extends OperationModel {
 
         this.view.isVisible = isVisible;
         this.game.synchronization.updateCommandView(this.id, { isVisible });
+        this.events.emit('isVisible', isVisible);
     }
 
     public static get level(): number { return this.view.level ?? 0; }
@@ -42,6 +46,7 @@ abstract class CommandModel extends OperationModel {
 
         this.view.level = level;
         this.game.synchronization.updateCommandView(this.id, { level });
+        this.events.emit('level', level);
     }
 
     public static get sublevel(): number { return Math.floor(this.progress / 0.2); }
@@ -52,6 +57,7 @@ abstract class CommandModel extends OperationModel {
 
         this.view.progress = progress;
         this.game.synchronization.updateCommandView(this.id, { progress });
+        this.events.emit('progress', progress);
     }
 
     private static _status: ModelStatus = ModelStatus.idle;
@@ -64,6 +70,14 @@ abstract class CommandModel extends OperationModel {
         return this._game;
     }
     private static set game(game: IGameContext) { this._game = game; }
+
+    public static on<K extends EventKey<CommandView>>(name: K, receiver: EventReceiver<CommandView[K]>) {
+        this.events.on(name, receiver);
+    }
+
+    public static off<K extends EventKey<CommandView>>(name: K, receiver: EventReceiver<CommandView[K]>) {
+        this.events.off(name, receiver);
+    }
 
     public static start(_operationId: EntityId, _time: number): void {
         this.assertStatus(ModelStatus.active);

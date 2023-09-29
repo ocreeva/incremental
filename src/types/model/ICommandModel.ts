@@ -1,10 +1,11 @@
 import type { ModelStatus } from '@/constants/worker';
 import type { CommandView, EntityId, InstructionState } from '@/types';
+import type { IEventable } from '@/types/event';
 
 import type IDeltaValue from './IDeltaValue';
 import type IGameContext from './IGameContext';
 
-declare interface _ICommandModel {
+declare interface _ICommandModel extends IEventable<CommandView> {
     /** The model's status. */
     readonly status: ModelStatus;
 
