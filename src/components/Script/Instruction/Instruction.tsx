@@ -1,6 +1,6 @@
 import GlyphPanel, { GlyphPanelContent } from '@/components/GlyphPanel';
 import { CommandTarget } from '@/constants';
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 import { selectInstruction } from '@/features/instructions';
 import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';

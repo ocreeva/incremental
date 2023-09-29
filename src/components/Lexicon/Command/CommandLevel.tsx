@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { VisuallyHidden } from '@reach/visually-hidden';
 
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 import { useParamSelector } from '@/hooks';
 
 import { useCommandContext } from './CommandContext';

@@ -8,7 +8,7 @@ import { removeInstructionFromCurrentScript } from '@/features/scripts';
 import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useInstructionContext } from './InstructionContext';
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 
 const RemoveButton: React.FC
 = () => {

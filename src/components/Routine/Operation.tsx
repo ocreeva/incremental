@@ -1,4 +1,4 @@
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 import { selectOperation } from '@/features/operations';
 import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';

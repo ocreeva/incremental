@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import Dialog, { DialogButtons, DialogTitle } from '@/components/Dialog';
 import { assert } from '@/core';
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 import { selectHostDesign } from '@/features/hosts';
 import { selectOperation } from '@/features/operations';
 import { selectRoleDesign } from '@/features/roles';

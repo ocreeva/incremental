@@ -3,7 +3,7 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as AddIcon } from '@/assets/add.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 import { addInstruction } from '@/features/instructions';
 import { addInstructionToCurrentScript } from '@/features/scripts';
 import { useAppDispatch, useParamSelector } from '@/hooks';

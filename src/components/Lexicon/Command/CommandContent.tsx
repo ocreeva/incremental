@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { GlyphPanelContent } from '@/components/GlyphPanel';
 import { type CommandId } from '@/constants';
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 import { useParamSelector } from '@/hooks';
 
 import AddButton from './AddButton';

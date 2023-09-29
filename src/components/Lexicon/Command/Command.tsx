@@ -3,7 +3,7 @@ import { AccordionItem, AccordionPanel } from '@reach/accordion';
 
 import GlyphPanel from '@/components/GlyphPanel';
 import { type CommandId } from '@/constants';
-import { selectCommandDesign } from '@/features/commandView';
+import { selectCommandDesign } from '@/features/commandDesign';
 import { useParamSelector } from '@/hooks';
 
 import CommandContent from './CommandContent';
