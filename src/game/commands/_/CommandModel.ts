@@ -2,16 +2,15 @@ import { type CommandId } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import { getDefaultCommandView } from '@/game/commands/view';
-import type { CommandData, CommandState, CommandView, EntityId, InstructionState } from '@/types';
+import type { CommandData, CommandView, EntityId, InstructionState } from '@/types';
 import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
-import { getCommandAsync, getCommandDataAsync } from '@/worker/client';
+import { getCommandDataAsync } from '@/worker/client';
 
 import createCommandRecord from './createCommandRecord';
 import OperationModel from './OperationModel';
 
 //@staticImplements<ICommandModel>()
 abstract class CommandModel extends OperationModel {
-    private static state: CommandState;
     private static data: CommandData;
     private static view: CommandView;
 
@@ -21,34 +20,25 @@ abstract class CommandModel extends OperationModel {
     protected static readonly unlockVisibleSublevel: number = 1;
     protected static readonly unlockEnabledSublevel: number = 2;
 
-    public static get isEnabled(): boolean { return this.state.isEnabled ?? false; }
+    public static get isEnabled(): boolean { return this.view.isEnabled ?? false; }
     protected static set isEnabled(isEnabled: boolean) {
-        if (this.state.isEnabled === isEnabled) return;
-
-        this.state.isEnabled = isEnabled;
-        this.game.synchronization.upsertCommand({ id: this.id, isEnabled });
+        if (this.view.isEnabled === isEnabled) return;
 
         this.view.isEnabled = isEnabled;
         this.game.synchronization.updateCommandView(this.id, { isEnabled });
     }
 
-    public static get isVisible(): boolean { return this.state.isVisible ?? false; }
+    public static get isVisible(): boolean { return this.view.isVisible ?? false; }
     protected static set isVisible(isVisible: boolean) {
-        if (this.state.isVisible === isVisible) return;
-
-        this.state.isVisible = isVisible;
-        this.game.synchronization.upsertCommand({ id: this.id, isVisible });
+        if (this.view.isVisible === isVisible) return;
 
         this.view.isVisible = isVisible;
         this.game.synchronization.updateCommandView(this.id, { isVisible });
     }
 
-    public static get level(): number { return this.state.level ?? 0; }
+    public static get level(): number { return this.view.level ?? 0; }
     protected static set level(level: number) {
-        if (this.state.level === level) return;
-
-        this.state.level = level;
-        this.game.synchronization.upsertCommand({ id: this.id, level });
+        if (this.view.level === level) return;
 
         this.view.level = level;
         this.game.synchronization.updateCommandView(this.id, { level });
@@ -56,12 +46,9 @@ abstract class CommandModel extends OperationModel {
 
     public static get sublevel(): number { return Math.floor(this.progress / 0.2); }
 
-    public static get progress(): number { return this.state.progress ?? 0; }
+    public static get progress(): number { return this.view.progress ?? 0; }
     protected static set progress(progress: number) {
-        if (this.state.progress === progress) return;
-
-        this.state.progress = progress;
-        this.game.synchronization.upsertCommand({ id: this.id, progress });
+        if (this.view.progress === progress) return;
 
         this.view.progress = progress;
         this.game.synchronization.updateCommandView(this.id, { progress });
@@ -141,7 +128,6 @@ abstract class CommandModel extends OperationModel {
         this.status = ModelStatus.loading;
 
         this.game = game;
-        ({ command: this.state } = await getCommandAsync(this.game.messageService, { commandId: this.id }));
         ({ commandData: this.data } = await getCommandDataAsync(this.game.messageService, { commandId: this.id }));
         this.initializeView();
 
