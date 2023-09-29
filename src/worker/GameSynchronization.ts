@@ -1,11 +1,13 @@
 import { type CommandId } from '@/constants';
 import { assert } from '@/core';
-import type { OperationState, SubroutineState, EntityId, RoutineState, CommandState } from '@/types';
+import type { OperationState, SubroutineState, EntityId, RoutineState, CommandState, CommandData, CommandView } from '@/types';
 import type { IGameSynchronization } from '@/types/model';
 import { UpdatePayload, type CreateRoutineResponse } from '@/worker/client';
 
 class GameSynchronization implements IGameSynchronization {
     private commands: Map<CommandId, CommandState> = new Map<CommandId, CommandState>;
+    private commandData: Map<CommandId, CommandData> = new Map<CommandId, CommandData>;
+    private commandView: Map<CommandId, Partial<CommandView>> = new Map<CommandId, Partial<CommandView>>;
 
     private operations: Map<EntityId, OperationState> = new Map<EntityId, OperationState>;
     private operationUpdates: Map<EntityId, Partial<OperationState>> = new Map<EntityId, Partial<OperationState>>;
@@ -30,6 +32,8 @@ class GameSynchronization implements IGameSynchronization {
 
     public getCreatePayload(): CreateRoutineResponse {
         assert(this.commands.size === 0, "Unexpected command upserts during routine creation.");
+        assert(this.commandData.size === 0, "Unexpected command data updates during routine creation.");
+        assert(this.commandView.size === 0, "Unexpected command view updates during routine creation.");
         assert(this.operationUpdates.size === 0, "Unexpected operation updates during routine creation.");
         assert(this.routineUpdate === undefined, "Unexpected routine update during routine creation.");
         assert(this.subroutineUpdates.size === 0, "Unexpected subroutine updates during routine creation.");
@@ -56,6 +60,8 @@ class GameSynchronization implements IGameSynchronization {
 
         const response: UpdatePayload = {
             commands: Array.from(this.commands.values()),
+            commandData: Array.from(this.commandData.values()),
+            commandView: Array.from(this.commandView.entries()).map(([id, changes]) => ({ id, changes })),
             operations: Array.from(this.operations.values()),
             operationUpdates: Array.from(this.operationUpdates.entries()).map(([id, changes]) => ({ id, changes })),
             routineIsComplete: this.routineIsComplete,
@@ -66,6 +72,8 @@ class GameSynchronization implements IGameSynchronization {
 
         // reset the relevant state
         this.commands.clear();
+        this.commandData.clear();
+        this.commandView.clear();
         this.operations.clear();
         this.operationUpdates.clear();
         this.routineUpdate = undefined;
@@ -77,6 +85,8 @@ class GameSynchronization implements IGameSynchronization {
 
     public hasUpdates(): boolean {
         return this.commands.size > 0
+            || this.commandData.size > 0
+            || this.commandView.size > 0
             || this.operations.size > 0
             || this.operationUpdates.size > 0
             || this.routineUpdate !== undefined
@@ -88,6 +98,16 @@ class GameSynchronization implements IGameSynchronization {
         this.reset();
 
         this.routine = routine;
+    }
+
+    public updateCommandData(id: CommandId, update: Partial<CommandData>): void {
+        const previous = this.commandData.get(id);
+        this.commandData.set(id, { ...previous, ...update, id });
+    }
+
+    public updateCommandView(id: CommandId, update: Partial<CommandView>): void {
+        const previous = this.commandView.get(id);
+        this.commandView.set(id, { ...previous, ...update, id });
     }
 
     public updateOperation(id: EntityId, update: Partial<OperationState>): void {
@@ -136,6 +156,8 @@ class GameSynchronization implements IGameSynchronization {
 
     private reset(): void {
         this.commands.clear();
+        this.commandData.clear();
+        this.commandView.clear();
 
         this.operations.clear();
         this.operationUpdates.clear();

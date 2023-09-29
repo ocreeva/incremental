@@ -1,6 +1,7 @@
 import store from '@/App/store';
 import { AsyncModelMessage, ModelMessage } from '@/constants/worker';
-import { selectCommandData } from '@/features/commandData';
+import { selectCommandData, upsertCommandData } from '@/features/commandData';
+import { updateCommandView } from '@/features/commandView';
 import { selectCommand, updateCommands } from '@/features/commands';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
@@ -94,6 +95,8 @@ worker.onmessage = ({ data: message }) => {
         case ModelMessage.Update: {
             const { payload: {
                 commands,
+                commandData,
+                commandView,
                 operations,
                 operationUpdates,
                 routineIsComplete,
@@ -103,6 +106,8 @@ worker.onmessage = ({ data: message }) => {
             } } = getUpdateMessage(message);
 
             if (commands.length > 0) store.dispatch(updateCommands(commands));
+            if (commandData.length > 0) store.dispatch(upsertCommandData(commandData));
+            if (commandView.length > 0) store.dispatch(updateCommandView(commandView));
 
             if (operations.length > 0) store.dispatch(addOperations(operations));
             if (operationUpdates.length > 0) store.dispatch(updateOperations(operationUpdates));
