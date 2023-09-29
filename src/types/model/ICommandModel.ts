@@ -1,16 +1,25 @@
 import type { ModelStatus } from '@/constants/worker';
-import type { CommandView, EntityId, InstructionState } from '@/types';
+import type { EntityId, InstructionState } from '@/types';
 import type { IEventable } from '@/types/event';
 
 import type IDeltaValue from './IDeltaValue';
 import type IGameContext from './IGameContext';
+import { CommandId } from '@/constants';
 
-declare interface _ICommandModel extends IEventable<CommandView> {
+export declare interface ICommandModelEventable {
+    /** The command's level. */
+    readonly level: number;
+
+    /** The command's sublevel (tiered progress to next level). */
+    readonly sublevel: number;
+}
+
+declare interface ICommandModel extends ICommandModelEventable, IEventable<ICommandModelEventable> {
+    /** The command's ID. */
+    readonly id: CommandId;
+
     /** The model's status. */
     readonly status: ModelStatus;
-
-    /** The command's sublevel (partial progress to next level). */
-    readonly sublevel: number;
 
     /**
      * Create an operation executing an instruction for this command.
@@ -36,9 +45,5 @@ declare interface _ICommandModel extends IEventable<CommandView> {
 
     update(completion: IDeltaValue, operationId: EntityId, time: number): void;
 }
-
-declare type ICommandModel = {
-    [P in keyof CommandView]-?: NonNullable<CommandView[P]>;
-} & _ICommandModel;
 
 export default ICommandModel;

@@ -4,7 +4,7 @@ import { assert, EventEmitter } from '@/core';
 import { getDefaultCommandView } from '@/game/commands/view';
 import type { CommandData, CommandView, EntityId, InstructionState } from '@/types';
 import type { EventKey, EventReceiver, IEventEmitter } from '@/types/event';
-import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
+import type { ICommandModel, ICommandModelEventable, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
 import { getCommandDataAsync } from '@/worker/client';
 
 import createCommandRecord from './createCommandRecord';
@@ -12,7 +12,7 @@ import OperationModel from './OperationModel';
 
 //@staticImplements<ICommandModel>()
 abstract class CommandModel extends OperationModel {
-    private static readonly events: IEventEmitter<CommandView> = new EventEmitter<CommandView>();
+    private static readonly events: IEventEmitter<ICommandModelEventable> = new EventEmitter<ICommandModelEventable>();
     private static data: CommandData;
     private static view: CommandView;
 
@@ -22,25 +22,23 @@ abstract class CommandModel extends OperationModel {
     protected static readonly unlockVisibleSublevel: number = 1;
     protected static readonly unlockEnabledSublevel: number = 2;
 
-    public static get isEnabled(): boolean { return this.view.isEnabled ?? false; }
+    protected static get isEnabled(): boolean { return this.view.isEnabled; }
     protected static set isEnabled(isEnabled: boolean) {
         if (this.view.isEnabled === isEnabled) return;
 
         this.view.isEnabled = isEnabled;
         this.game.synchronization.updateCommandView(this.id, { isEnabled });
-        this.events.emit('isEnabled', isEnabled);
     }
 
-    public static get isVisible(): boolean { return this.view.isVisible ?? false; }
+    protected static get isVisible(): boolean { return this.view.isVisible; }
     protected static set isVisible(isVisible: boolean) {
         if (this.view.isVisible === isVisible) return;
 
         this.view.isVisible = isVisible;
         this.game.synchronization.updateCommandView(this.id, { isVisible });
-        this.events.emit('isVisible', isVisible);
     }
 
-    public static get level(): number { return this.view.level ?? 0; }
+    public static get level(): number { return this.view.level; }
     protected static set level(level: number) {
         if (this.view.level === level) return;
 
@@ -49,15 +47,23 @@ abstract class CommandModel extends OperationModel {
         this.events.emit('level', level);
     }
 
-    public static get sublevel(): number { return Math.floor(this.progress / 0.2); }
+    private static _sublevel = 0;
+    public static get sublevel(): number { return this._sublevel; }
+    protected static set sublevel(sublevel: number) {
+        if (this._sublevel === sublevel) return;
 
-    public static get progress(): number { return this.view.progress ?? 0; }
+        this._sublevel = sublevel;
+        this.events.emit('sublevel', sublevel);
+    }
+
+    protected static get progress(): number { return this.view.progress; }
     protected static set progress(progress: number) {
         if (this.view.progress === progress) return;
 
         this.view.progress = progress;
         this.game.synchronization.updateCommandView(this.id, { progress });
-        this.events.emit('progress', progress);
+
+        this.sublevel = Math.floor(progress / 0.2);
     }
 
     private static _status: ModelStatus = ModelStatus.idle;
@@ -71,11 +77,11 @@ abstract class CommandModel extends OperationModel {
     }
     private static set game(game: IGameContext) { this._game = game; }
 
-    public static on<K extends EventKey<CommandView>>(name: K, receiver: EventReceiver<CommandView[K]>) {
+    public static on<K extends EventKey<ICommandModelEventable>>(name: K, receiver: EventReceiver<ICommandModelEventable[K]>) {
         this.events.on(name, receiver);
     }
 
-    public static off<K extends EventKey<CommandView>>(name: K, receiver: EventReceiver<CommandView[K]>) {
+    public static off<K extends EventKey<ICommandModelEventable>>(name: K, receiver: EventReceiver<ICommandModelEventable[K]>) {
         this.events.off(name, receiver);
     }
 
