@@ -1,6 +1,6 @@
 import type { CommandId, CommandTarget } from '@/constants';
 
-import type CommandState from './CommandState';
+import type CommandView from './CommandView';
 import type IGlyphDesign from './IGlyphDesign';
 import type InstructionState from './InstructionState';
 
@@ -31,7 +31,7 @@ declare interface _ICommandDesign extends IGlyphDesign {
 }
 
 declare type ICommandDesign = {
-    readonly [P in keyof CommandState]-?: NonNullable<CommandState[P]>;
+    readonly [P in keyof CommandView]-?: NonNullable<CommandView[P]>;
 } & _ICommandDesign;
 
 export default ICommandDesign;

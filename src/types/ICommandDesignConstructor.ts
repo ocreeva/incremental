@@ -1,5 +1,6 @@
 import type { CommandId } from '@/constants';
-import type CommandState from './CommandState';
+
+import type CommandView from './CommandView';
 import type ICommandDesign from './ICommandDesign';
 
 declare interface ICommandDesignConstructor {
@@ -7,13 +8,13 @@ declare interface ICommandDesignConstructor {
     readonly id: CommandId;
 
     /**
-     * Constructs a command's design incorporating the command's state.
+     * Constructs a command's design incorporating the command's view state.
      * 
-     * @param state - The command's state.
+     * @param view - The command's view state.
      * 
      * @returns The command's design.
      */
-    new(state: CommandState): ICommandDesign;
+    new(view: CommandView): ICommandDesign;
 }
 
 export default ICommandDesignConstructor;

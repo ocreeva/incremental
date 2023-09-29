@@ -1,5 +1,5 @@
 import type { ModelStatus } from '@/constants/worker';
-import type { CommandState, EntityId, InstructionState } from '@/types';
+import type { CommandView, EntityId, InstructionState } from '@/types';
 
 import type IDeltaValue from './IDeltaValue';
 import type IGameContext from './IGameContext';
@@ -37,7 +37,7 @@ declare interface _ICommandModel {
 }
 
 declare type ICommandModel = {
-    [P in keyof CommandState]-?: NonNullable<CommandState[P]>;
+    [P in keyof CommandView]-?: NonNullable<CommandView[P]>;
 } & _ICommandModel;
 
 export default ICommandModel;

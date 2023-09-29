@@ -1,5 +1,4 @@
 export type { default as CommandData, CommandDataState } from './CommandData';
-export type { default as CommandState } from './CommandState';
 export type { default as CommandView, CommandViewState } from './CommandView';
 export type { default as EntityId } from './EntityId';
 export type { default as EntityState } from './EntityState';
