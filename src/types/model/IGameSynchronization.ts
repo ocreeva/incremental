@@ -1,4 +1,5 @@
-import type { CommandState, EntityId, OperationState, RoutineState, SubroutineState } from '@/types';
+import { CommandId } from '@/constants';
+import type { CommandData, CommandState, CommandView, EntityId, OperationState, RoutineState, SubroutineState } from '@/types';
 
 /**
  * Represents the game's synchronization between UI and worker threads.
@@ -27,6 +28,22 @@ declare interface IGameSynchronization {
      * @param routine - The routine's state.
      */
     setRoutine(routine: RoutineState): void;
+
+    /**
+     * Update the persistent state data for a Command.
+     * 
+     * @param id - The command's ID.
+     * @param update - The command's data updates.
+     */
+    updateCommandData(id: CommandId, update: Partial<CommandData>): void;
+
+    /**
+     * Update the non-persistent state for viewing a Command.
+     * 
+     * @param id - The command's ID.
+     * @param update - The command's view updates.
+     */
+    updateCommandView(id: CommandId, update: Partial<CommandView>): void;
 
     /**
      * Update the state of an operation.
