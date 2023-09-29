@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { GlyphPanelContent } from '@/components/GlyphPanel';
 import { type CommandId } from '@/constants';
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 import { useParamSelector } from '@/hooks';
 
 import AddButton from './AddButton';
@@ -16,7 +16,7 @@ declare type CommandContentProps = {
 
 const CommandContent: React.FC<CommandContentProps>
 = ({ commandId }) => {
-    const design = useParamSelector(selectDesign, commandId);
+    const design = useParamSelector(selectCommandDesign, commandId);
     const { name, canBeInstruction, isVisible, shouldShowLevel, subcommands } = design;
 
     if (!isVisible) return null;

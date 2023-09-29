@@ -1,4 +1,4 @@
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 import { selectOperation } from '@/features/operations';
 import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
@@ -12,7 +12,7 @@ declare type OperationProps = {
 
 const Operation: React.FC<OperationProps> = ({ id }) => {
     const { commandId, delay, duration, progress } = useParamSelector(selectOperation, id);
-    const { GlyphComponent } = useParamSelector(selectDesign, commandId);
+    const { GlyphComponent } = useParamSelector(selectCommandDesign, commandId);
     const { setOperationId } = useOperationDialogContext('Operation');
 
     const handleClick: React.MouseEventHandler<HTMLButtonElement>

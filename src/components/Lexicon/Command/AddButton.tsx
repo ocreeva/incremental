@@ -3,7 +3,7 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as AddIcon } from '@/assets/add.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 import { addInstruction } from '@/features/instructions';
 import { addInstructionToCurrentScript } from '@/features/scripts';
 import { useAppDispatch, useParamSelector } from '@/hooks';
@@ -13,7 +13,7 @@ import { useCommandContext } from './CommandContext';
 const AddButton: React.FC
 = () => {
     const { commandId } = useCommandContext('AddButton');
-    const design = useParamSelector(selectDesign, commandId);
+    const design = useParamSelector(selectCommandDesign, commandId);
     const { isEnabled, name } = design;
 
     const dispatch = useAppDispatch();

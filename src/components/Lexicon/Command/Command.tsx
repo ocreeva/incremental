@@ -3,7 +3,7 @@ import { AccordionItem, AccordionPanel } from '@reach/accordion';
 
 import GlyphPanel from '@/components/GlyphPanel';
 import { type CommandId } from '@/constants';
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 import { useParamSelector } from '@/hooks';
 
 import CommandContent from './CommandContent';
@@ -13,7 +13,7 @@ interface CommandProps {
 }
 
 const Command: React.FC<CommandProps> = ({ commandId }) => {
-    const design = useParamSelector(selectDesign, commandId);
+    const design = useParamSelector(selectCommandDesign, commandId);
     const { isInLexicon, isVisible, subcommands } = design;
 
     if (!isInLexicon || !isVisible) return null;

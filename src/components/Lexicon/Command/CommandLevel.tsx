@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { VisuallyHidden } from '@reach/visually-hidden';
 
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 import { useParamSelector } from '@/hooks';
 
 import { useCommandContext } from './CommandContext';
@@ -9,7 +9,7 @@ import { useCommandContext } from './CommandContext';
 const CommandLevel: React.FC
 = () => {
     const { commandId } = useCommandContext('CommandLevel');
-    const { level, progress, shouldShowProgress } = useParamSelector(selectDesign, commandId);
+    const { level, progress, shouldShowProgress } = useParamSelector(selectCommandDesign, commandId);
 
     const style = {
         '--command-level_progress': `${progress * 100}%`,

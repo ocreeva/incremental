@@ -8,13 +8,13 @@ import { removeInstructionFromCurrentScript } from '@/features/scripts';
 import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useInstructionContext } from './InstructionContext';
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 
 const RemoveButton: React.FC
 = () => {
     const { instructionId } = useInstructionContext('RemoveButton');
     const { commandId } = useParamSelector(selectInstruction, instructionId);
-    const { name } = useParamSelector(selectDesign, commandId);
+    const { name } = useParamSelector(selectCommandDesign, commandId);
 
     const dispatch = useAppDispatch();
     const handleRemoveInstruction: React.MouseEventHandler<HTMLButtonElement> = () => {

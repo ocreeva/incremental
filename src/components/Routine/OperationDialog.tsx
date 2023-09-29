@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import Dialog, { DialogButtons, DialogTitle } from '@/components/Dialog';
 import { assert } from '@/core';
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 import { selectHostDesign } from '@/features/hosts';
 import { selectOperation } from '@/features/operations';
 import { selectRoleDesign } from '@/features/roles';
@@ -16,7 +16,7 @@ const OperationDialog: React.FC
     assert(operationId !== undefined, "Unexpected undefined 'operationId' in OperationDialog.");
 
     const { commandId, duration, host, progress, role } = useParamSelector(selectOperation, operationId);
-    const { name } = useParamSelector(selectDesign, commandId);
+    const { name } = useParamSelector(selectCommandDesign, commandId);
     const { name: hostName } = useParamSelector(selectHostDesign, host);
     const { name: roleName } = useParamSelector(selectRoleDesign, role);
 

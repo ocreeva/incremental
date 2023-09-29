@@ -18,7 +18,7 @@ export const selectCommand: (state: RootState, id: CommandId) => CommandState
     (commands, id) => selectById(commands, id)
 )(selectId);
 
-export const selectDesign: (state: RootState, id: CommandId) => ICommandDesign
+const selectDesign: (state: RootState, id: CommandId) => ICommandDesign
 = createCachedSelector(
     [selectCommand, selectId],
     (command, id) => {

@@ -1,6 +1,6 @@
 import GlyphPanel, { GlyphPanelContent } from '@/components/GlyphPanel';
 import { CommandTarget } from '@/constants';
-import { selectDesign } from '@/features/commands';
+import { selectCommandDesign } from '@/features/commandView';
 import { selectInstruction } from '@/features/instructions';
 import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
@@ -23,7 +23,7 @@ const CommandContent: Record<CommandTarget, React.FC> = {
 
 const Instruction: React.FC<InstructionProps> = ({ id, shouldAnimate }) => {
     const { commandId } = useParamSelector(selectInstruction, id);
-    const { targetType: asInstruction } = useParamSelector(selectDesign, commandId);
+    const { targetType: asInstruction } = useParamSelector(selectCommandDesign, commandId);
 
     const InstructionContent = CommandContent[asInstruction];
 
