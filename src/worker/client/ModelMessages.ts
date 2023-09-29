@@ -1,6 +1,6 @@
 import { ModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
-import type { CommandData, CommandState, CommandView, OperationState, RoutineState, SubroutineState, Update } from '@/types';
+import type { CommandData, CommandView, OperationState, RoutineState, SubroutineState, Update } from '@/types';
 import type { MessageSendProvider, PayloadMessage } from '@/types/worker';
 
 const assertMessageType: <TPayload>(message: PayloadMessage, type: ModelMessage) => asserts message is PayloadMessage<TPayload, ModelMessage>
@@ -30,7 +30,6 @@ export const [ sendStopMessage ] = createEmptyMessageHandlers(ModelMessage.Stop)
 export const [ sendTickMessage ] = createEmptyMessageHandlers(ModelMessage.Tick);
 
 export declare type UpdatePayload = {
-    commands: CommandState[];
     commandData: CommandData[];
     commandView: Update<CommandView>[];
 

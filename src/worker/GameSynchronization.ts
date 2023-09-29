@@ -1,11 +1,10 @@
 import { type CommandId } from '@/constants';
 import { assert } from '@/core';
-import type { OperationState, SubroutineState, EntityId, RoutineState, CommandState, CommandData, CommandView } from '@/types';
+import type { OperationState, SubroutineState, EntityId, RoutineState, CommandData, CommandView } from '@/types';
 import type { IGameSynchronization } from '@/types/model';
 import { UpdatePayload, type CreateRoutineResponse } from '@/worker/client';
 
 class GameSynchronization implements IGameSynchronization {
-    private commands: Map<CommandId, CommandState> = new Map<CommandId, CommandState>;
     private commandData: Map<CommandId, CommandData> = new Map<CommandId, CommandData>;
     private commandView: Map<CommandId, Partial<CommandView>> = new Map<CommandId, Partial<CommandView>>;
 
@@ -31,7 +30,6 @@ class GameSynchronization implements IGameSynchronization {
     }
 
     public getCreatePayload(): CreateRoutineResponse {
-        assert(this.commands.size === 0, "Unexpected command upserts during routine creation.");
         assert(this.commandData.size === 0, "Unexpected command data updates during routine creation.");
         assert(this.commandView.size === 0, "Unexpected command view updates during routine creation.");
         assert(this.operationUpdates.size === 0, "Unexpected operation updates during routine creation.");
@@ -59,7 +57,6 @@ class GameSynchronization implements IGameSynchronization {
         assert(!this.routine, "Unexpected new routine during routine update.");
 
         const response: UpdatePayload = {
-            commands: Array.from(this.commands.values()),
             commandData: Array.from(this.commandData.values()),
             commandView: Array.from(this.commandView.entries()).map(([id, changes]) => ({ id, changes })),
             operations: Array.from(this.operations.values()),
@@ -71,7 +68,6 @@ class GameSynchronization implements IGameSynchronization {
         }
 
         // reset the relevant state
-        this.commands.clear();
         this.commandData.clear();
         this.commandView.clear();
         this.operations.clear();
@@ -84,8 +80,7 @@ class GameSynchronization implements IGameSynchronization {
     }
 
     public hasUpdates(): boolean {
-        return this.commands.size > 0
-            || this.commandData.size > 0
+        return this.commandData.size > 0
             || this.commandView.size > 0
             || this.operations.size > 0
             || this.operationUpdates.size > 0
@@ -144,18 +139,7 @@ class GameSynchronization implements IGameSynchronization {
         }
     }
 
-    public upsertCommand(command: CommandState): void {
-        const { id } = command;
-        if (this.commands.has(id)) {
-            const previous = this.commands.get(id);
-            this.commands.set(id, { ...previous, ...command });
-        } else {
-            this.commands.set(id, command);
-        }
-    }
-
     private reset(): void {
-        this.commands.clear();
         this.commandData.clear();
         this.commandView.clear();
 

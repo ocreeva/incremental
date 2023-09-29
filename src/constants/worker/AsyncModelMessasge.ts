@@ -3,7 +3,6 @@ enum AsyncModelMessage {
     CreateRoutine = 'Game/CreateRoutine',
 
     // worker -> main
-    GetCommand = 'Game/GetCommand',
     GetCommandData = 'Game/GetCommandData',
     GetInstruction = 'Game/GetInstruction',
     GetScript = 'Game/GetScript',

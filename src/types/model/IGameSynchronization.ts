@@ -1,5 +1,5 @@
 import { CommandId } from '@/constants';
-import type { CommandData, CommandState, CommandView, EntityId, OperationState, RoutineState, SubroutineState } from '@/types';
+import type { CommandData, CommandView, EntityId, OperationState, RoutineState, SubroutineState } from '@/types';
 
 /**
  * Represents the game's synchronization between UI and worker threads.
@@ -67,13 +67,6 @@ declare interface IGameSynchronization {
      * @param update - The subroutine's state update.
      */
     updateSubroutine(id: EntityId, update: Partial<SubroutineState>): void;
-
-    /**
-     * Upsert the state of a command.
-     * 
-     * @param command - The command's state.
-     */
-    upsertCommand(command: CommandState): void;
 }
 
 export default IGameSynchronization;

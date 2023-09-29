@@ -2,7 +2,6 @@ import store from '@/App/store';
 import { AsyncModelMessage, ModelMessage } from '@/constants/worker';
 import { selectCommandData, upsertCommandData } from '@/features/commandData';
 import { updateCommandView } from '@/features/commandView';
-import { selectCommand, updateCommands } from '@/features/commands';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructions';
 import { addOperations, updateOperations } from '@/features/operations';
@@ -14,7 +13,6 @@ import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 import {
     createRoutineAsync,
     getUpdateMessage,
-    prepareToGetCommand,
     prepareToGetCommandData,
     prepareToGetInstruction,
     prepareToGetScript,
@@ -64,13 +62,6 @@ worker.onmessage = ({ data: message }) => {
 
     const { type } = message as PayloadMessage;
     switch (type as AsyncModelMessage | ModelMessage) {
-        case AsyncModelMessage.GetCommand: {
-            const [{ payload: { commandId } }, respond] = prepareToGetCommand(message);
-            const command = selectCommand(store.getState(), commandId);
-            respond(messageService, { command });
-            break;
-        }
-
         case AsyncModelMessage.GetCommandData: {
             const [{ payload: { commandId }}, respond] = prepareToGetCommandData(message);
             const commandData = selectCommandData(store.getState(), commandId);
@@ -94,7 +85,6 @@ worker.onmessage = ({ data: message }) => {
 
         case ModelMessage.Update: {
             const { payload: {
-                commands,
                 commandData,
                 commandView,
                 operations,
@@ -105,7 +95,6 @@ worker.onmessage = ({ data: message }) => {
                 subroutineUpdates,
             } } = getUpdateMessage(message);
 
-            if (commands.length > 0) store.dispatch(updateCommands(commands));
             if (commandData.length > 0) store.dispatch(upsertCommandData(commandData));
             if (commandView.length > 0) store.dispatch(updateCommandView(commandView));
 

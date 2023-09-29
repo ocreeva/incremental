@@ -1,7 +1,7 @@
 import { type CommandId } from '@/constants';
 import { AsyncModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
-import type { CommandData, CommandState, EntityId, InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
+import type { CommandData, EntityId, InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
 import type { MessageRequestProvider, MessageRespondProvider, PayloadMessage } from '@/types/worker';
 
 const assertMessageType: <TPayload>(message: PayloadMessage, type: AsyncModelMessage) => asserts message is PayloadMessage<TPayload, AsyncModelMessage>
@@ -28,14 +28,6 @@ export declare type CreateRoutineResponse = {
     operations: OperationState[];
 };
 export const [ createRoutineAsync, prepareToCreateRoutine ] = createMessageHandlers<CreateRoutineRequest, CreateRoutineResponse>(AsyncModelMessage.CreateRoutine);
-
-export declare type GetCommandRequest = {
-    commandId: CommandId;
-};
-export declare type GetCommandResponse = {
-    command: CommandState;
-};
-export const [ getCommandAsync, prepareToGetCommand ] = createMessageHandlers<GetCommandRequest, GetCommandResponse>(AsyncModelMessage.GetCommand);
 
 export declare type GetCommandDataRequest = {
     commandId: CommandId;
