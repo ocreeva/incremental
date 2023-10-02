@@ -6,23 +6,10 @@ import { DeltaValue } from '@/worker/client';
 import { ModelStatus } from '@/constants/worker';
 
 abstract class OperationModel implements IOperationModel {
-    private readonly state: OperationState;
     private remaining: number;
 
     protected constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId) {
-        this.state = {
-            id: crypto.randomUUID(),
-            commandId: this.derived.id,
-            parentRoutineId,
-            parentSubroutineId,
-            delay: 0,
-            duration: 42,
-            host: Host.Hub,
-            progress: 0,
-            role: Role.Anon,
-        };
-
-        this.id = this.state.id;
+        this.id = crypto.randomUUID();
         this.parentRoutineId = parentRoutineId;
         this.parentSubroutineId = parentSubroutineId;
 
@@ -97,7 +84,17 @@ abstract class OperationModel implements IOperationModel {
         this.game = game;
         assert(this.game.operations.has(this.id), `Operation (${this.id}) missing from game context during initialization.`);
 
-        this.game.synchronization.addOperation(this.state);
+        this.game.synchronization.addOperation({
+            id: this.id,
+            commandId: this.commandId,
+            parentRoutineId: this.parentRoutineId,
+            parentSubroutineId: this.parentSubroutineId,
+            delay: this.delay,
+            duration: this.duration,
+            host: this.host,
+            progress: this.progress,
+            role: this.role,
+        });
 
         this.assertStatus(ModelStatus.loading);
         this.status = ModelStatus.pending;
