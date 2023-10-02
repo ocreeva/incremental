@@ -22,58 +22,49 @@ abstract class OperationModel implements IOperationModel {
             role: Role.Anon,
         };
 
-        this.id = this.state.id;
-        this.parentRoutineId = parentRoutineId;
-        this.parentSubroutineId = parentSubroutineId;
-
         // add epsilon to overshoot any floating point math loss
         this.remaining = this.duration + epsilon;
     }
 
     public static get id(): CommandId { throw Error("OperationModel derived class has not overridden the static 'id' property."); }
 
-    public readonly id: EntityId;
-    public readonly commandId: CommandId = this.derived.id;
-    public readonly parentRoutineId: EntityId;
-    public readonly parentSubroutineId: EntityId;
+    public get id() { return this.state.id; }
+    public get commandId() { return this.state.commandId; }
+    public get parentRoutineId() { return this.state.parentRoutineId; }
+    public get parentSubroutineId() { return this.state.parentSubroutineId; }
 
-    private _delay = 0;
-    public get delay() { return this._delay; }
+    public get delay() { return this.state.delay; }
     public set delay(delay: number) {
-        if (delay === this._delay) return;
+        if (delay === this.state.delay) return;
 
-        this._delay = delay;
+        this.state.delay = delay;
         this.game.synchronization.updateOperation(this.id, { delay });
     }
 
-    private _duration = 42;
-    public get duration() { return this._duration; }
+    public get duration() { return this.state.duration; }
 
-    private _host: Host = Host.Hub;
-    public get host() { return this._host; }
+    public get host() { return this.state.host; }
     public set host(host: Host) {
-        if (this._host === host) return;
+        if (this.state.host === host) return;
 
-        this._host = host;
+        this.state.host = host;
         this.game.synchronization.updateOperation(this.id, { host });
     }
 
-    private _progress = 0;
-    public get progress() { return this._progress; }
+    public get progress() { return this.state.progress; }
     private set progress(value: number) {
         const progress = Math.min(Math.max(value, 0), 1);
-        if (progress === this._progress) return;
+        if (progress === this.state.progress) return;
 
-        this._progress = progress;
+        this.state.progress = progress;
         this.game.synchronization.updateOperation(this.id, { progress });
     }
 
-    private _role: Role = Role.Anon;
-    public get role() { return this._role; }
+    public get role() { return this.state.role; }
     public set role(role: Role) {
-        if (this._role === role) return;
+        if (this.state.role === role) return;
 
-        this._role = role;
+        this.state.role = role;
         this.game.synchronization.updateOperation(this.id, { role });
     }
 
