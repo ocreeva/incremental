@@ -1,6 +1,6 @@
 import { epsilon, type CommandId, Role, Host } from '@/constants';
 import { assert } from '@/core';
-import type { EntityId, InstructionState } from '@/types';
+import type { EntityId, InstructionState, OperationState } from '@/types';
 import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
 import { ModelStatus } from '@/constants/worker';
