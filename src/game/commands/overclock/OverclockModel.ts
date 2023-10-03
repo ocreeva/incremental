@@ -25,8 +25,8 @@ class OverclockModel extends CommandModel {
         return new OverclockModel(parentRoutineId, parentSubroutineId);
     }
 
-    public static override finalize(operationId: EntityId, time: number) {
-        super.finalize(operationId, time);
+    public static override finalize(time: number, operationId: EntityId) {
+        super.finalize(time, operationId);
 
         // count the number of successful Overclock operations in distinct hosts
         const hosts: Host[] = [];
