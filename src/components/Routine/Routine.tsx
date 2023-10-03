@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
+import { convertToGameTime } from '@/core';
 import { selectCurrentRoutine } from '@/features/routines';
 import { useAppSelector } from '@/hooks';
 import type { EntityId } from '@/types';
@@ -30,14 +31,16 @@ const Routine: React.FC = () => {
     };
 
     const scrollContainer = useRef<HTMLDivElement>(null);
-    const scrollTarget = Math.max(0, Math.min(duration - 42, Math.round(elapsed - 21)));
+    const durationInGT = convertToGameTime(duration);
+    const elapsedInGT = convertToGameTime(elapsed);
+    const scrollTarget = Math.max(0, Math.min(durationInGT - 42, Math.round(elapsedInGT - 21)));
     useEffect(() => {
         if (scrollContainer.current === null) return;
         scrollContainer.current.scrollTo(scrollTarget, 0);
     }, [scrollTarget]);
 
     const style = {
-        '--routine_duration': `${duration}`,
+        '--routine_duration': durationInGT,
     } as React.CSSProperties;
 
     return (

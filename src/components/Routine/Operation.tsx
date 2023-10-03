@@ -1,3 +1,4 @@
+import { convertToGameTime } from '@/core';
 import { selectCommandDesign } from '@/features/commandDesign';
 import { selectOperation } from '@/features/operations';
 import { useParamSelector } from '@/hooks';
@@ -19,8 +20,8 @@ const Operation: React.FC<OperationProps> = ({ id }) => {
     = () => setOperationId(id);
 
     const style = {
-        '--operation_delay': `${delay}`,
-        '--operation_duration': `${duration}`,
+        '--operation_delay': delay && convertToGameTime(delay),
+        '--operation_duration': convertToGameTime(duration),
         '--operation_progress': `${progress * 100}%`,
     } as React.CSSProperties;
 

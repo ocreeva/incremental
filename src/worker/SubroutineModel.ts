@@ -9,7 +9,8 @@ import { getInstructionAsync, getScriptAsync } from '@/worker/client';
  * Provides the gameplay model for a Subroutine.
  */
 class SubroutineModel implements ISubroutineModel {
-    private static readonly transitionDuration = 8;
+    /** The duration, in milliseconds, of a transition from the completion of one Operation to the start of the next. */
+    private static readonly transitionDuration = 160;
 
     private readonly state: SubroutineState;
 

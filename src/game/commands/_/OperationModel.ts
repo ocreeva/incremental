@@ -1,4 +1,4 @@
-import { epsilon, type CommandId, Role, Host } from '@/constants';
+import { type CommandId, Role, Host } from '@/constants';
 import { assert } from '@/core';
 import type { EntityId, InstructionState, OperationState } from '@/types';
 import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
@@ -15,15 +15,13 @@ abstract class OperationModel implements IOperationModel {
             commandId: this.derived.id,
             parentRoutineId,
             parentSubroutineId,
-            delay: 0,
-            duration: 42,
+            duration: 840,
             host: Host.Hub,
             progress: 0,
             role: Role.Anon,
         };
 
-        // add epsilon to overshoot any floating point math loss
-        this.remaining = this.duration + epsilon;
+        this.remaining = this.duration;
     }
 
     public static get id(): CommandId { throw Error("OperationModel derived class has not overridden the static 'id' property."); }
@@ -33,7 +31,7 @@ abstract class OperationModel implements IOperationModel {
     public get parentRoutineId() { return this.state.parentRoutineId; }
     public get parentSubroutineId() { return this.state.parentSubroutineId; }
 
-    public get delay() { return this.state.delay; }
+    public get delay() { return this.state.delay ?? 0; }
     public set delay(delay: number) {
         if (delay === this.state.delay) return;
 
@@ -101,7 +99,7 @@ abstract class OperationModel implements IOperationModel {
         this.host = host;
         this.role = role;
 
-        this.derived.start(this.id, time);
+        this.derived.start(time, this.id);
 
         this.status = ModelStatus.active;
     }
@@ -113,7 +111,7 @@ abstract class OperationModel implements IOperationModel {
     public finalize(time: number): void {
         this.assertStatus(ModelStatus.complete);
 
-        this.derived.finalize(this.id, time);
+        this.derived.finalize(time, this.id);
 
         this.status = ModelStatus.final;
     }
@@ -121,7 +119,7 @@ abstract class OperationModel implements IOperationModel {
     public abort(time: number): void {
         this.assertStatus(ModelStatus.active);
 
-        this.derived.abort(this.id, time);
+        this.derived.abort(time, this.id);
 
         this.status = ModelStatus.final;
     }
@@ -131,13 +129,11 @@ abstract class OperationModel implements IOperationModel {
 
         const delta = time.allocate(this.remaining);
         this.remaining -= delta;
+        this.progress = 1 - this.remaining / this.duration;
 
-        const completionDelta = new DeltaValue(this.progress, delta / this.duration);
-        this.derived.update(completionDelta, this.id, time.total);
-
-        // ensure all 'completion' delta has been allocated, in case the command model didn't allocate it
-        completionDelta.allocate(1);
-        this.progress = completionDelta.total;
+        // the Command can only allocate the delta consumed by this operation, so set up a DeltaValue representing such
+        const commandDelta = new DeltaValue(time.total - delta, delta);
+        this.derived.update(commandDelta, this.id);
 
         if (this.remaining <= 0) this.status = ModelStatus.complete;
     }

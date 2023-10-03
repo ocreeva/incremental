@@ -7,9 +7,9 @@ import type EntityState from './EntityState';
 declare type RoutineState = EntityState & {
     /** The routine's subroutines' IDs, in load order. */
     subroutines: EntityId[];
-    /** The routine's total duration, in game units (20ms / 1px). */
+    /** The routine's total duration, in milliseconds. */
     duration: number;
-    /** The routine's elapsed time, in game units (20ms / 1px). */
+    /** The routine's elapsed time, in milliseconds. */
     elapsed: number;
 };
 

@@ -4,26 +4,15 @@ import type { EntityId } from '@/types';
 import type { ICommandModel, IDeltaValue, IOperationModel } from '@/types/model';
 
 abstract class IndexNodeModel extends CommandModel {
+    protected static override readonly shouldAccumulateTime: boolean = true;
+
     protected static override readonly unlockCommandId: CommandId = CommandId.Scan_Hub;
-
-    public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
-        super.update(completion, operationId, time);
-
-        while (completion.hasUnallocated && this.level < 1) {
-            const remaining = (this.sublevel + 1) * 0.2 - this.progress;
-            const multiplier = 5 * (this.level + 1) * (this.sublevel + 1);
-            this.progress += completion.allocate(remaining * multiplier) / multiplier;
-
-            if (this.progress >= 1) {
-                this.level += 1;
-                this.progress = 0;
-            }
-        }
-    }
 }
 
 class IndexHubModel extends IndexNodeModel {
     public static override readonly id: CommandId = CommandId.Index_Hub;
+
+    protected static override readonly accumulateMultiplier: number = 2;
 
     // unlock ourself, with no level or progress requirements
     protected static override readonly unlockLevel: number = 0;
@@ -34,11 +23,15 @@ class IndexHubModel extends IndexNodeModel {
 class IndexFilesModel extends IndexNodeModel {
     public static override readonly id: CommandId = CommandId.Index_Files;
 
+    protected static override readonly accumulateMultiplier: number = 4;
+
     protected static override readonly unlockLevel: number = 1;
 }
 
 class IndexHRModel extends IndexNodeModel {
     public static override readonly id: CommandId = CommandId.Index_HR;
+
+    protected static override readonly accumulateMultiplier: number = 6;
 
     protected static override readonly unlockLevel: number = 2;
 }
@@ -46,11 +39,15 @@ class IndexHRModel extends IndexNodeModel {
 class IndexSecurityModel extends IndexNodeModel {
     public static override readonly id: CommandId = CommandId.Index_Security;
 
+    protected static override readonly accumulateMultiplier: number = 8;
+
     protected static override readonly unlockLevel: number = 3;
 }
 
 class IndexCoreModel extends IndexNodeModel {
     public static override readonly id: CommandId = CommandId.Index_Core;
+
+    protected static override readonly accumulateMultiplier: number = 10;
 
     protected static override readonly unlockLevel: number = 4;
 }
@@ -73,12 +70,12 @@ class IndexModel extends CommandModel {
         return new IndexModel(parentRoutineId, parentSubroutineId);
     }
 
-    public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {
-        super.update(completion, operationId, time);
+    public static override update(timeDelta: IDeltaValue, operationId: EntityId): void {
+        super.update(timeDelta, operationId);
 
         const { host } = this.game.getOperation(operationId);
         const model = modelLookup[host];
-        model.update(completion, operationId, time);
+        model.update(timeDelta, operationId);
     }
 }
 

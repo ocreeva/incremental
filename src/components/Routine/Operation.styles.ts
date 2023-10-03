@@ -54,7 +54,7 @@ export const ProgressBorder = styled.button`
         ;
     border-radius: 11px;
     box-shadow: inset var(--operation_box-shadow);
-    margin-inline-start: calc(var(--operation_delay) * 1px);
+    margin-inline-start: calc(var(--operation_delay, 0) * 1px);
     padding: 3px;
 `;
 

@@ -1,5 +1,6 @@
 import { VisuallyHidden } from '@reach/visually-hidden';
 
+import { convertToGameTime } from '@/core';
 import { selectHostDesign } from '@/features/hosts';
 import { selectRoleDesign } from '@/features/roles';
 import { selectSubroutine } from '@/features/subroutines';
@@ -22,7 +23,7 @@ const Subroutine: React.FC<SubroutineProps> = ({ id }) => {
     if (duration === 0) return null;
 
     const style = {
-        '--subroutine_duration': `${duration}`,
+        '--subroutine_duration': convertToGameTime(duration),
     } as React.CSSProperties;
 
     return (

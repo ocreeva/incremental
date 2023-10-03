@@ -1,32 +1,18 @@
-import { CommandId, Host, MaxLevelByRole } from '@/constants';
+import { CommandId, Host } from '@/constants';
 import CommandModel, { registerModel } from '@/game/commands/_/CommandModel';
 import type { EntityId } from '@/types';
 import type { ICommandModel, IDeltaValue, IOperationModel } from '@/types/model';
 
 abstract class ScanNodeModel extends CommandModel {
+    protected static override readonly shouldAccumulateTime: boolean = true;
+
     protected static override readonly unlockCommandId: CommandId = CommandId.Scan_Hub;
-
-    public static override update(completion: IDeltaValue, operationId: EntityId, time: number) {
-        super.update(completion, operationId, time);
-
-        const { role } = this.game.getOperation(operationId);
-        const maxLevel = MaxLevelByRole[role];
-
-        while (completion.hasUnallocated && this.level < maxLevel) {
-            const remaining = (this.sublevel + 1) * 0.2 - this.progress;
-            const multiplier = 5 * (this.level + 1) * (this.sublevel + 1);
-            this.progress += completion.allocate(remaining * multiplier) / multiplier;
-
-            if (this.progress >= 1) {
-                this.level += 1;
-                this.progress = 0;
-            }
-        }
-    }
 }
 
 class ScanHubModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Hub;
+
+    protected static override readonly accumulateMultiplier: number = 1;
 
     // unlock ourself, with no level or progress requirements
     protected static override readonly unlockLevel: number = 0;
@@ -37,11 +23,15 @@ class ScanHubModel extends ScanNodeModel {
 class ScanFilesModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Files;
 
+    protected static override readonly accumulateMultiplier: number = 2;
+
     protected static override readonly unlockLevel: number = 1;
 }
 
 class ScanHRModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_HR;
+
+    protected static override readonly accumulateMultiplier: number = 3;
 
     protected static override readonly unlockLevel: number = 2;
 }
@@ -49,11 +39,15 @@ class ScanHRModel extends ScanNodeModel {
 class ScanSecurityModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Security;
 
+    protected static override readonly accumulateMultiplier: number = 4;
+
     protected static override readonly unlockLevel: number = 3;
 }
 
 class ScanCoreModel extends ScanNodeModel {
     public static override readonly id: CommandId = CommandId.Scan_Core;
+
+    protected static override readonly accumulateMultiplier: number = 5;
 
     protected static override readonly unlockLevel: number = 4;
 }
@@ -79,12 +73,12 @@ class ScanModel extends CommandModel {
         return new ScanModel(parentRoutineId, parentSubroutineId);
     }
 
-    public static override update(completion: IDeltaValue, operationId: EntityId, time: number): void {
-        super.update(completion, operationId, time);
+    public static override update(timeDelta: IDeltaValue, operationId: EntityId): void {
+        super.update(timeDelta, operationId);
 
         const { host } = this.game.getOperation(operationId);
         const model = modelLookup[host];
-        model.update(completion, operationId, time);
+        model.update(timeDelta, operationId);
     }
 }
 

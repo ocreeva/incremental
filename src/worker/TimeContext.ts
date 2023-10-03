@@ -16,7 +16,7 @@ class TimeContext {
 
     private readonly game: IGameContext;
 
-    private previous: number | undefined;
+    private previous = 0;
     private limit: IDeltaValue = new DeltaValue(0, 0);
 
     public constructor(game: IGameContext) {
@@ -30,25 +30,16 @@ class TimeContext {
     public reset(): void {
         const { level } = this.game.commands[CommandId.Overclock];
         const maxTime = TimeContext.maxTimeByOverclockLevel[level];
-        this.limit = new DeltaValue(0, TimeContext.convertToGameUnits(maxTime));
-        this.previous = undefined;
+        this.limit = new DeltaValue(0, maxTime);
+        this.previous = performance.now();
     }
 
     public snapshot(): IDeltaValue {
-        const now = TimeContext.convertToGameUnits(performance.now());
+        const total = this.limit.total;
+        const delta = this.limit.allocate(Math.floor(performance.now() - this.previous));
+        this.previous += delta;
 
-        let delta = 0;
-        if (this.previous !== undefined) {
-            delta = this.limit.allocate(now - this.previous);
-        }
-
-        this.previous = now;
-
-        return new DeltaValue(this.limit.total - delta, delta);
-    }
-
-    private static convertToGameUnits(time: number): number {
-        return time * 0.05;
+        return new DeltaValue(total, delta);
     }
 }
 

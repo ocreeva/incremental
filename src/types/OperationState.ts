@@ -15,12 +15,11 @@ declare type OperationState = EntityState & {
     readonly parentRoutineId: EntityId;
 
     /**
-     * The operation's delay within the subroutine. This delay is measured from
-     * the completion of the previous operation within the same subroutine, or
-     * from the start of the subroutine if this is the first operation.
+     * (optional) The operation's execution delay, in milliseconds. This delay is measured from the completion of the
+     * last transition within the same subroutine, or from the start of the subroutine if this is the first operation.
      */
-    delay: number;
-    /** The operation's total duration, in game units (20ms / 1px). */
+    delay?: number;
+    /** The operation's total duration, in milliseconds. */
     duration: number;
     /** The parent subroutine's host at the start of the operation. */
     host: Host;

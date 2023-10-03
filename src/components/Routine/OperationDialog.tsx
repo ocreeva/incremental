@@ -21,7 +21,7 @@ const OperationDialog: React.FC
     const { name: roleName } = useParamSelector(selectRoleDesign, role);
 
     const numberFormatOptions: Intl.NumberFormatOptions = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-    const durationValue = (duration / 50).toLocaleString(undefined, numberFormatOptions);
+    const durationValue = (duration / 1000).toLocaleString(undefined, numberFormatOptions);
     const progressValue = (progress * 100).toLocaleString(undefined, numberFormatOptions);
 
     return (

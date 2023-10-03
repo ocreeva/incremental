@@ -1,10 +1,8 @@
-import type { ModelStatus } from '@/constants/worker';
+import type { CommandId } from '@/constants';
 import type { EntityId, InstructionState } from '@/types';
 import type { IEventable } from '@/types/event';
 
-import type IDeltaValue from './IDeltaValue';
-import type IGameContext from './IGameContext';
-import { CommandId } from '@/constants';
+import type IEntityModel from './IEntityModel';
 
 export declare interface ICommandModelEventable {
     /** The command's level. */
@@ -14,12 +12,9 @@ export declare interface ICommandModelEventable {
     readonly sublevel: number;
 }
 
-declare interface ICommandModel extends ICommandModelEventable, IEventable<ICommandModelEventable> {
+declare interface ICommandModel extends ICommandModelEventable, IEntityModel<void, EntityId>, IEventable<ICommandModelEventable> {
     /** The command's ID. */
     readonly id: CommandId;
-
-    /** The model's status. */
-    readonly status: ModelStatus;
 
     /**
      * Create an operation executing an instruction for this command.
@@ -35,15 +30,6 @@ declare interface ICommandModel extends ICommandModelEventable, IEventable<IComm
         parentRoutineId: EntityId,
         parentSubroutineId: EntityId,
     ) => Promise<EntityId>;
-
-    initializeAsync(game: IGameContext): Promise<void>;
-
-    start(operationId: EntityId, time: number): void;
-    synchronize(time: number): void;
-    finalize(operationId: EntityId, time: number): void;
-    abort(operationId: EntityId, time: number): void;
-
-    update(completion: IDeltaValue, operationId: EntityId, time: number): void;
 }
 
 export default ICommandModel;

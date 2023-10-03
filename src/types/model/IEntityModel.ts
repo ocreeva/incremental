@@ -3,18 +3,19 @@ import type { ModelStatus } from '@/constants/worker';
 import type IDeltaValue from './IDeltaValue';
 import type IGameContext from './IGameContext';
 
-declare interface IEntityModel<TSource = void> {
+declare interface IEntityModel<TSource = void, TCaller = void> {
     /** The model's status. */
     readonly status: ModelStatus;
 
     initializeAsync(game: IGameContext, source: TSource): Promise<void>;
 
-    start(time: number): void;
     synchronize(time: number): void;
-    finalize(time: number): void;
-    abort(time: number): void;
 
-    update(timeDelta: IDeltaValue): void;
+    start(time: number, caller: TCaller): void;
+    finalize(time: number, caller: TCaller): void;
+    abort(time: number, caller: TCaller): void;
+
+    update(timeDelta: IDeltaValue, caller: TCaller): void;
 }
 
 export default IEntityModel;

@@ -7,7 +7,7 @@ import type EntityState from './EntityState';
  * Provides the UI state for a Subroutine.
  */
 declare type SubroutineState = EntityState & {
-    /** The subroutine's total duration, in game units (20ms / 1px). */
+    /** The subroutine's total duration, in milliseconds. */
     duration: number;
     /** The subroutine's operations' IDs, in order of execution. */
     operations: EntityId[];

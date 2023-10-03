@@ -1,4 +1,4 @@
-import { type CommandId } from '@/constants';
+import { MaxLevelByRole, type CommandId } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert, EventEmitter } from '@/core';
 import { getDefaultCommandView } from '@/game/commands/view';
@@ -15,6 +15,10 @@ abstract class CommandModel extends OperationModel {
     private static readonly events: IEventEmitter<ICommandModelEventable> = new EventEmitter<ICommandModelEventable>();
     private static data: CommandData;
     private static view: CommandView;
+
+    // define standard pattern for accumulating time
+    protected static readonly shouldAccumulateTime: boolean = false;
+    protected static readonly accumulateMultiplier: number = 1;
 
     // define standard pattern for unlocking a command (isEnabled)
     protected static readonly unlockCommandId?: CommandId;
@@ -49,11 +53,17 @@ abstract class CommandModel extends OperationModel {
 
     private static _sublevel = 0;
     public static get sublevel(): number { return this._sublevel; }
-    protected static set sublevel(sublevel: number) {
+    protected static set sublevel(value: number) {
+        const sublevel = Math.max(0, Math.min(value, 5));
         if (this._sublevel === sublevel) return;
 
-        this._sublevel = sublevel;
-        this.events.emit('sublevel', sublevel);
+        if (sublevel === 5) {
+            this._sublevel = 0;
+            this.level += 1;
+        } else {
+            this._sublevel = sublevel;
+            this.events.emit('sublevel', sublevel);
+        }
     }
 
     protected static get progress(): number { return this.view.progress; }
@@ -62,8 +72,6 @@ abstract class CommandModel extends OperationModel {
 
         this.view.progress = progress;
         this.game.synchronization.updateCommandView(this.id, { progress });
-
-        this.sublevel = Math.floor(progress / 0.2);
     }
 
     private static _status: ModelStatus = ModelStatus.idle;
@@ -85,7 +93,7 @@ abstract class CommandModel extends OperationModel {
         this.events.off(name, receiver);
     }
 
-    public static start(_operationId: EntityId, _time: number): void {
+    public static start(_time: number, _operationId: EntityId): void {
         this.assertStatus(ModelStatus.active);
     }
 
@@ -116,16 +124,42 @@ abstract class CommandModel extends OperationModel {
         }
     }
 
-    public static finalize(_operationId: EntityId, _time: number): void {
+    public static finalize(_time: number, _operationId: EntityId): void {
         this.assertStatus(ModelStatus.active);
     }
 
-    public static abort(_operationId: EntityId, _time: number): void {
+    public static abort(_time: number, _operationId: EntityId): void {
         this.assertStatus(ModelStatus.active);
     }
 
-    public static update(_completion: IDeltaValue, _operationId: EntityId, _time: number): void {
+    public static update(timeDelta: IDeltaValue, operationId: EntityId): void {
         this.assertStatus(ModelStatus.active);
+
+        this.update_accumulateTime(timeDelta, operationId);
+    }
+
+    private static update_accumulateTime(timeDelta: IDeltaValue, operationId: EntityId) {
+        if (!this.shouldAccumulateTime) return;
+
+        const { role } = this.game.getOperation(operationId);
+        const maxLevel = MaxLevelByRole[role];
+
+        while (timeDelta.hasUnallocated && (this.level < maxLevel)) {
+            const current = this.data.time ?? 0;
+            const previousThreshold = 420 * this.accumulateMultiplier * (15 * this.level * (this.level + 1) + this.sublevel * (this.sublevel + 1));
+            assert(current >= previousThreshold, `Operation time (${current}) has not reached the threshold (${previousThreshold}) for the current level (${this.level}.${this.sublevel}).`);
+
+            const nextThreshold = previousThreshold + 840 * this.accumulateMultiplier * (this.sublevel + 1);
+            assert(current < nextThreshold, `Operation time (${current}) has already reached the threshold (${nextThreshold}) for the next level (${this.level}.${this.sublevel + 1}).`);
+
+            const allocation = timeDelta.allocate(nextThreshold - current);
+            this.data.time = (current + allocation);
+            this.game.synchronization.updateCommandData(this.id, { time: this.data.time });
+
+            this.progress = 0.2 * (this.sublevel + (this.data.time - previousThreshold) / (nextThreshold - previousThreshold));
+
+            if (this.data.time >= nextThreshold) this.sublevel += 1;
+        }
     }
 
     public static async createOperationAsync(
