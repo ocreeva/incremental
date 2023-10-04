@@ -33,7 +33,7 @@ class OverclockModel extends CommandModel {
         const rolesAllowed = rolesAllowedByLevel[this.level];
         this.game.operations.forEach((operation) => {
             if (operation.commandId !== CommandId.Overclock) return;
-            if (operation.status !== ModelStatus.final) return;
+            if ((operation.status !== ModelStatus.final) && (operation.status !== ModelStatus.complete)) return;
             if (!rolesAllowed.includes(operation.role)) return;
             if (hosts.includes(operation.host)) return;
             hosts.push(operation.host);
