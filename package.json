@@ -18,6 +18,7 @@
     "react-redux": "^8.0.5",
     "react-remove-scroll": "^2.5.6",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
     "styled-components": "^5.3.10"
   },
   "devDependencies": {
