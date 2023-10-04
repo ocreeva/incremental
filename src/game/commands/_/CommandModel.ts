@@ -19,6 +19,8 @@ abstract class CommandModel extends OperationModel {
     // define standard pattern for accumulating time
     protected static readonly shouldAccumulateTime: boolean = false;
     protected static readonly accumulateMultiplier: number = 1;
+    private static get sublevelAccumulationFactor(): number { return 420 * this.accumulateMultiplier; }
+    private static get levelAccumulationFactor(): number { return 15 * this.sublevelAccumulationFactor; }
 
     // define standard pattern for unlocking a command (isEnabled)
     protected static readonly unlockCommandId?: CommandId;
@@ -46,6 +48,7 @@ abstract class CommandModel extends OperationModel {
     protected static set level(level: number) {
         if (this.view.level === level) return;
 
+        this._sublevel = 0;
         this.view.level = level;
         this.game.synchronization.updateCommandView(this.id, { level });
         this.events.emit('level', level);
@@ -58,7 +61,6 @@ abstract class CommandModel extends OperationModel {
         if (this._sublevel === sublevel) return;
 
         if (sublevel === 5) {
-            this._sublevel = 0;
             this.level += 1;
         } else {
             this._sublevel = sublevel;
@@ -144,21 +146,14 @@ abstract class CommandModel extends OperationModel {
         const { role } = this.game.getOperation(operationId);
         const maxLevel = MaxLevelByRole[role];
 
+        // level changes occur along multiples of twice the level accumulation factor; allocate using steps along this
+        // threshold to ensure we don't allocate beyond the max level
+        const threshold = 2 * this.levelAccumulationFactor;
         while (timeDelta.hasUnallocated && (this.level < maxLevel)) {
             const current = this.data.time ?? 0;
-            const previousThreshold = 420 * this.accumulateMultiplier * (15 * this.level * (this.level + 1) + this.sublevel * (this.sublevel + 1));
-            assert(current >= previousThreshold, `Operation time (${current}) has not reached the threshold (${previousThreshold}) for the current level (${this.level}.${this.sublevel}).`);
-
-            const nextThreshold = previousThreshold + 840 * this.accumulateMultiplier * (this.sublevel + 1);
-            assert(current < nextThreshold, `Operation time (${current}) has already reached the threshold (${nextThreshold}) for the next level (${this.level}.${this.sublevel + 1}).`);
-
-            const allocation = timeDelta.allocate(nextThreshold - current);
-            this.data.time = (current + allocation);
+            this.data.time = current + timeDelta.allocate(threshold - (current % threshold));
             this.game.synchronization.updateCommandData(this.id, { time: this.data.time });
-
-            this.progress = 0.2 * (this.sublevel + (this.data.time - previousThreshold) / (nextThreshold - previousThreshold));
-
-            if (this.data.time >= nextThreshold) this.sublevel += 1;
+            this.recalculateLevelFromTime();
         }
     }
 
@@ -193,6 +188,10 @@ abstract class CommandModel extends OperationModel {
         this.assertStatus(ModelStatus.loading);
 
         this.view = getDefaultCommandView(this.id);
+
+        if (this.shouldAccumulateTime && (this.data.time !== undefined)) {
+            this.recalculateLevelFromTime();
+        }
     }
 
     protected static assertInstructionMatches(instruction: InstructionState): void {
@@ -206,6 +205,22 @@ abstract class CommandModel extends OperationModel {
 
     private static assertStatus(...expected: ModelStatus[]): void {
         assert(expected.includes(this.status), `Command status '${this.status}' not in expected value(s): ${expected}`);
+    }
+
+    private static recalculateLevelFromTime(): void {
+        if (!this.shouldAccumulateTime) return;
+        if (this.data.time === undefined) return;
+
+        this.level = this.findAccumulationRoot(this.data.time / (this.levelAccumulationFactor));
+
+        this.sublevel = this.findAccumulationRoot(this.data.time / (this.sublevelAccumulationFactor * (this.level + 1)) - 15 * this.level);
+
+        this.progress = this.data.time / (10 * this.sublevelAccumulationFactor * (this.level + 1) * (this.sublevel + 1)) + this.sublevel / 10 - 1.5 * this.level / (this.sublevel + 1);
+    }
+
+    private static findAccumulationRoot(value: number): number {
+        assert(value >= 0 && value <= 30, `Unexpected value (${value}) in 'findAccumulationRoot'.`);
+        return Math.floor(Math.sqrt(value + 0.25) - 0.5);
     }
 }
 

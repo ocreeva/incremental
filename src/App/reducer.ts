@@ -1,4 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 import commandData from '@/features/commandData';
 import commandView from '@/features/commandView';
@@ -9,15 +11,27 @@ import routines from '@/features/routines';
 import scripts from '@/features/scripts';
 import subroutines from '@/features/subroutines';
 
-const rootReducer = combineReducers({
-    commandData,
-    commandView,
-    game,
-    instructions,
-    operations,
-    routines,
-    scripts,
-    subroutines,
-});
+const persistConfig = {
+    key: 'root',
+    storage,
+    whitelist: [
+        'commandData'
+    ],
+};
+
+const rootReducer = persistReducer(
+    persistConfig,
+    combineReducers({
+        commandData,
+        commandView,
+        game,
+        instructions,
+        operations,
+        routines,
+        scripts,
+        subroutines,
+    })
+);
+
 
 export default rootReducer;
