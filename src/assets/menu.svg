@@ -1,0 +1,5 @@
+<svg fill="currentColor" height="42px" width="42px" viewBox="-21 -21 42 42" xmlns="http://www.w3.org/2000/svg">
+    <path id="icon_menu_bar" d="M -10 1 c -1 0 -1 -2 0 -2 h 20 c 1 0 1 2 0 2" />
+    <use href="#icon_menu_bar" transform="translate(0 -7)" />
+    <use href="#icon_menu_bar" transform="translate(0 7)" />
+</svg>
