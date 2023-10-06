@@ -5,6 +5,7 @@ import CloseButton from './CloseButton';
 import { type CancelDialogEventHandler, DialogContextProvider, type SubmitDialogEventHandler } from './DialogContext';
 
 export declare type DialogProps = {
+    hideCloseButton?: boolean;
     isOpen: boolean;
     onCancel?: CancelDialogEventHandler;
     onDismiss: DismissDialogEventHandler;
@@ -12,7 +13,7 @@ export declare type DialogProps = {
 };
 
 const Dialog: React.FC<React.PropsWithChildren<DialogProps>>
-= ({ children, isOpen, onCancel, onDismiss, onSubmit }) => {
+= ({ children, hideCloseButton = false, isOpen, onCancel, onDismiss, onSubmit }) => {
     const handleCancel: DismissDialogEventHandler
     = onCancel ? (event) => {
         onCancel(event);
@@ -33,7 +34,7 @@ const Dialog: React.FC<React.PropsWithChildren<DialogProps>>
                 <S.Container>
                     <DialogContextProvider onCancel={handleCancel} onSubmit={handleSubmit}>
                         { children }
-                        <CloseButton />
+                        { !hideCloseButton && <CloseButton /> }
                     </DialogContextProvider>
                 </S.Container>
             </S.Border>
