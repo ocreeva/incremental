@@ -1,21 +1,32 @@
 import styled from "styled-components";
 
 import Dialog, { DialogProps } from "@/components/Dialog";
+import ResetGameDialog from "./ResetGameDialog";
+import { useState } from "react";
+import { DismissDialogEventHandler } from "@reach/dialog";
 
 const MenuDialog: React.FC<DialogProps>
 = ({ onDismiss, ...props }) => {
+    const [resetGameDialogIsOpen, setResetGameDialogIsOpen] = useState(false);
+
     const handleReset: React.MouseEventHandler<HTMLButtonElement>
     = (event) => {
-        console.log('reset');
+        setResetGameDialogIsOpen(true);
         onDismiss(event);
     };
 
+    const handleResetDismiss: DismissDialogEventHandler
+    = () => { setResetGameDialogIsOpen(false); };
+
     return (
-        <Dialog hideCloseButton={true} onDismiss={onDismiss} {...props}>
-            <ButtonPanel>
-                <ResetButton onClick={handleReset}>Reset</ResetButton>
-            </ButtonPanel>
-        </Dialog>
+        <>
+            <Dialog hideCloseButton={true} onDismiss={onDismiss} {...props}>
+                <ButtonPanel>
+                    <ResetButton onClick={handleReset}>Reset</ResetButton>
+                </ButtonPanel>
+            </Dialog>
+            <ResetGameDialog isOpen={resetGameDialogIsOpen} onDismiss={handleResetDismiss} />
+        </>
     );
 };
 
