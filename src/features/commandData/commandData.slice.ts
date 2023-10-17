@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import adapter from './commandData.adapter';
+import extraReducers from './commandData.extras';
+import initialState from './commandData.initial';
 import * as reducers from './commandData.reducers';
-
-const initialState = adapter.getInitialState();
 
 export default createSlice({
     name: 'commandData',
     initialState,
     reducers,
+    extraReducers,
 });

@@ -1,10 +1,17 @@
 import Dialog, { DialogButtons, DialogProps, DialogTitle, SubmitDialogEventHandler } from '@/components/Dialog';
+import { reset, selectGameIsPlaying } from '@/features/game';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import GameStateService from '@/services/GameStateService';
 
 const ResetGameDialog: React.FC<Omit<DialogProps, 'onSubmit'>>
 = (props) => {
+    const gameIsPlaying = useAppSelector(selectGameIsPlaying);
+
+    const dispatch = useAppDispatch();
     const handleSubmit: SubmitDialogEventHandler
     = () => {
-        console.log('Reset now!');
+        if (gameIsPlaying) GameStateService.stopAsync();
+        dispatch(reset());
     };
 
     return (
