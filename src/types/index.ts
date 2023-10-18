@@ -2,6 +2,7 @@ export type { default as CommandData, CommandDataState } from './CommandData';
 export type { default as CommandView, CommandViewState } from './CommandView';
 export type { default as EntityId } from './EntityId';
 export type { default as EntityState } from './EntityState';
+export type { default as GameState } from './GameState';
 export type { default as ICommandDesign } from './ICommandDesign';
 export type { default as ICommandDesignConstructor } from './ICommandDesignConstructor';
 export type { default as IHostDesign } from './IHostDesign';

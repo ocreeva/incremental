@@ -1,7 +1,6 @@
-import gameSlice from './gameSlice';
+import gameSlice from './game.slice';
 
 export const { reset, setGameIsPlaying } = gameSlice.actions;
-export * from './gameSlice.selectors';
-export * from './gameSlice.types';
+export * from './game.selectors';
 
 export default gameSlice.reducer;
