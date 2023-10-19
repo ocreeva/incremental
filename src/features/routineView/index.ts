@@ -1,4 +1,4 @@
-import slice from './routinesSlice';
+import slice from './routineView.slice';
 
 export const {
     addRoutine,
@@ -6,6 +6,6 @@ export const {
     setCurrentRoutineId,
     updateCurrentRoutine,
 } = slice.actions;
-export * from './routinesSlice.selectors';
+export * from './routineView.selectors';
 
 export default slice.reducer;

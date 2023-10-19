@@ -3,7 +3,7 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 import { convertToGameTime } from '@/core';
 import { selectHostDesign } from '@/features/hosts';
 import { selectRoleDesign } from '@/features/roles';
-import { selectSubroutine } from '@/features/subroutines';
+import { selectSubroutine } from '@/features/subroutineView';
 import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
 

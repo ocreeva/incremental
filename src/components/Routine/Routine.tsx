@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { convertToGameTime } from '@/core';
-import { selectCurrentRoutine } from '@/features/routines';
+import { selectCurrentRoutine } from '@/features/routineView';
 import { useAppSelector } from '@/hooks';
 import type { EntityId } from '@/types';
 

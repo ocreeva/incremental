@@ -7,8 +7,7 @@ export type { default as ICommandDesignConstructor } from './ICommandDesignConst
 export type { default as IHostDesign } from './IHostDesign';
 export type { default as InstructionData, InstructionDataState } from './InstructionData';
 export type { default as IRoleDesign } from './IRoleDesign';
-export type { default as OperationState } from './OperationState';
-export type { default as RoutineState } from './RoutineState';
+export type { default as OperationView, OperationViewState } from './OperationView';
+export type { default as RoutineView, RoutineViewState } from './RoutineView';
 export type { default as ScriptData, ScriptDataState } from './ScriptData';
-export type { default as SubroutineState } from './SubroutineState';
-export type { default as Update } from './Update';
+export type { default as SubroutineView, SubroutineViewState } from './SubroutineView';

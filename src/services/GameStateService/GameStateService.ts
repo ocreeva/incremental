@@ -4,10 +4,10 @@ import { selectCommandData, upsertCommandData } from '@/features/commandData';
 import { updateCommandView } from '@/features/commandView';
 import { setGameIsPlaying } from '@/features/game';
 import { selectInstruction } from '@/features/instructionData';
-import { addOperations, updateOperations } from '@/features/operations';
-import { addRoutine, removeRoutine, selectCurrentRoutineId, setCurrentRoutineId, updateCurrentRoutine } from '@/features/routines';
+import { addOperations, updateOperations } from '@/features/operationView';
+import { addRoutine, removeRoutine, selectCurrentRoutineId, setCurrentRoutineId, updateCurrentRoutine } from '@/features/routineView';
 import { selectCurrentScriptId, selectScript } from '@/features/scriptData';
-import { addSubroutines, updateSubroutines } from '@/features/subroutines';
+import { addSubroutines, updateSubroutines } from '@/features/subroutineView';
 import WorkerMessageService from '@/services/WorkerMessageService';
 import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 import {

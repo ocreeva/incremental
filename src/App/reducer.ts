@@ -6,10 +6,10 @@ import commandData from '@/features/commandData';
 import commandView from '@/features/commandView';
 import game from '@/features/game';
 import instructionData from '@/features/instructionData';
-import operations from '@/features/operations';
-import routines from '@/features/routines';
+import operationView from '@/features/operationView';
+import routineView from '@/features/routineView';
 import scriptData from '@/features/scriptData';
-import subroutines from '@/features/subroutines';
+import subroutineView from '@/features/subroutineView';
 
 const persistConfig = {
     key: 'root',
@@ -28,10 +28,10 @@ const rootReducer = persistReducer(
         commandView,
         game,
         instructionData,
-        operations,
-        routines,
+        operationView,
+        routineView,
         scriptData,
-        subroutines,
+        subroutineView,
     })
 );
 

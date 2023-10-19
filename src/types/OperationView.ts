@@ -1,12 +1,13 @@
-import type { CommandId, Host, Role } from '@/constants';
+import { EntityId, EntityState } from '@reduxjs/toolkit';
 
-import type EntityId from './EntityId';
-import type EntityState from './EntityState';
+import { CommandId, Host, Role } from '@/constants';
+
+import Entity from './Entity';
 
 /**
- * Provides the UI state for an Operation.
+ * Provides the non-persistent state for viewing an Operation.
  */
-declare type OperationState = EntityState & {
+declare type OperationView = Entity & {
     /** The command's ID. */
     readonly commandId: CommandId;
     /** The parent subroutine's ID. */
@@ -29,4 +30,6 @@ declare type OperationState = EntityState & {
     role: Role;
 };
 
-export default OperationState;
+export declare type OperationViewState = EntityState<OperationView>;
+
+export default OperationView;

@@ -1,12 +1,13 @@
-import type { Host, Role } from '@/constants';
+import { EntityId, EntityState } from '@reduxjs/toolkit';
 
-import type EntityId from './EntityId';
-import type EntityState from './EntityState';
+import { Host, Role } from '@/constants';
+
+import Entity from './Entity';
 
 /**
- * Provides the UI state for a Subroutine.
+ * Provides the non-persistent state for viewing a Subroutine.
  */
-declare type SubroutineState = EntityState & {
+declare type SubroutineView = Entity & {
     /** The subroutine's total duration, in milliseconds. */
     duration: number;
     /** The subroutine's operations' IDs, in order of execution. */
@@ -19,4 +20,6 @@ declare type SubroutineState = EntityState & {
     role: Role;
 };
 
-export default SubroutineState;
+export declare type SubroutineViewState = EntityState<SubroutineView>;
+
+export default SubroutineView;

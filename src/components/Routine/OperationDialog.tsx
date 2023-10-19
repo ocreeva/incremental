@@ -4,7 +4,7 @@ import Dialog, { DialogButtons, DialogTitle } from '@/components/Dialog';
 import { assert } from '@/core';
 import { selectCommandDesign } from '@/features/commandDesign';
 import { selectHostDesign } from '@/features/hosts';
-import { selectOperation } from '@/features/operations';
+import { selectOperation } from '@/features/operationView';
 import { selectRoleDesign } from '@/features/roles';
 import { useParamSelector } from '@/hooks';
 

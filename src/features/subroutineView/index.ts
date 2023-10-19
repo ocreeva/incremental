@@ -1,9 +1,9 @@
-import slice from './subroutinesSlice';
+import slice from './subroutineView.slice';
 
 export const {
     addSubroutines,
     updateSubroutines,
 } = slice.actions;
-export * from './subroutinesSlice.selectors';
+export * from './subroutineView.selectors';
 
 export default slice.reducer;

@@ -1,6 +1,8 @@
+import { Update } from '@reduxjs/toolkit';
+
 import { ModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
-import type { CommandData, CommandView, OperationState, RoutineState, SubroutineState, Update } from '@/types';
+import type { CommandData, CommandView, OperationView, RoutineView, SubroutineView } from '@/types';
 import type { MessageSendProvider, PayloadMessage } from '@/types/worker';
 
 const assertMessageType: <TPayload>(message: PayloadMessage, type: ModelMessage) => asserts message is PayloadMessage<TPayload, ModelMessage>
@@ -35,13 +37,13 @@ export declare type UpdatePayload = {
     commandData: CommandData[];
     commandView: Update<CommandView>[];
 
-    operations: OperationState[];
-    operationUpdates: Update<OperationState>[];
+    operations: OperationView[];
+    operationUpdates: Update<OperationView>[];
 
     routineIsComplete: boolean;
-    routineUpdate?: Partial<RoutineState>;
+    routineUpdate?: Partial<RoutineView>;
 
-    subroutines: SubroutineState[];
-    subroutineUpdates: Update<SubroutineState>[];
+    subroutines: SubroutineView[];
+    subroutineUpdates: Update<SubroutineView>[];
 };
 export const [ sendUpdateMessage, getUpdateMessage ] = createMessageHandlers<UpdatePayload>(ModelMessage.Update);

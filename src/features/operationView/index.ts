@@ -1,9 +1,9 @@
-import slice from './operationsSlice';
+import slice from './operationView.slice';
 
 export const {
     addOperations,
     updateOperations,
 } = slice.actions;
-export * from './operationsSlice.selectors';
+export * from './operationView.selectors';
 
 export default slice.reducer;

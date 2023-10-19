@@ -1,11 +1,13 @@
-import { type ActionReducerMapBuilder, type PayloadAction } from '@reduxjs/toolkit';
-import type { EntityId } from '@/types';
+import { ActionReducerMapBuilder, EntityId, PayloadAction } from '@reduxjs/toolkit';
 
-import adapter, { selectById } from './subroutinesSlice.adapter';
-import { type SliceState } from './subroutinesSlice.types';
+import { SubroutineViewState } from '@/types';
 
-const extraReducers: (builder: ActionReducerMapBuilder<SliceState>) => void
+import adapter, { selectById } from './subroutineView.adapter';
+import initialState from './subroutineView.initial';
+
+const extraReducers: (builder: ActionReducerMapBuilder<SubroutineViewState>) => void
 = (builder) => {
+    builder.addCase('game/reset', () => initialState);
     builder.addCase<string, PayloadAction<EntityId>>(
         'routines/removeRoutine',
         (state, { payload: routineId }) => {
