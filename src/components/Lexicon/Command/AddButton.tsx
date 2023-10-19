@@ -4,8 +4,8 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 import { ReactComponent as AddIcon } from '@/assets/add.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { selectCommandDesign } from '@/features/commandDesign';
-import { addInstruction } from '@/features/instructions';
-import { addInstructionToCurrentScript } from '@/features/scripts';
+import { addInstruction } from '@/features/instructionData';
+import { addInstructionToCurrentScript } from '@/features/scriptData';
 import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useCommandContext } from './CommandContext';

@@ -1,6 +1,7 @@
-import { selectCurrentScriptId, selectScript } from '@/features/scripts';
+import { EntityId } from '@reduxjs/toolkit';
+
+import { selectCurrentScriptId, selectScript } from '@/features/scriptData';
 import { useAppSelector, useParamSelector } from '@/hooks';
-import { type EntityId } from '@/types';
 
 import * as S from './Script.styles';
 import Instruction from './Instruction';

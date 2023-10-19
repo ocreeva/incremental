@@ -6,7 +6,7 @@ import Dialog, {
     type SubmitDialogEventHandler
 } from '@/components/Dialog';
 import { ScriptSelectionList, useScriptSelection } from '@/components/ScriptSelection';
-import { selectCurrentScriptId, setCurrentScriptId } from '@/features/scripts';
+import { selectCurrentScriptId, setCurrentScriptId } from '@/features/scriptData';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import CreateScriptButton from './CreateScriptButton';

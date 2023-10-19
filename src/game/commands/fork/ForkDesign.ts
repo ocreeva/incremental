@@ -16,8 +16,8 @@ class ForkDesign extends CommandDesign {
 
     public override get GlyphComponent() { return ForkGlyph; }
 
-    protected override createInstructionState(state: RootState): InstructionState {
-        const instruction = super.createInstructionState(state);
+    protected override createInstructionData(state: RootState): InstructionState {
+        const instruction = super.createInstructionData(state);
         instruction.targetEntityId = state.scripts.currentId;
         return instruction;
     }

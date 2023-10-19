@@ -6,7 +6,7 @@ import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { HostSelectionDialog, type SelectHostEventHandler } from '@/components/HostSelection';
 import { Host } from '@/constants';
 import { assert } from '@/core';
-import { selectInstruction, updateInstruction } from '@/features/instructions';
+import { selectInstruction, updateInstruction } from '@/features/instructionData';
 import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useInstructionContext } from '../InstructionContext';

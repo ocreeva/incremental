@@ -5,17 +5,19 @@ import storage from 'redux-persist/lib/storage';
 import commandData from '@/features/commandData';
 import commandView from '@/features/commandView';
 import game from '@/features/game';
-import instructions from '@/features/instructions';
+import instructionData from '@/features/instructionData';
 import operations from '@/features/operations';
 import routines from '@/features/routines';
-import scripts from '@/features/scripts';
+import scriptData from '@/features/scriptData';
 import subroutines from '@/features/subroutines';
 
 const persistConfig = {
     key: 'root',
     storage,
     whitelist: [
-        'commandData'
+        'commandData',
+        'instructionData',
+        'scriptData',
     ],
 };
 
@@ -25,10 +27,10 @@ const rootReducer = persistReducer(
         commandData,
         commandView,
         game,
-        instructions,
+        instructionData,
         operations,
         routines,
-        scripts,
+        scriptData,
         subroutines,
     })
 );

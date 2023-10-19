@@ -5,8 +5,8 @@ import { type DismissDialogEventHandler } from '@reach/dialog';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { ScriptSelectionDialog, type SelectScriptEventHandler } from '@/components/ScriptSelection';
 import { assertIsDefined } from '@/core';
-import { selectInstruction, updateInstruction } from '@/features/instructions';
-import { selectScript } from '@/features/scripts';
+import { selectInstruction, updateInstruction } from '@/features/instructionData';
+import { selectScript } from '@/features/scriptData';
 import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useInstructionContext } from '../InstructionContext';

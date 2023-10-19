@@ -3,8 +3,8 @@ import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { ReactComponent as RemoveIcon } from '@/assets/remove.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
-import { removeInstruction, selectInstruction } from '@/features/instructions';
-import { removeInstructionFromCurrentScript } from '@/features/scripts';
+import { removeInstruction, selectInstruction } from '@/features/instructionData';
+import { removeInstructionFromCurrentScript } from '@/features/scriptData';
 import { useAppDispatch, useParamSelector } from '@/hooks';
 
 import { useInstructionContext } from './InstructionContext';

@@ -1,15 +1,14 @@
 export type { default as CommandData, CommandDataState } from './CommandData';
 export type { default as CommandView, CommandViewState } from './CommandView';
-export type { default as EntityId } from './EntityId';
-export type { default as EntityState } from './EntityState';
+export type { default as Entity } from './Entity';
 export type { default as GameState } from './GameState';
 export type { default as ICommandDesign } from './ICommandDesign';
 export type { default as ICommandDesignConstructor } from './ICommandDesignConstructor';
 export type { default as IHostDesign } from './IHostDesign';
-export type { default as InstructionState } from './InstructionState';
+export type { default as InstructionData, InstructionDataState } from './InstructionData';
 export type { default as IRoleDesign } from './IRoleDesign';
 export type { default as OperationState } from './OperationState';
 export type { default as RoutineState } from './RoutineState';
-export type { default as ScriptState } from './ScriptState';
+export type { default as ScriptData, ScriptDataState } from './ScriptData';
 export type { default as SubroutineState } from './SubroutineState';
 export type { default as Update } from './Update';

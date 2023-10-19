@@ -1,6 +1,6 @@
-import slice from './instructionsSlice';
+import slice from './instructionData.slice';
 
 export const { addInstruction, removeInstruction, updateInstruction } = slice.actions;
-export * from './instructionsSlice.selectors';
+export * from './instructionData.selectors';
 
 export default slice.reducer;

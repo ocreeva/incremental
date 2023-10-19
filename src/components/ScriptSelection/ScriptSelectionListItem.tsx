@@ -1,7 +1,8 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 import { SelectionListItem } from '@/components/SelectionList';
-import { selectScript } from '@/features/scripts';
+import { selectScript } from '@/features/scriptData';
 import { useParamSelector } from '@/hooks';
-import type { EntityId } from '@/types';
 
 declare type ScriptSelectionListItemProps = {
     scriptId: EntityId;

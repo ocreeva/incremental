@@ -2,8 +2,8 @@ import { ReactComponent as MissingGlyph } from '@/assets/glyphs/error.svg';
 import store, { type RootState } from '@/App/store';
 import { type CommandId, CommandTarget } from '@/constants';
 import { assert } from '@/core';
-import { selectCurrentScriptId } from '@/features/scripts';
-import type { CommandView, ICommandDesign, ICommandDesignConstructor, InstructionState } from '@/types';
+import { selectCurrentScriptId } from '@/features/scriptData';
+import type { CommandView, ICommandDesign, ICommandDesignConstructor, InstructionData } from '@/types';
 
 import createCommandRecord from './createCommandRecord';
 
@@ -43,12 +43,12 @@ abstract class CommandDesign implements ICommandDesign {
 
     private get derived(): ICommandDesign { return this.constructor as unknown as ICommandDesign; }
 
-    public createInstruction(): InstructionState {
+    public createInstruction(): InstructionData {
         const state = store.getState();
-        return this.createInstructionState(state);
+        return this.createInstructionData(state);
     }
 
-    protected createInstructionState(state: RootState): InstructionState {
+    protected createInstructionData(state: RootState): InstructionData {
         return {
             id: crypto.randomUUID(),
             commandId: this.id,

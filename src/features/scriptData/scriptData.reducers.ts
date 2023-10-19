@@ -1,15 +1,14 @@
-import { type PayloadAction, type Update } from '@reduxjs/toolkit';
+import { EntityId, PayloadAction, Update } from '@reduxjs/toolkit';
 
-import { type EntityId, type ScriptState } from '@/types';
+import { ScriptData, ScriptDataState } from '@/types';
 
-import adapter, { selectById } from './scriptsSlice.adapter';
-import { _createScript } from './scriptsSlice.utility';
-import { type SliceState } from './scriptsSlice.types';
+import adapter, { selectById } from './scriptData.adapter';
+import { createScriptData } from './scriptData.utility';
 
-export const addInstructionToCurrentScript: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
+export const addInstructionToCurrentScript: (state: ScriptDataState, action: PayloadAction<EntityId>) => ScriptDataState
 = (state, { payload: instructionId }) => {
     const { id, instructions } = selectById(state, state.currentId);
-    const update: Update<ScriptState> = {
+    const update: Update<ScriptData> = {
         id,
         changes: {
             instructions: [ ...instructions, instructionId ],
@@ -21,9 +20,9 @@ export const addInstructionToCurrentScript: (state: SliceState, action: PayloadA
 export declare type CreateScriptProps = {
     newScriptId?: EntityId;
 };
-export const createScript: (state: SliceState, action: PayloadAction<CreateScriptProps>) => SliceState
+export const createScript: (state: ScriptDataState, action: PayloadAction<CreateScriptProps>) => ScriptDataState
 = (state, { payload }) => {
-    const newScript: ScriptState = _createScript();
+    const newScript: ScriptData = createScriptData();
     payload.newScriptId = newScript.id;
     return adapter.addOne(state, newScript);
 };
@@ -32,7 +31,7 @@ export declare type DeleteScriptProps = {
     scriptId: EntityId;
     currentScriptId?: EntityId;
 }
-export const deleteScript: (state: SliceState, action: PayloadAction<DeleteScriptProps>) => SliceState
+export const deleteScript: (state: ScriptDataState, action: PayloadAction<DeleteScriptProps>) => ScriptDataState
 = (state, { payload }) => {
     const { scriptId } = payload;
     if (scriptId === state.currentId) {
@@ -45,10 +44,10 @@ export const deleteScript: (state: SliceState, action: PayloadAction<DeleteScrip
     return adapter.removeOne(state, scriptId);
 };
 
-export const removeInstructionFromCurrentScript: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
+export const removeInstructionFromCurrentScript: (state: ScriptDataState, action: PayloadAction<EntityId>) => ScriptDataState
 = (state, { payload: instructionId }) => {
     const { id, instructions } = selectById(state, state.currentId);
-    const update: Update<ScriptState> = {
+    const update: Update<ScriptData> = {
         id,
         changes: {
             instructions: instructions.filter(_ => _ !== instructionId),
@@ -57,5 +56,5 @@ export const removeInstructionFromCurrentScript: (state: SliceState, action: Pay
     return adapter.updateOne(state, update);
 };
 
-export const setCurrentScriptId: (state: SliceState, action: PayloadAction<EntityId>) => SliceState
+export const setCurrentScriptId: (state: ScriptDataState, action: PayloadAction<EntityId>) => ScriptDataState
 = (state, { payload: scriptId }) => ({ ...state, currentId: scriptId });

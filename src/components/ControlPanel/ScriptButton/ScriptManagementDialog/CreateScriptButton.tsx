@@ -4,7 +4,7 @@ import { ReactComponent as AddScriptIcon } from '@/assets/script-add.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { useSelectionContext } from '@/components/SelectionList';
 import { assertIsDefined } from '@/core';
-import { type CreateScriptProps, createScript } from '@/features/scripts';
+import { CreateScriptProps, createScript } from '@/features/scriptData';
 import { useAppDispatch } from '@/hooks';
 
 const CreateScriptButton: React.FC

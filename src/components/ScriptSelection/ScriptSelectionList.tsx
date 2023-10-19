@@ -1,5 +1,5 @@
 import { SelectionList } from '@/components/SelectionList';
-import { selectScriptIds } from '@/features/scripts';
+import { selectScriptIds } from '@/features/scriptData';
 import { useAppSelector } from '@/hooks';
 
 import ScriptSelectionListItem from "./ScriptSelectionListItem";

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Lexicon from '@/components/Lexicon';
 import Script from '@/components/Script';
 import { FocusTarget } from '@/constants';
-import { selectCurrentScriptId, selectScript } from '@/features/scripts';
+import { selectCurrentScriptId, selectScript } from '@/features/scriptData';
 import { useAppSelector, useParamSelector } from '@/hooks';
 
 import * as S from './IDE.styles';

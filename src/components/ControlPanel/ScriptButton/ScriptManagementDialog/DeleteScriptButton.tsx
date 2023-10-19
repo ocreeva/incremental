@@ -4,7 +4,7 @@ import { ReactComponent as RemoveScriptIcon } from '@/assets/script-remove.svg';
 import GlowButton, { GlowButtonShape } from '@/components/GlowButton';
 import { useSelectionContext } from '@/components/SelectionList';
 import { assertIsDefined } from '@/core';
-import { type DeleteScriptProps, deleteScript, selectScriptIds } from '@/features/scripts';
+import { DeleteScriptProps, deleteScript, selectScriptIds } from '@/features/scriptData';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 const DeleteScriptButton: React.FC

@@ -1,4 +1,4 @@
-import slice from './scriptsSlice';
+import slice from './scriptData.slice';
 
 export const {
     addInstructionToCurrentScript,
@@ -7,8 +7,8 @@ export const {
     removeInstructionFromCurrentScript,
     setCurrentScriptId,
 } = slice.actions;
-export * from './scriptsSlice.selectors';
+export * from './scriptData.selectors';
 
-export type { CreateScriptProps, DeleteScriptProps } from './scriptsSlice.reducers';
+export type { CreateScriptProps, DeleteScriptProps } from './scriptData.reducers';
 
 export default slice.reducer;

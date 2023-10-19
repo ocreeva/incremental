@@ -1,12 +1,14 @@
-import { type ActionReducerMapBuilder, type PayloadAction } from '@reduxjs/toolkit';
+import { ActionReducerMapBuilder, PayloadAction } from '@reduxjs/toolkit';
 
-import { type DeleteScriptProps } from '@/features/scripts';
+import { DeleteScriptProps } from '@/features/scriptData';
+import { InstructionDataState } from '@/types';
 
-import adapter, { selectById } from './instructionsSlice.adapter';
-import { type SliceState } from './instructionsSlice.types';
+import adapter, { selectById } from './instructionData.adapter';
+import initialState from './instructionData.initial';
 
-const extraReducers: (builder: ActionReducerMapBuilder<SliceState>) => void
+const extraReducers: (builder: ActionReducerMapBuilder<InstructionDataState>) => void
 = (builder) => {
+    builder.addCase('game/reset', () => initialState);
     builder.addCase<string, PayloadAction<DeleteScriptProps>>(
         'scripts/deleteScript',
         (state, { payload: { scriptId } }) => {
