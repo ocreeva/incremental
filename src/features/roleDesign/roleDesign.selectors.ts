@@ -1,9 +1,9 @@
 import createCachedSelector from 're-reselect';
 
-import { type RootState } from '@/App/store';
-import { type Role } from '@/constants';
+import { RootState } from '@/App/store';
+import { Role } from '@/constants';
 import roleDesigns from '@/game/roles/designs';
-import type { IRoleDesign } from '@/types';
+import { IRoleDesign } from '@/types';
 
 const selectRole: (state: RootState, role: Role) => Role = (_state, role) => role;
 

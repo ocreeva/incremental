@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import Dialog, { DialogButtons, DialogTitle } from '@/components/Dialog';
 import { assert } from '@/core';
 import { selectCommandDesign } from '@/features/commandDesign';
-import { selectHostDesign } from '@/features/hosts';
+import { selectHostDesign } from '@/features/hostDesign';
 import { selectOperation } from '@/features/operationView';
-import { selectRoleDesign } from '@/features/roles';
+import { selectRoleDesign } from '@/features/roleDesign';
 import { useParamSelector } from '@/hooks';
 
 import { useOperationDialogContext } from './OperationDialogContext';

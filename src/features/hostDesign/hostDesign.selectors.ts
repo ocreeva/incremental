@@ -1,9 +1,9 @@
 import createCachedSelector from 're-reselect';
 
-import { type RootState } from '@/App/store';
-import { type Host } from '@/constants';
+import { RootState } from '@/App/store';
+import { Host } from '@/constants';
 import hostDesigns from '@/game/hosts/designs';
-import type { IHostDesign } from '@/types';
+import { IHostDesign } from '@/types';
 
 const selectHost: (state: RootState, host: Host) => Host = (_state, host) => host;
 

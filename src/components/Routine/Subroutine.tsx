@@ -1,8 +1,8 @@
 import { VisuallyHidden } from '@reach/visually-hidden';
 
 import { convertToGameTime } from '@/core';
-import { selectHostDesign } from '@/features/hosts';
-import { selectRoleDesign } from '@/features/roles';
+import { selectHostDesign } from '@/features/hostDesign';
+import { selectRoleDesign } from '@/features/roleDesign';
 import { selectSubroutine } from '@/features/subroutineView';
 import { useParamSelector } from '@/hooks';
 import type { EntityId } from '@/types';
