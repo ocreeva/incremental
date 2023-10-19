@@ -38,6 +38,12 @@ class ModelProcessor {
         return this.synchronization.getCreatePayload();
     }
 
+    public reset(): void {
+        this.game.reset();
+
+        Object.values(this.game.commands).map(command => command.reset());
+    }
+
     public start(): void {
         this.time.snapshot();
     }
@@ -62,6 +68,9 @@ class ModelProcessor {
         switch (this.game.routine.status) {
             case ModelStatus.complete:
                 this.game.routine.finalize(this.time.total);
+                break;
+
+            case ModelStatus.idle:
                 break;
 
             default:

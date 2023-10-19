@@ -23,6 +23,11 @@ self.onmessage = ({ data: message }) => {
             break;
         }
 
+        case ModelMessage.Reset:
+            modelProcessor.reset();
+            modelProcessor.initializeAsync();
+            break;
+
         case ModelMessage.Start:
             modelProcessor.start();
             break;

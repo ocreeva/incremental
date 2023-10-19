@@ -12,6 +12,7 @@ const ResetGameDialog: React.FC<Omit<DialogProps, 'onSubmit'>>
     = () => {
         if (gameIsPlaying) GameStateService.stopAsync();
         dispatch(reset());
+        GameStateService.resetAsync();
     };
 
     return (

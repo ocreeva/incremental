@@ -30,6 +30,8 @@ declare interface ICommandModel extends ICommandModelEventable, IEntityModel<voi
         parentRoutineId: EntityId,
         parentSubroutineId: EntityId,
     ) => Promise<EntityId>;
+
+    reset: () => void;
 }
 
 export default ICommandModel;

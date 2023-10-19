@@ -193,7 +193,7 @@ class RoutineModel implements IRoutineModel {
     }
 
     private assertStatus(...expected: ModelStatus[]): void {
-        assert(expected.includes(this.status), `Subroutine status '${this.status}' not in expected value(s): ${expected}`);
+        assert(expected.includes(this.status), `Routine status '${this.status}' not in expected value(s): ${expected}`);
     }
 }
 

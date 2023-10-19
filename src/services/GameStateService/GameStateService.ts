@@ -16,6 +16,7 @@ import {
     prepareToGetCommandData,
     prepareToGetInstruction,
     prepareToGetScript,
+    sendResetMessage,
     sendStartMessage,
     sendStopMessage,
     sendTickMessage,
@@ -27,6 +28,11 @@ const postMessageAction: PayloadMessageAction = (message) => worker.postMessage(
 const messageService = new WorkerMessageService<ModelMessage, AsyncModelMessage>(postMessageAction);
 
 abstract class GameStateService {
+    public static resetAsync: () => Promise<void>
+    = async () => {
+        sendResetMessage(messageService);
+    };
+
     public static startAsync: () => Promise<void>
     = async () => {
         const state = store.getState();

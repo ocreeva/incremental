@@ -184,6 +184,17 @@ abstract class CommandModel extends OperationModel {
         this.status = ModelStatus.active;
     }
 
+    public static reset(): void {
+        this.assertStatus(ModelStatus.active);
+
+        this.data = { id: this.id };
+        this.view = getDefaultCommandView(this.id);
+
+        this._sublevel = 0;
+
+        this.status = ModelStatus.idle;
+    }
+
     protected static initializeView(): void {
         this.assertStatus(ModelStatus.loading);
 

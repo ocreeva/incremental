@@ -23,6 +23,8 @@ const createMessageHandlers: <TPayload>(type: ModelMessage) => [SendHandler<TPay
     }
 ];
 
+export const [ sendResetMessage ] = createEmptyMessageHandlers(ModelMessage.Reset);
+
 export const [ sendStartMessage ] = createEmptyMessageHandlers(ModelMessage.Start);
 
 export const [ sendStopMessage ] = createEmptyMessageHandlers(ModelMessage.Stop);
