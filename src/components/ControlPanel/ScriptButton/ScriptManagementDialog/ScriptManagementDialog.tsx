@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import CreateScriptButton from './CreateScriptButton';
 import DeleteScriptButton from './DeleteScriptButton';
 import RenameScriptButton from './RenameScriptButton';
+import { ScriptManagementContext } from './ScriptManagementContext';
 
 const ScriptManagementDialog: React.FC<DialogProps>
 = (props) => {
@@ -23,34 +24,34 @@ const ScriptManagementDialog: React.FC<DialogProps>
 
     const [isEditing, setIsEditing] = useState(false);
 
-    const handleEditStart: React.MouseEventHandler<HTMLButtonElement>
-    = () => setIsEditing(true);
-
     const handleItemEdit: React.Dispatch<string>
-    = (name) => {
-        dispatch(renameScript({ scriptId, name }));
-    };
+    = (name) => { dispatch(renameScript({ scriptId, name })); };
 
     const handleEditComplete: () => void
     = () => setIsEditing(false);
 
     const handleCancel: CancelDialogEventHandler
-    = () => setScriptId(currentScriptId);
+    = () => {
+        setIsEditing(false);
+        setScriptId(currentScriptId);
+    };
 
     const handleSubmit: SubmitDialogEventHandler
     = () => { dispatch(setCurrentScriptId(scriptId)); };
 
     return (
         <Dialog onCancel={handleCancel} onSubmit={handleSubmit} {...props}>
-            <DialogTitle>Scripts</DialogTitle>
-            <ScriptSelection isEditing={isEditing} onEditComplete={handleEditComplete} onItemEdit={handleItemEdit}>
-                <ScriptSelectionList />
-                <DialogButtons removeCancelButton={true}>
-                    <CreateScriptButton />
-                    <RenameScriptButton onClick={handleEditStart} />
-                    <DeleteScriptButton />
-                </DialogButtons>
-            </ScriptSelection>
+            <ScriptManagementContext setIsEditing={setIsEditing}>
+                <DialogTitle>Scripts</DialogTitle>
+                <ScriptSelection isEditing={isEditing} onEditComplete={handleEditComplete} onItemEdit={handleItemEdit}>
+                    <ScriptSelectionList />
+                    <DialogButtons removeCancelButton={true}>
+                        <CreateScriptButton />
+                        <RenameScriptButton />
+                        <DeleteScriptButton />
+                    </DialogButtons>
+                </ScriptSelection>
+            </ScriptManagementContext>
         </Dialog>
     );
 };
