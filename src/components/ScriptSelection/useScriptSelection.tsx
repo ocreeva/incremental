@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { EntityId } from '@reduxjs/toolkit';
 
-import { SelectionContext } from '@/components/SelectionList';
-import type { EntityId } from '@/types';
+import { EditSelectionContextProps, SelectionContext } from '@/components/SelectionList';
 
-const useScriptSelection: (initialScriptId: EntityId) => [ React.FC<React.PropsWithChildren>, EntityId, React.Dispatch<React.SetStateAction<EntityId>> ]
+const useScriptSelection: (initialScriptId: EntityId) => [ React.FC<React.PropsWithChildren<EditSelectionContextProps>>, EntityId, React.Dispatch<React.SetStateAction<EntityId>> ]
 = (initialScriptId) => {
     const [scriptId, setScriptId] = useState(initialScriptId);
     return [

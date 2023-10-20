@@ -1,3 +1,5 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 import Dialog, {
     type CancelDialogEventHandler,
     type DialogProps,
@@ -6,7 +8,6 @@ import Dialog, {
     type SubmitDialogEventHandler
 } from '@/components/Dialog';
 import { ScriptSelectionList, useScriptSelection } from '@/components/ScriptSelection';
-import { type EntityId } from '@/types';
 
 export declare type SelectScriptEventHandler = (scriptId: EntityId, event: React.MouseEvent | React.KeyboardEvent) => void;
 

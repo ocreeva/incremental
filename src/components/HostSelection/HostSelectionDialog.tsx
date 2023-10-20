@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { EntityId } from '@reduxjs/toolkit';
 
 import Dialog, {
     type CancelDialogEventHandler,
@@ -9,7 +10,6 @@ import Dialog, {
 } from '@/components/Dialog';
 import { SelectionContext } from '@/components/SelectionList';
 import { type Host } from '@/constants';
-import type { EntityId } from '@/types';
 
 import HostSelectionList from './HostSelectionList';
 

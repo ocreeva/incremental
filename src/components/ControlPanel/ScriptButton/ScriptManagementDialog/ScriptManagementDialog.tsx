@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Dialog, {
     type CancelDialogEventHandler,
     type DialogProps,
@@ -6,7 +8,7 @@ import Dialog, {
     type SubmitDialogEventHandler
 } from '@/components/Dialog';
 import { ScriptSelectionList, useScriptSelection } from '@/components/ScriptSelection';
-import { selectCurrentScriptId, setCurrentScriptId } from '@/features/scriptData';
+import { renameScript, selectCurrentScriptId, setCurrentScriptId } from '@/features/scriptData';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import CreateScriptButton from './CreateScriptButton';
@@ -19,6 +21,19 @@ const ScriptManagementDialog: React.FC<DialogProps>
     const currentScriptId = useAppSelector(selectCurrentScriptId);
     const [ScriptSelection, scriptId, setScriptId] = useScriptSelection(currentScriptId);
 
+    const [isEditing, setIsEditing] = useState(false);
+
+    const handleEditStart: React.MouseEventHandler<HTMLButtonElement>
+    = () => setIsEditing(true);
+
+    const handleItemEdit: React.Dispatch<string>
+    = (name) => {
+        dispatch(renameScript({ scriptId, name }));
+    };
+
+    const handleEditComplete: () => void
+    = () => setIsEditing(false);
+
     const handleCancel: CancelDialogEventHandler
     = () => setScriptId(currentScriptId);
 
@@ -28,11 +43,11 @@ const ScriptManagementDialog: React.FC<DialogProps>
     return (
         <Dialog onCancel={handleCancel} onSubmit={handleSubmit} {...props}>
             <DialogTitle>Scripts</DialogTitle>
-            <ScriptSelection>
+            <ScriptSelection isEditing={isEditing} onEditComplete={handleEditComplete} onItemEdit={handleItemEdit}>
                 <ScriptSelectionList />
                 <DialogButtons removeCancelButton={true}>
                     <CreateScriptButton />
-                    <RenameScriptButton />
+                    <RenameScriptButton onClick={handleEditStart} />
                     <DeleteScriptButton />
                 </DialogButtons>
             </ScriptSelection>

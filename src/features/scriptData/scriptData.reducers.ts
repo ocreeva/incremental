@@ -56,5 +56,12 @@ export const removeInstructionFromCurrentScript: (state: ScriptDataState, action
     return adapter.updateOne(state, update);
 };
 
+declare type RenameScriptProps = {
+    scriptId: EntityId;
+    name: string;
+};
+export const renameScript: (state: ScriptDataState, action: PayloadAction<RenameScriptProps>) => ScriptDataState
+= (state, { payload: { scriptId, name }}) => adapter.updateOne(state, { id: scriptId, changes: { name } });
+
 export const setCurrentScriptId: (state: ScriptDataState, action: PayloadAction<EntityId>) => ScriptDataState
 = (state, { payload: scriptId }) => ({ ...state, currentId: scriptId });

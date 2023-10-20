@@ -5,6 +5,7 @@ export const {
     createScript,
     deleteScript,
     removeInstructionFromCurrentScript,
+    renameScript,
     setCurrentScriptId,
 } = slice.actions;
 export * from './scriptData.selectors';
