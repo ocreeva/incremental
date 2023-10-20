@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 
 import CreateScriptButton from './CreateScriptButton';
 import DeleteScriptButton from './DeleteScriptButton';
+import RenameScriptButton from './RenameScriptButton';
 
 const ScriptManagementDialog: React.FC<DialogProps>
 = (props) => {
@@ -31,6 +32,7 @@ const ScriptManagementDialog: React.FC<DialogProps>
                 <ScriptSelectionList />
                 <DialogButtons removeCancelButton={true}>
                     <CreateScriptButton />
+                    <RenameScriptButton />
                     <DeleteScriptButton />
                 </DialogButtons>
             </ScriptSelection>

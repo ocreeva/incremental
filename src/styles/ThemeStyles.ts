@@ -28,6 +28,7 @@ const ThemeStyles = css`
         --color-minus: hsl(0deg 100% 25%);
         --color-plus: hsl(120deg 100% 25%);
         --color-remove: hsl(0deg 65% 35%);
+        --color-rename: hsl(240deg 75% 25%);
         --color-reset: hsl(0deg 100% 25%);
         --color-star: hsl(55deg 100% 25%);
 
@@ -50,6 +51,7 @@ const ThemeStyles = css`
             --color-minus: hsl(0deg 100% 75%);
             --color-plus: hsl(120deg 100% 75%);
             --color-remove: hsl(0deg 65% 65%);
+            --color-rename: hsl(240deg 75% 75%);
             --color-reset: hsl(0deg 100% 75%);
             --color-star: hsl(55deg 100% 75%);
         }
