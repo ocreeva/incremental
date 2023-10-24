@@ -1,8 +1,9 @@
-import { CommandId, type Host, Role } from '@/constants';
+import { EntityId } from '@reduxjs/toolkit';
+
+import { CommandId, Host, Role } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import CommandModel, { registerModel } from '@/game/commands/_/CommandModel';
-import type { EntityId } from '@/types';
-import type { IOperationModel } from '@/types/model';
+import OperationModel from '@/game/commands/_/OperationModel';
 
 const rolesAllowedByLevel: Record<number, Role[]> = {
     [0]: [Role.Root, Role.Admin, Role.User, Role.Guest, Role.Anon],
@@ -13,19 +14,17 @@ const rolesAllowedByLevel: Record<number, Role[]> = {
     [5]: [],
 };
 
+class OverclockOperation extends OperationModel { }
+
 class OverclockModel extends CommandModel {
-    public static override readonly id: CommandId = CommandId.Overclock;
+    public constructor() { super(CommandId.Overclock, OverclockOperation); }
 
-    protected static override readonly unlockCommandId: CommandId = CommandId.Scan_Hub;
-    protected static override readonly unlockLevel: number = 0;
-    protected static override readonly unlockVisibleSublevel: number = 4;
-    protected static override readonly unlockEnabledSublevel: number = 5;
+    protected override readonly unlockCommandId: CommandId = CommandId.Scan_Hub;
+    protected override readonly unlockLevel: number = 0;
+    protected override readonly unlockVisibleSublevel: number = 4;
+    protected override readonly unlockEnabledSublevel: number = 5;
 
-    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
-        return new OverclockModel(parentRoutineId, parentSubroutineId);
-    }
-
-    public static override finalize(time: number, operationId: EntityId) {
+    public override finalize(time: number, operationId: EntityId) {
         super.finalize(time, operationId);
 
         // count the number of successful Overclock operations in distinct hosts
@@ -45,4 +44,4 @@ class OverclockModel extends CommandModel {
     }
 }
 
-registerModel(OverclockModel);
+registerModel(new OverclockModel());

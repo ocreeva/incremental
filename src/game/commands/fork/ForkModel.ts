@@ -1,25 +1,19 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 import { CommandId } from '@/constants';
 import { assert } from '@/core';
 import CommandModel, { registerModel } from '@/game/commands/_/CommandModel';
-import type { EntityId, InstructionState } from '@/types';
-import type { IGameContext, IOperationModel } from '@/types/model';
+import OperationModel from '@/game/commands/_/OperationModel';
+import { InstructionData } from '@/types';
+import { IGameContext } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
 
-class ForkModel extends CommandModel {
-    public static override readonly id: CommandId = CommandId.Fork;
-
-    protected static override readonly unlockCommandId: CommandId = CommandId.Scan_HR;
-    protected static override readonly unlockLevel: number = 2;
-
+class ForkOperation extends OperationModel {
     private scriptId?: EntityId;
     private subroutineId?: EntityId;
     private startTime = 0;
 
-    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
-        return new ForkModel(parentRoutineId, parentSubroutineId);
-    }
-
-    public override async initializeAsync(game: IGameContext, instruction: InstructionState): Promise<void> {
+    public override async initializeAsync(game: IGameContext, instruction: InstructionData): Promise<void> {
         await super.initializeAsync(game, instruction);
 
         const { targetEntityId } = instruction;
@@ -34,7 +28,7 @@ class ForkModel extends CommandModel {
         this.startTime = time;
 
         assert(this.scriptId, "ForkModel property 'scriptId' unexpectedly undefined.");
-        ForkModel.game.routine.allocateSubroutineAsync(this.scriptId)
+        this.game.routine.allocateSubroutineAsync(this.scriptId)
             .then(subroutineId => { this.subroutineId = subroutineId; });
     }
 
@@ -65,4 +59,11 @@ class ForkModel extends CommandModel {
     }
 }
 
-registerModel(ForkModel);
+class ForkModel extends CommandModel {
+    public constructor() { super(CommandId.Fork, ForkOperation); }
+
+    protected override readonly unlockCommandId: CommandId = CommandId.Scan_HR;
+    protected override readonly unlockLevel: number = 2;
+}
+
+registerModel(new ForkModel());

@@ -1,8 +1,10 @@
-import type { CommandId } from '@/constants';
-import type { EntityId, InstructionState } from '@/types';
-import type { IEventable } from '@/types/event';
+import { EntityId } from '@reduxjs/toolkit';
 
-import type IEntityModel from './IEntityModel';
+import { CommandId } from '@/constants';
+import { InstructionData } from '@/types';
+import { IEventable } from '@/types/event';
+
+import IEntityModel from './IEntityModel';
 
 export declare interface ICommandModelEventable {
     /** The command's level. */
@@ -26,7 +28,7 @@ declare interface ICommandModel extends ICommandModelEventable, IEntityModel<voi
      * @returns The operation's ID.
      */
     createOperationAsync: (
-        instruction: InstructionState,
+        instruction: InstructionData,
         parentRoutineId: EntityId,
         parentSubroutineId: EntityId,
     ) => Promise<EntityId>;

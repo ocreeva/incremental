@@ -1,18 +1,24 @@
-import { type CommandId, Role, Host } from '@/constants';
+import { EntityId } from '@reduxjs/toolkit';
+
+import { Role, Host } from '@/constants';
 import { assert } from '@/core';
-import type { EntityId, InstructionState, OperationState } from '@/types';
-import type { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
+import { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
 import { ModelStatus } from '@/constants/worker';
+import { InstructionData, OperationView } from '@/types';
 
-abstract class OperationModel implements IOperationModel {
-    private readonly state: OperationState;
+abstract class OperationModel<TCommandModel extends ICommandModel = ICommandModel> implements IOperationModel {
+    private readonly state: OperationView;
     private remaining: number;
 
-    protected constructor(parentRoutineId: EntityId, parentSubroutineId: EntityId) {
+    protected readonly command: TCommandModel;
+
+    public constructor(command: ICommandModel, parentRoutineId: EntityId, parentSubroutineId: EntityId) {
+        this.command = command as TCommandModel;
+
         this.state = {
             id: crypto.randomUUID(),
-            commandId: this.derived.id,
+            commandId: this.command.id,
             parentRoutineId,
             parentSubroutineId,
             duration: 840,
@@ -23,8 +29,6 @@ abstract class OperationModel implements IOperationModel {
 
         this.remaining = this.duration;
     }
-
-    public static get id(): CommandId { throw Error("OperationModel derived class has not overridden the static 'id' property."); }
 
     public get id() { return this.state.id; }
     public get commandId() { return this.state.commandId; }
@@ -77,9 +81,7 @@ abstract class OperationModel implements IOperationModel {
     }
     private set game(game: IGameContext) { this._game = game; }
 
-    private get derived(): ICommandModel { return this.constructor as unknown as ICommandModel; }
-
-    public async initializeAsync(game: IGameContext, _instruction: InstructionState): Promise<void> {
+    public async initializeAsync(game: IGameContext, _instruction: InstructionData): Promise<void> {
         this.assertStatus(ModelStatus.idle);
         this.status = ModelStatus.loading;
 
@@ -99,7 +101,7 @@ abstract class OperationModel implements IOperationModel {
         this.host = host;
         this.role = role;
 
-        this.derived.start(time, this.id);
+        this.command.start(time, this.id);
 
         this.status = ModelStatus.active;
     }
@@ -111,7 +113,7 @@ abstract class OperationModel implements IOperationModel {
     public finalize(time: number): void {
         this.assertStatus(ModelStatus.complete);
 
-        this.derived.finalize(time, this.id);
+        this.command.finalize(time, this.id);
 
         this.status = ModelStatus.final;
     }
@@ -119,7 +121,7 @@ abstract class OperationModel implements IOperationModel {
     public abort(time: number): void {
         this.assertStatus(ModelStatus.active);
 
-        this.derived.abort(time, this.id);
+        this.command.abort(time, this.id);
 
         this.status = ModelStatus.final;
     }
@@ -133,7 +135,7 @@ abstract class OperationModel implements IOperationModel {
 
         // the Command can only allocate the delta consumed by this operation, so set up a DeltaValue representing such
         const commandDelta = new DeltaValue(time.total - delta, delta);
-        this.derived.update(commandDelta, this.id);
+        this.command.update(commandDelta, this.id);
 
         if (this.remaining <= 0) this.status = ModelStatus.complete;
     }

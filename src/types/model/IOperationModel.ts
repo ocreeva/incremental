@@ -1,9 +1,9 @@
-import type { InstructionState, OperationState } from '@/types';
+import type { InstructionData, OperationView } from '@/types';
 
 import type IEntityModel from './IEntityModel';
 
 declare type IOperationModel = {
-    [P in keyof OperationState]-?: NonNullable<OperationState[P]>;
-} & IEntityModel<InstructionState>;
+    [P in keyof OperationView]-?: NonNullable<OperationView[P]>;
+} & IEntityModel<InstructionData>;
 
 export default IOperationModel;

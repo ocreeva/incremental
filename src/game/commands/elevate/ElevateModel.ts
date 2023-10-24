@@ -1,14 +1,8 @@
 import { CommandId, Role } from '@/constants';
 import CommandModel, { registerModel } from '@/game/commands/_/CommandModel';
-import type { EntityId } from '@/types';
-import type { IOperationModel } from '@/types/model';
+import OperationModel from '@/game/commands/_/OperationModel';
 
-class ElevateModel extends CommandModel {
-    public static override readonly id: CommandId = CommandId.Elevate;
-
-    protected static override readonly unlockCommandId?: CommandId = CommandId.Scan_Hub;
-    protected static override readonly unlockLevel: number = 0;
-
+class ElevateOperation extends OperationModel {
     public override finalize(time: number): void {
         super.finalize(time);
 
@@ -37,10 +31,13 @@ class ElevateModel extends CommandModel {
                 throw Error(`Unhandled role '${subroutine.role}' on subroutine (${subroutine.id}).`);
         }
     }
-
-    protected static override constructOperation(parentRoutineId: EntityId, parentSubroutineId: EntityId): IOperationModel {
-        return new ElevateModel(parentRoutineId, parentSubroutineId);
-    }
 }
 
-registerModel(ElevateModel);
+class ElevateModel extends CommandModel {
+    public constructor() { super(CommandId.Elevate, ElevateOperation); }
+
+    protected override readonly unlockCommandId?: CommandId = CommandId.Scan_Hub;
+    protected override readonly unlockLevel: number = 0;
+}
+
+registerModel(new ElevateModel());
