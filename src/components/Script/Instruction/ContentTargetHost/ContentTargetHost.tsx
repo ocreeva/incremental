@@ -61,7 +61,7 @@ const ContentTargetHost: React.FC
 };
 
 const Container = styled.div`
-    grid-area: host;
+    grid-area: content;
 
     display: grid;
     place-content: center;

@@ -47,7 +47,7 @@ const ContentTargetScript: React.FC
 };
 
 const Container = styled.div`
-    grid-area: script;
+    grid-area: content;
 
     display: grid;
     place-content: center;
