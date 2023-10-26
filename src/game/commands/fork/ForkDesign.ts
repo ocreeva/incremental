@@ -1,7 +1,7 @@
-import { type RootState } from '@/App/store';
+import { RootState } from '@/App/store';
 import { CommandId, CommandTarget } from '@/constants';
 import CommandDesign, { registerDesign } from '@/game/commands/_/CommandDesign';
-import type { InstructionState } from '@/types';
+import { InstructionData } from '@/types';
 
 import { ReactComponent as ForkGlyph } from './glyphs/fork.svg';
 
@@ -16,9 +16,9 @@ class ForkDesign extends CommandDesign {
 
     public override get GlyphComponent() { return ForkGlyph; }
 
-    protected override createInstructionData(state: RootState): InstructionState {
+    protected override createInstructionData(state: RootState): InstructionData {
         const instruction = super.createInstructionData(state);
-        instruction.targetEntityId = state.scripts.currentId;
+        instruction.targetEntityId = state.scriptData.currentId;
         return instruction;
     }
 }
