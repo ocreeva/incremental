@@ -15,7 +15,7 @@ const SelectionListItem: React.FC<SelectionListItemProps>
         entityId: selectedEntityId,
         name: selectionName,
         setEntityId,
-        isEditing = true,
+        isEditing = false,
         onItemEdit,
         onEditComplete,
     } = useSelectionContext('SelectionListItem');
