@@ -30,6 +30,9 @@ abstract class CommandModel implements ICommandModel {
         this.operationModel = operationModel;
     }
 
+    // define standard pattern for commands which level in discrete steps (i.e. not via accumulation)
+    protected readonly shouldRetainLevel: boolean = false;
+
     // define standard pattern for accumulating time
     protected readonly shouldAccumulateTime: boolean = false;
     protected readonly accumulateMultiplier: number = 1;
@@ -74,6 +77,12 @@ abstract class CommandModel implements ICommandModel {
         this._sublevel = 0;
         this.view.level = level;
         this.game.synchronization.updateCommandView(this.id, { level });
+
+        if (this.shouldRetainLevel && (this.data.level !== level)) {
+            this.data.level = level;
+            this.game.synchronization.updateCommandData(this.id, { level });
+        }
+
         this.events.emit('level', level);
     }
 
@@ -211,6 +220,10 @@ abstract class CommandModel implements ICommandModel {
         this.game = game;
         ({ commandData: this.data } = await getCommandDataAsync(this.game.messageService, { commandId: this.id }));
         this.view = getDefaultCommandView(this.id);
+
+        if (this.shouldRetainLevel && (this.data.level !== undefined)) {
+            this.level = this.data.level;
+        }
 
         if (this.shouldAccumulateTime && (this.data.time !== undefined)) {
             this.recalculateLevelFromTime();

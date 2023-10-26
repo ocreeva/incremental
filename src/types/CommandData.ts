@@ -9,6 +9,9 @@ declare type CommandData = {
     /** The command's ID. */
     readonly id: CommandId;
 
+    /** The command's level, for command's which progress in steps. */
+    level?: number;
+
     /** The time accrued to command progress. */
     time?: number;
 };

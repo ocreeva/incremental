@@ -19,6 +19,8 @@ class OverclockOperation extends OperationModel { }
 class OverclockModel extends CommandModel {
     public constructor() { super(CommandId.Overclock, OverclockOperation); }
 
+    protected override readonly shouldRetainLevel: boolean = true;
+
     protected override readonly unlockCommandId: CommandId = CommandId.Scan_Hub;
     protected override readonly unlockLevel: number = 0;
     protected override readonly unlockVisibleSublevel: number = 4;
