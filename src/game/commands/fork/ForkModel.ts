@@ -62,8 +62,8 @@ class ForkOperation extends OperationModel {
 class ForkModel extends CommandModel {
     public constructor() { super(CommandId.Fork, ForkOperation); }
 
-    protected override readonly unlockCommandId: CommandId = CommandId.Scan_HR;
-    protected override readonly unlockLevel: number = 2;
+    protected override readonly unlockCommandId: CommandId = CommandId.Scan_Files;
+    protected override readonly unlockLevel: number = 1;
 }
 
 registerModel(new ForkModel());
