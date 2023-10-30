@@ -1,8 +1,10 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 import { CommandId, Host, Role } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
-import type { EntityId, InstructionState, SubroutineState } from '@/types';
-import type { IDeltaValue, IGameContext, ISubroutineModel } from '@/types/model';
+import { InstructionData, SubroutineView } from '@/types';
+import { IDeltaValue, IGameContext, ISubroutineModel } from '@/types/model';
 import { getInstructionAsync, getScriptAsync } from '@/worker/client';
 
 /**
@@ -12,7 +14,7 @@ class SubroutineModel implements ISubroutineModel {
     /** The duration, in milliseconds, of a transition from the completion of one Operation to the start of the next. */
     private static readonly transitionDuration = 160;
 
-    private readonly state: SubroutineState;
+    private readonly state: SubroutineView;
 
     private lastActiveTime = 0;
     private operationIndex = 0;
@@ -217,7 +219,7 @@ class SubroutineModel implements ISubroutineModel {
         return await this.createOperationFromInstructionAsync(instruction);
     }
 
-    private async createOperationFromInstructionAsync(instruction: InstructionState): Promise<EntityId> {
+    private async createOperationFromInstructionAsync(instruction: InstructionData): Promise<EntityId> {
         const { commandId } = instruction;
         const command = this.game.commands[commandId];
         return await command.createOperationAsync(instruction, this.parentRoutineId, this.id);

@@ -1,7 +1,9 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
-import type { EntityId, RoutineState } from '@/types';
-import type { IDeltaValue, IGameContext, IRoutineModel, ISubroutineModel } from '@/types/model';
+import { RoutineView } from '@/types';
+import { IDeltaValue, IGameContext, IRoutineModel, ISubroutineModel } from '@/types/model';
 
 import SubroutineModel from './SubroutineModel';
 
@@ -9,7 +11,7 @@ import SubroutineModel from './SubroutineModel';
  * Provides the gameplay model for a Routine.
  */
 class RoutineModel implements IRoutineModel {
-    private readonly state: RoutineState;
+    private readonly state: RoutineView;
 
     public constructor() {
         this.state = {

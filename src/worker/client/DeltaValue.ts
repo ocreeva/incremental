@@ -1,4 +1,4 @@
-import type { IDeltaValue } from '@/types/model';
+import { IDeltaValue } from '@/types/model';
 
 class DeltaValue implements IDeltaValue {
     private unallocated = 0;

@@ -1,5 +1,5 @@
 import { CommandId } from '@/constants';
-import type { IDeltaValue, IGameContext } from '@/types/model';
+import { IDeltaValue, IGameContext } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
 
 class TimeContext {

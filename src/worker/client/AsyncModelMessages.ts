@@ -1,8 +1,10 @@
-import { type CommandId } from '@/constants';
+import { EntityId } from '@reduxjs/toolkit';
+
+import { CommandId } from '@/constants';
 import { AsyncModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
-import type { CommandData, EntityId, InstructionState, OperationState, RoutineState, ScriptState, SubroutineState } from '@/types';
-import type { MessageRequestProvider, MessageRespondProvider, PayloadMessage } from '@/types/worker';
+import { CommandData, InstructionData, OperationView, RoutineView, ScriptData, SubroutineView } from '@/types';
+import { MessageRequestProvider, MessageRespondProvider, PayloadMessage } from '@/types/worker';
 
 const assertMessageType: <TPayload>(message: PayloadMessage, type: AsyncModelMessage) => asserts message is PayloadMessage<TPayload, AsyncModelMessage>
 = (message, type) => message.type === type || crash(`Message type (${message.type}) does not match expected type (${type}).`);
@@ -23,9 +25,9 @@ export declare type CreateRoutineRequest = {
     scriptId: EntityId;
 };
 export declare type CreateRoutineResponse = {
-    routine: RoutineState;
-    subroutines: SubroutineState[];
-    operations: OperationState[];
+    routine: RoutineView;
+    subroutines: SubroutineView[];
+    operations: OperationView[];
 };
 export const [ createRoutineAsync, prepareToCreateRoutine ] = createMessageHandlers<CreateRoutineRequest, CreateRoutineResponse>(AsyncModelMessage.CreateRoutine);
 
@@ -41,7 +43,7 @@ export declare type GetInstructionRequest = {
     instructionId: EntityId;
 };
 export declare type GetInstructionResponse = {
-    instruction: InstructionState;
+    instruction: InstructionData;
 };
 export const [ getInstructionAsync, prepareToGetInstruction ] = createMessageHandlers<GetInstructionRequest, GetInstructionResponse>(AsyncModelMessage.GetInstruction);
 
@@ -49,6 +51,6 @@ export declare type GetScriptRequest = {
     scriptId: EntityId;
 };
 export declare type GetScriptResponse = {
-    script: ScriptState;
+    script: ScriptData;
 };
 export const [ getScriptAsync, prepareToGetScript ] = createMessageHandlers<GetScriptRequest, GetScriptResponse>(AsyncModelMessage.GetScript);

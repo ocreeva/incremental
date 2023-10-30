@@ -1,10 +1,11 @@
-import { type CommandId } from '@/constants';
-import { type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
+import { EntityId } from '@reduxjs/toolkit';
+
+import { CommandId } from '@/constants';
+import { AsyncModelMessage, type ModelMessage } from '@/constants/worker';
 import { assert } from '@/core';
 import commandModels from '@/game/commands/models';
-import type { EntityId } from '@/types';
-import type { ICommandModel, IGameContext, IGameSynchronization, IOperationModel, IRoutineModel, ISubroutineModel } from '@/types/model';
-import type { MessageService } from '@/types/worker';
+import { ICommandModel, IGameContext, IGameSynchronization, IOperationModel, IRoutineModel, ISubroutineModel } from '@/types/model';
+import { MessageService } from '@/types/worker';
 
 import RoutineModel from './RoutineModel';
 

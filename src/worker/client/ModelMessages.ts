@@ -2,8 +2,8 @@ import { Update } from '@reduxjs/toolkit';
 
 import { ModelMessage } from '@/constants/worker';
 import { crash } from '@/core';
-import type { CommandData, CommandView, OperationView, RoutineView, SubroutineView } from '@/types';
-import type { MessageSendProvider, PayloadMessage } from '@/types/worker';
+import { CommandData, CommandView, OperationView, RoutineView, SubroutineView } from '@/types';
+import { MessageSendProvider, PayloadMessage } from '@/types/worker';
 
 const assertMessageType: <TPayload>(message: PayloadMessage, type: ModelMessage) => asserts message is PayloadMessage<TPayload, ModelMessage>
 = (message, type) => message.type === type || crash(`Message type (${message.type}) does not match expected type (${type}).`);

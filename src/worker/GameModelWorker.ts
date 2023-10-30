@@ -1,6 +1,6 @@
 import { AsyncModelMessage, ModelMessage } from '@/constants/worker';
 import WorkerMessageService from '@/services/WorkerMessageService';
-import type { PayloadMessage, PayloadMessageAction } from '@/types/worker';
+import { PayloadMessage, PayloadMessageAction } from '@/types/worker';
 
 import { prepareToCreateRoutine } from './client';
 import ModelProcessor from './ModelProcessor';

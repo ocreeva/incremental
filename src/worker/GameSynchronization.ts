@@ -1,30 +1,32 @@
-import { type CommandId } from '@/constants';
+import { EntityId } from '@reduxjs/toolkit';
+
+import { CommandId } from '@/constants';
 import { assert } from '@/core';
-import type { OperationState, SubroutineState, EntityId, RoutineState, CommandData, CommandView } from '@/types';
-import type { IGameSynchronization } from '@/types/model';
+import { CommandData, CommandView, OperationView, RoutineView, SubroutineView } from '@/types';
+import { IGameSynchronization } from '@/types/model';
 import { UpdatePayload, type CreateRoutineResponse } from '@/worker/client';
 
 class GameSynchronization implements IGameSynchronization {
     private commandData: Map<CommandId, CommandData> = new Map<CommandId, CommandData>;
     private commandView: Map<CommandId, Partial<CommandView>> = new Map<CommandId, Partial<CommandView>>;
 
-    private operations: Map<EntityId, OperationState> = new Map<EntityId, OperationState>;
-    private operationUpdates: Map<EntityId, Partial<OperationState>> = new Map<EntityId, Partial<OperationState>>;
+    private operations: Map<EntityId, OperationView> = new Map<EntityId, OperationView>;
+    private operationUpdates: Map<EntityId, Partial<OperationView>> = new Map<EntityId, Partial<OperationView>>;
 
-    private routine: RoutineState | undefined = undefined;
-    private routineUpdate: Partial<RoutineState> | undefined = undefined;
+    private routine: RoutineView | undefined = undefined;
+    private routineUpdate: Partial<RoutineView> | undefined = undefined;
 
-    private subroutines: Map<EntityId, SubroutineState> = new Map<EntityId, SubroutineState>;
-    private subroutineUpdates: Map<EntityId, Partial<SubroutineState>> = new Map<EntityId, Partial<SubroutineState>>;
+    private subroutines: Map<EntityId, SubroutineView> = new Map<EntityId, SubroutineView>;
+    private subroutineUpdates: Map<EntityId, Partial<SubroutineView>> = new Map<EntityId, Partial<SubroutineView>>;
 
     public routineIsComplete = false;
 
-    public addOperation(operation: OperationState): void {
+    public addOperation(operation: OperationView): void {
         this.operations.set(operation.id, operation);
         this.operationUpdates.delete(operation.id);
     }
 
-    public addSubroutine(subroutine: SubroutineState): void {
+    public addSubroutine(subroutine: SubroutineView): void {
         this.subroutines.set(subroutine.id, subroutine);
         this.subroutineUpdates.delete(subroutine.id);
     }
@@ -89,7 +91,7 @@ class GameSynchronization implements IGameSynchronization {
             || this.subroutineUpdates.size > 0;
     }
 
-    public setRoutine(routine: RoutineState): void {
+    public setRoutine(routine: RoutineView): void {
         this.reset();
 
         this.routine = routine;
@@ -105,7 +107,7 @@ class GameSynchronization implements IGameSynchronization {
         this.commandView.set(id, { ...previous, ...update, id });
     }
 
-    public updateOperation(id: EntityId, update: Partial<OperationState>): void {
+    public updateOperation(id: EntityId, update: Partial<OperationView>): void {
         if (this.operations.has(id)) {
             const operation = this.operations.get(id);
             assert(operation);
@@ -118,7 +120,7 @@ class GameSynchronization implements IGameSynchronization {
         }
     }
 
-    public updateRoutine(update: Partial<RoutineState>): void {
+    public updateRoutine(update: Partial<RoutineView>): void {
         if (this.routine) {
             this.routine = { ...this.routine, ...update };
         } else {
@@ -126,7 +128,7 @@ class GameSynchronization implements IGameSynchronization {
         }
     }
 
-    public updateSubroutine(id: EntityId, update: Partial<SubroutineState>): void {
+    public updateSubroutine(id: EntityId, update: Partial<SubroutineView>): void {
         if (this.subroutines.has(id)) {
             const subroutine = this.subroutines.get(id);
             assert(subroutine);

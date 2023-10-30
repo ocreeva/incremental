@@ -1,7 +1,8 @@
-import { ModelStatus, type AsyncModelMessage, type ModelMessage } from '@/constants/worker';
-import type { EntityId } from '@/types';
-import type { MessageService } from '@/types/worker';
-import { type CreateRoutineResponse, sendUpdateMessage } from '@/worker/client';
+import { EntityId } from '@reduxjs/toolkit';
+
+import { ModelStatus, AsyncModelMessage, ModelMessage } from '@/constants/worker';
+import { MessageService } from '@/types/worker';
+import { CreateRoutineResponse, sendUpdateMessage } from '@/worker/client';
 
 import GameContext from './GameContext';
 import GameSynchronization from './GameSynchronization';
