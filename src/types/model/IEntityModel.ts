@@ -1,7 +1,7 @@
-import type { ModelStatus } from '@/constants/worker';
+import { ModelStatus } from '@/constants/worker';
 
-import type IDeltaValue from './IDeltaValue';
-import type IGameContext from './IGameContext';
+import IDeltaValue from './IDeltaValue';
+import IGameContext from './IGameContext';
 
 declare interface IEntityModel<TSource = void, TCaller = void> {
     /** The model's status. */

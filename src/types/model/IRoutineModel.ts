@@ -1,6 +1,8 @@
-import type { EntityId, RoutineState } from '@/types';
+import { EntityId } from '@reduxjs/toolkit';
 
-import type IEntityModel from './IEntityModel';
+import { RoutineView } from '@/types';
+
+import IEntityModel from './IEntityModel';
 
 declare interface _IRoutineModel {
     /**
@@ -17,7 +19,7 @@ declare interface _IRoutineModel {
  * Represents the model for a routine.
  */
 declare type IRoutineModel = {
-    [P in keyof RoutineState]-?: NonNullable<RoutineState[P]>;
+    [P in keyof RoutineView]-?: NonNullable<RoutineView[P]>;
 } & IEntityModel<EntityId> & _IRoutineModel;
 
 export default IRoutineModel;

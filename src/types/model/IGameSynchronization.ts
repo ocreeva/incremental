@@ -1,5 +1,7 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 import { CommandId } from '@/constants';
-import type { CommandData, CommandView, EntityId, OperationState, RoutineState, SubroutineState } from '@/types';
+import { CommandData, CommandView, OperationView, RoutineView, SubroutineView } from '@/types';
 
 /**
  * Represents the game's synchronization between UI and worker threads.
@@ -13,21 +15,21 @@ declare interface IGameSynchronization {
      * 
      * @param operation - The operation's state.
      */
-    addOperation(operation: OperationState): void;
+    addOperation(operation: OperationView): void;
 
     /**
      * Add a new subroutine to the game state.
      * 
      * @param subroutine - The subroutine's state.
      */
-    addSubroutine(subroutine: SubroutineState): void;
+    addSubroutine(subroutine: SubroutineView): void;
 
     /**
      * Set the active routine.
      * 
      * @param routine - The routine's state.
      */
-    setRoutine(routine: RoutineState): void;
+    setRoutine(routine: RoutineView): void;
 
     /**
      * Update the persistent state data for a Command.
@@ -51,14 +53,14 @@ declare interface IGameSynchronization {
      * @param id - The operation's ID.
      * @param update - The operation's state updates.
      */
-    updateOperation(id: EntityId, update: Partial<OperationState>): void;
+    updateOperation(id: EntityId, update: Partial<OperationView>): void;
 
     /**
      * Update the state of the current routine.
      * 
      * @param update - The routine's state update.
      */
-    updateRoutine(update: Partial<RoutineState>): void;
+    updateRoutine(update: Partial<RoutineView>): void;
 
     /**
      * Update the state of a subroutine.
@@ -66,7 +68,7 @@ declare interface IGameSynchronization {
      * @param id - The subroutine's ID.
      * @param update - The subroutine's state update.
      */
-    updateSubroutine(id: EntityId, update: Partial<SubroutineState>): void;
+    updateSubroutine(id: EntityId, update: Partial<SubroutineView>): void;
 }
 
 export default IGameSynchronization;

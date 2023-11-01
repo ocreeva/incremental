@@ -14,23 +14,25 @@ class TimeContext {
         [5]: Math.floor(TimeContext.bootTimeInMS + 27 * TimeContext.gameTimeInMS),
     };
 
-    private readonly game: IGameContext;
-
     private previous = 0;
     private limit: IDeltaValue = new DeltaValue(0, 0);
 
     public constructor(game: IGameContext) {
-        this.game = game;
+        const overclockCommand = game.commands[CommandId.Overclock];
+        overclockCommand.on('level', this.handleOverclockLevelChange);
+        this.handleOverclockLevelChange(overclockCommand.level);
     }
 
     public get hasExpired(): boolean { return !this.limit.hasUnallocated; }
 
+    private _maxDuration = 0;
+    public get maxDuration() { return this._maxDuration; }
+    private set maxDuration(value: number) { this._maxDuration = value; }
+
     public get total() { return this.limit.total; }
 
     public reset(): void {
-        const { level } = this.game.commands[CommandId.Overclock];
-        const maxTime = TimeContext.maxTimeByOverclockLevel[level];
-        this.limit = new DeltaValue(0, maxTime);
+        this.limit = new DeltaValue(0, this.maxDuration);
         this.previous = performance.now();
     }
 
@@ -41,6 +43,9 @@ class TimeContext {
 
         return new DeltaValue(total, delta);
     }
+
+    private handleOverclockLevelChange: (level: number) => void
+    = ((_this: TimeContext) => (level: number) => { _this.maxDuration = TimeContext.maxTimeByOverclockLevel[level]; })(this);
 }
 
 export default TimeContext;

@@ -1,13 +1,14 @@
-import type { CommandId } from '@/constants';
-import type { AsyncModelMessage, ModelMessage } from '@/constants/worker';
-import type { EntityId } from '@/types';
-import type { MessageService } from '@/types/worker';
+import { EntityId } from '@reduxjs/toolkit';
 
-import type ICommandModel from './ICommandModel';
-import type IGameSynchronization from './IGameSynchronization';
-import type IOperationModel from './IOperationModel';
-import type IRoutineModel from './IRoutineModel';
-import type ISubroutineModel from './ISubroutineModel';
+import { CommandId } from '@/constants';
+import { AsyncModelMessage, ModelMessage } from '@/constants/worker';
+import { MessageService } from '@/types/worker';
+
+import ICommandModel from './ICommandModel';
+import IGameSynchronization from './IGameSynchronization';
+import IOperationModel from './IOperationModel';
+import IRoutineModel from './IRoutineModel';
+import ISubroutineModel from './ISubroutineModel';
 
 /**
  * Represents contextual information about the state of the game.

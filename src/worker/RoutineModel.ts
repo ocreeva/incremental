@@ -19,6 +19,7 @@ class RoutineModel implements IRoutineModel {
             subroutines: [ ],
             duration: 0,
             elapsed: 0,
+            maxDuration: 0,
         };
     }
 
@@ -40,6 +41,14 @@ class RoutineModel implements IRoutineModel {
 
         this.state.elapsed = elapsed;
         this.game.synchronization.updateRoutine({ elapsed });
+    }
+
+    public get maxDuration(): number { return this.state.maxDuration; }
+    public set maxDuration(maxDuration: number) {
+        if (this.state.maxDuration == maxDuration) return;
+
+        this.state.maxDuration = maxDuration;
+        this.game.synchronization.updateRoutine({ maxDuration });
     }
 
     private _status: ModelStatus = ModelStatus.idle;
