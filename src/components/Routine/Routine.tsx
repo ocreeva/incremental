@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { EntityId } from '@reduxjs/toolkit';
 
 import { convertToGameTime } from '@/core';
 import { selectCurrentRoutine } from '@/features/routineView';
 import { useAppSelector } from '@/hooks';
-import type { EntityId } from '@/types';
 
 import OperationDialog from './OperationDialog';
 import { OperationDialogContext, type OperationDialogContextProps } from './OperationDialogContext';
@@ -12,7 +12,7 @@ import Subroutine from './Subroutine';
 
 const Routine: React.FC = () => {
     const currentRoutine = useAppSelector(selectCurrentRoutine);
-    const { duration, elapsed, subroutines } = currentRoutine;
+    const { duration, elapsed, maxDuration, subroutines } = currentRoutine;
 
     const [operationDialogIsOpen, setOperationDialogIsOpen] = useState<boolean>(false);
     const [operationDialogTargetId, setOperationDialogTargetId] = useState<EntityId>();
@@ -31,7 +31,8 @@ const Routine: React.FC = () => {
     };
 
     const scrollContainer = useRef<HTMLDivElement>(null);
-    const durationInGT = convertToGameTime(duration);
+    const maxDurationInGT = convertToGameTime(maxDuration);
+    const durationInGT = Math.max(convertToGameTime(duration), maxDurationInGT);
     const elapsedInGT = convertToGameTime(elapsed);
     const scrollTarget = Math.max(0, Math.min(durationInGT - 42, Math.round(elapsedInGT - 21)));
     useEffect(() => {
@@ -41,12 +42,19 @@ const Routine: React.FC = () => {
 
     const style = {
         '--routine_duration': durationInGT,
+        '--routine_elapsed': elapsedInGT,
+        '--routine_max-duration': maxDurationInGT,
     } as React.CSSProperties;
 
     return (
         <OperationDialogContext {...operationDialogContextProps}>
             <S.Container ref={scrollContainer} style={style}>
                 <S.ScrollRegion>
+                    { maxDuration > 0 && <S.MaxDurationContainer>
+                        <S.MaxDuration>
+                            <S.Elapsed />
+                        </S.MaxDuration>
+                    </S.MaxDurationContainer> }
                     { subroutines.map(subroutineId => <Subroutine key={subroutineId} id={subroutineId} />) }
                 </S.ScrollRegion>
             </S.Container>

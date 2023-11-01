@@ -7,6 +7,7 @@ const initialRoutine: RoutineView = {
     subroutines: [ ],
     duration: 0,
     elapsed: 0,
+    maxDuration: 0,
 };
 const initialState: RoutineViewState = adapter.addOne(adapter.getInitialState({
     currentId: initialRoutine.id,

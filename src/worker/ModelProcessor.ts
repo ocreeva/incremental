@@ -34,6 +34,7 @@ class ModelProcessor {
         this.time.reset();
 
         await this.game.routine.initializeAsync(this.game, scriptId);
+        this.game.routine.maxDuration = this.time.maxDuration;
         this.game.routine.start(this.time.total);
 
         return this.synchronization.getCreatePayload();
