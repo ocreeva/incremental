@@ -1,7 +1,7 @@
 import { createContext } from '@reach/utils';
+import { EntityId } from '@reduxjs/toolkit';
 
-import { type DialogProps } from '@/components/Dialog';
-import type { EntityId } from '@/types';
+import { DialogProps } from '@/components/Dialog';
 
 export declare type OperationDialogContextProps = DialogProps & {
     operationId?: EntityId;

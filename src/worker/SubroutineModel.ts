@@ -191,7 +191,13 @@ class SubroutineModel implements ISubroutineModel {
     }
 
     private updateTransition(timeDelta: IDeltaValue): void {
-        this.transitionRemaining -= timeDelta.allocate(this.transitionRemaining);
+        const transition = timeDelta.allocate(this.transitionRemaining);
+        this.transitionRemaining -= transition;
+
+        if (this.operationIndex < this.operations.length) {
+            const currentOperation = this.game.getOperation(this.operations[this.operationIndex]);
+            currentOperation.transition += transition;
+        }
     }
 
     private assertStatus(...expected: ModelStatus[]): void {

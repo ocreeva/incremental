@@ -1,11 +1,11 @@
 import { VisuallyHidden } from '@reach/visually-hidden';
+import { EntityId } from '@reduxjs/toolkit';
 
 import { convertToGameTime } from '@/core';
 import { selectHostDesign } from '@/features/hostDesign';
 import { selectRoleDesign } from '@/features/roleDesign';
 import { selectSubroutine } from '@/features/subroutineView';
 import { useParamSelector } from '@/hooks';
-import type { EntityId } from '@/types';
 
 import * as S from './Subroutine.styles';
 import Operation from './Operation';

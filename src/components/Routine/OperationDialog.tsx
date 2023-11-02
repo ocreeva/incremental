@@ -15,7 +15,7 @@ const OperationDialog: React.FC
     const { isOpen, onDismiss, operationId } = useOperationDialogContext('OperationDialog');
     assert(operationId !== undefined, "Unexpected undefined 'operationId' in OperationDialog.");
 
-    const { commandId, duration, host, progress, role } = useParamSelector(selectOperation, operationId);
+    const { commandId, duration, host, progress, role, transition } = useParamSelector(selectOperation, operationId);
     const { name } = useParamSelector(selectCommandDesign, commandId);
     const { name: hostName } = useParamSelector(selectHostDesign, host);
     const { name: roleName } = useParamSelector(selectRoleDesign, role);
@@ -23,13 +23,20 @@ const OperationDialog: React.FC
     const numberFormatOptions: Intl.NumberFormatOptions = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const durationValue = (duration / 1000).toLocaleString(undefined, numberFormatOptions);
     const progressValue = (progress * 100).toLocaleString(undefined, numberFormatOptions);
+    const transitionValue = (transition / 1000).toLocaleString(undefined, numberFormatOptions);
 
     return (
         <Dialog isOpen={isOpen} onDismiss={onDismiss}>
             <DialogTitle>{ name }</DialogTitle>
+            { transition > 0 && (
+                <Information>
+                    <Heading>Transition: </Heading>
+                    {transitionValue}s
+                </Information>
+            ) }
             <Information>
                 <Heading>Duration: </Heading>
-                {durationValue}s ({progressValue}%)
+                {durationValue}s ({progressValue}% complete)
             </Information>
             <Information>
                 <Heading>Host: </Heading>

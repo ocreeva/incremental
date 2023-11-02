@@ -25,6 +25,7 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
             host: Host.Hub,
             progress: 0,
             role: Role.Anon,
+            transition: 0,
         };
 
         this.remaining = this.duration;
@@ -73,6 +74,14 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
     private _status: ModelStatus = ModelStatus.idle;
     public get status(): ModelStatus { return this._status; }
     private set status(value: ModelStatus) { this._status = value; }
+
+    public get transition(): number { return this.state.transition; }
+    public set transition(transition: number) {
+        if (this.state.transition === transition) return;
+
+        this.state.transition = transition;
+        this.game.synchronization.updateOperation(this.id, { transition });
+    }
 
     private _game?: IGameContext;
     protected get game(): IGameContext {

@@ -28,6 +28,8 @@ declare type OperationView = Entity & {
     progress: number;
     /** The parent subroutine's role at the start of the operation. */
     role: Role;
+    /** The time spent transitioning from the previous command, in milliseconds. */
+    transition: number;
 };
 
 export declare type OperationViewState = EntityState<OperationView>;

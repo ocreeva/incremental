@@ -1,8 +1,9 @@
+import { EntityId } from '@reduxjs/toolkit';
+
 import { convertToGameTime } from '@/core';
 import { selectCommandDesign } from '@/features/commandDesign';
 import { selectOperation } from '@/features/operationView';
 import { useParamSelector } from '@/hooks';
-import type { EntityId } from '@/types';
 
 import * as S from './Operation.styles';
 import { useOperationDialogContext } from './OperationDialogContext';
