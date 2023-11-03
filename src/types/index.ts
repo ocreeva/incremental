@@ -4,6 +4,7 @@ export type { default as Entity } from './Entity';
 export type { default as GameState } from './GameState';
 export type { default as ICommandDesign } from './ICommandDesign';
 export type { default as ICommandDesignConstructor } from './ICommandDesignConstructor';
+export type { default as IErrorDesign } from './IErrorDesign';
 export type { default as IHostDesign } from './IHostDesign';
 export type { default as InstructionData, InstructionDataState } from './InstructionData';
 export type { default as IRoleDesign } from './IRoleDesign';

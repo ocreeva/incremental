@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 
-import { Role, Host } from '@/constants';
+import { Role, Host, ErrorCode } from '@/constants';
 import { assert } from '@/core';
 import { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
@@ -22,6 +22,7 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
             parentRoutineId,
             parentSubroutineId,
             duration: 840,
+            error: ErrorCode.None,
             host: Host.Hub,
             progress: 0,
             role: Role.Anon,
@@ -45,6 +46,14 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
     }
 
     public get duration() { return this.state.duration; }
+
+    public get error(): ErrorCode { return this.state.error; }
+    public set error(error: ErrorCode) {
+        if (this.state.error === error) return;
+
+        this.state.error = error;
+        this.game.synchronization.updateOperation(this.id, { error });
+    }
 
     public get host() { return this.state.host; }
     public set host(host: Host) {

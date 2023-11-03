@@ -1,5 +1,3 @@
-import styled from 'styled-components';
-
 import Dialog, { DialogButtons, DialogTitle } from '@/components/Dialog';
 import { assert } from '@/core';
 import { selectCommandDesign } from '@/features/commandDesign';
@@ -8,7 +6,9 @@ import { selectOperation } from '@/features/operationView';
 import { selectRoleDesign } from '@/features/roleDesign';
 import { useParamSelector } from '@/hooks';
 
+import * as S from './OperationDialog.styles';
 import { useOperationDialogContext } from './OperationDialogContext';
+import OperationDialogError from './OperationDialogError';
 
 const OperationDialog: React.FC
 = () => {
@@ -29,34 +29,28 @@ const OperationDialog: React.FC
         <Dialog isOpen={isOpen} onDismiss={onDismiss}>
             <DialogTitle>{ name }</DialogTitle>
             { transition > 0 && (
-                <Information>
-                    <Heading>Transition: </Heading>
+                <S.Information>
+                    <S.Heading>Transition: </S.Heading>
                     {transitionValue}s
-                </Information>
+                </S.Information>
             ) }
-            <Information>
-                <Heading>Duration: </Heading>
+            <S.Information>
+                <S.Heading>Duration: </S.Heading>
                 {durationValue}s ({progressValue}% complete)
-            </Information>
-            <Information>
-                <Heading>Host: </Heading>
+            </S.Information>
+            <S.Information>
+                <S.Heading>Host: </S.Heading>
                 {hostName}
-            </Information>
-            <Information>
-                <Heading>Role: </Heading>
+            </S.Information>
+            <S.Information>
+                <S.Heading>Role: </S.Heading>
                 {roleName}
-            </Information>
+            </S.Information>
+            <OperationDialogError />
             <DialogButtons removeCancelButton={true} />
         </Dialog>
     );
 };
-
-const Information = styled.p`
-    margin-block-end: 4px;
-`;
-const Heading = styled.span`
-    font-weight: 700;
-`;
 
 OperationDialog.displayName = 'OperationDialog';
 export default OperationDialog;
