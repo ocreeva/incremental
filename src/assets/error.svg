@@ -1,0 +1,5 @@
+<svg fill="black" height="18px" width="18px" viewBox="-9 -9 18 18" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 0 9 a 1 1 0 0 0 0 -14 a 1 1 0 0 0 0 14" />
+    <path fill="var(--color-error, hsl(0deg 75% 50%))" d="M 0 8 a 1 1 0 0 0 0 -12 a 1 1 0 0 0 0 12" />
+    <path transform="translate(0 2) rotate(45)" d="M -1 4 c 0 1 2 1 2 0 v -3 h 3 c 1 0 1 -2 0 -2 h -3 v -3 c 0 -1 -2 -1 -2 0 v 3 h -3 c -1 0 -1 2 0 2 h 3" />
+</svg>
