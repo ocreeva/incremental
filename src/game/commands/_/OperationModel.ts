@@ -137,7 +137,7 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
     }
 
     public abort(time: number, cause: ErrorCause): void {
-        this.assertStatus(ModelStatus.active);
+        this.assertStatus(ModelStatus.active, ModelStatus.pending);
 
         switch (this.status) {
             case ModelStatus.active:

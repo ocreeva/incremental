@@ -149,8 +149,15 @@ class SubroutineModel implements ISubroutineModel {
     public abort(time: number, cause: ErrorCause) {
         this.assertStatus(ModelStatus.active, ModelStatus.loading, ModelStatus.pending);
 
-        const currentOperation = this.game.getOperation(this.operations[this.operationIndex]);
-        if (currentOperation.status === ModelStatus.active) currentOperation.abort(time, cause);
+        this.operations.slice(this.operationIndex).forEach(operationId => {
+            const operation = this.game.getOperation(operationId);
+            switch (operation.status) {
+                case ModelStatus.active:
+                case ModelStatus.pending:
+                    operation.abort(time, cause);
+                    break;
+            }
+        });
 
         this.status = ModelStatus.final;
     }

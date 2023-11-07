@@ -39,6 +39,8 @@ class ErrorDesign implements IErrorDesign {
 const designs: Record<number, IErrorDesign> = {
     [ErrorCode.OperationInterrupted | ErrorCause.RoutineStopped]: new ErrorDesign(Severity.Information, "Routine execution was stopped before this operation completed."),
     [ErrorCode.OperationInterrupted | ErrorCause.RoutineTimeElapsed]: new ErrorDesign(Severity.Information, "Routine execution timed out before this operation completed."),
+    [ErrorCode.OperationUnstarted | ErrorCause.RoutineStopped]: new ErrorDesign(Severity.Information, "Routine execution was stopped before this operation started."),
+    [ErrorCode.OperationUnstarted | ErrorCause.RoutineTimeElapsed]: new ErrorDesign(Severity.Error, "Routine execution timed out before this operation was reached."),
 };
 
 export function getUnhandledErrorDesign(error: number): IErrorDesign {
