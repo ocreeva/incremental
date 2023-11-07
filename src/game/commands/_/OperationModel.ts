@@ -136,10 +136,12 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
         this.status = ModelStatus.final;
     }
 
-    public abort(time: number): void {
+    public abort(time: number, error: ErrorCode): void {
         this.assertStatus(ModelStatus.active);
 
-        this.command.abort(time, this.id);
+        this.error = error;
+
+        this.command.abort(time, error, this.id);
 
         this.status = ModelStatus.final;
     }
