@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 
-import { CommandId, ErrorCode, Host, Role } from '@/constants';
+import { CommandId, ErrorCause, Host, Role } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import { InstructionData, SubroutineView } from '@/types';
@@ -146,11 +146,11 @@ class SubroutineModel implements ISubroutineModel {
         }
     }
 
-    public abort(time: number, error: ErrorCode) {
+    public abort(time: number, cause: ErrorCause) {
         this.assertStatus(ModelStatus.active, ModelStatus.loading, ModelStatus.pending);
 
         const currentOperation = this.game.getOperation(this.operations[this.operationIndex]);
-        if (currentOperation.status === ModelStatus.active) currentOperation.abort(time, error);
+        if (currentOperation.status === ModelStatus.active) currentOperation.abort(time, cause);
 
         this.status = ModelStatus.final;
     }

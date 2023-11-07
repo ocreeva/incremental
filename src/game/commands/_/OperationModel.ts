@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 
-import { Role, Host, ErrorCode } from '@/constants';
+import { Role, Host, ErrorCode, ErrorCause } from '@/constants';
 import { assert } from '@/core';
 import { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
@@ -47,8 +47,8 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
 
     public get duration() { return this.state.duration; }
 
-    public get error(): ErrorCode { return this.state.error; }
-    public set error(error: ErrorCode) {
+    public get error(): number { return this.state.error; }
+    public set error(error: number) {
         if (this.state.error === error) return;
 
         this.state.error = error;
@@ -136,12 +136,20 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
         this.status = ModelStatus.final;
     }
 
-    public abort(time: number, error: ErrorCode): void {
+    public abort(time: number, cause: ErrorCause): void {
         this.assertStatus(ModelStatus.active);
 
-        this.error = error;
+        switch (this.status) {
+            case ModelStatus.active:
+                this.error = ErrorCode.OperationInterrupted | cause;
+                break;
 
-        this.command.abort(time, error, this.id);
+            case ModelStatus.pending:
+                this.error = ErrorCode.OperationUnstarted | cause;
+                break;
+        }
+
+        this.command.abort(time, cause, this.id);
 
         this.status = ModelStatus.final;
     }

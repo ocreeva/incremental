@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 
-import { ErrorCode } from '@/constants';
+import { ErrorCause } from '@/constants';
 import { ModelStatus } from '@/constants/worker';
 import { assert } from '@/core';
 import { RoutineView } from '@/types';
@@ -153,7 +153,7 @@ class RoutineModel implements IRoutineModel {
         this.status = ModelStatus.final;
     }
 
-    public abort(time: number, error: ErrorCode) {
+    public abort(time: number, cause: ErrorCause) {
         this.assertStatus(ModelStatus.active);
 
         this.subroutines
@@ -169,7 +169,7 @@ class RoutineModel implements IRoutineModel {
                     case ModelStatus.active:
                     case ModelStatus.loading:
                     case ModelStatus.pending:
-                        subroutine.abort(time, error);
+                        subroutine.abort(time, cause);
                         break;
     
                     default:

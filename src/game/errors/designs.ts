@@ -1,4 +1,5 @@
-import { ErrorCode } from '@/constants';
+import { ErrorCause, ErrorCode } from '@/constants';
+import { getErrorCause, getErrorCode } from '@/core';
 import { IErrorDesign } from '@/types';
 
 import { ReactComponent as InformationGlyph } from './glyphs/information.svg';
@@ -35,10 +36,17 @@ class ErrorDesign implements IErrorDesign {
     }
 }
 
-const designs: Record<ErrorCode, IErrorDesign | null> = {
-    [ErrorCode.None]: null,
-    [ErrorCode.RoutineStopped]: new ErrorDesign(Severity.Information, "Routine execution was stopped before this operation completed."),
-    [ErrorCode.RoutineTimeElapsed]: new ErrorDesign(Severity.Information, "Routine execution timed out before this operation completed."),
+const designs: Record<number, IErrorDesign> = {
+    [ErrorCode.OperationInterrupted | ErrorCause.RoutineStopped]: new ErrorDesign(Severity.Information, "Routine execution was stopped before this operation completed."),
+    [ErrorCode.OperationInterrupted | ErrorCause.RoutineTimeElapsed]: new ErrorDesign(Severity.Information, "Routine execution timed out before this operation completed."),
 };
+
+export function getUnhandledErrorDesign(error: number): IErrorDesign {
+    const errorCode = getErrorCode(error);
+    const errorCause = getErrorCause(error);
+    const message = `Unhandled error (${error}, ${ErrorCode[errorCode] ?? errorCode}, ${ErrorCause[errorCause] ?? errorCause}).`;
+    console.error(message);
+    return new ErrorDesign(Severity.Error, message);
+}
 
 export default designs;
