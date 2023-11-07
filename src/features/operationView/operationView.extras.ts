@@ -9,7 +9,7 @@ const extraReducers: (builder: ActionReducerMapBuilder<OperationViewState>) => v
 = (builder) => {
     builder.addCase('game/reset', () => initialState);
     builder.addCase<string, PayloadAction<EntityId>>(
-        'routines/removeRoutine',
+        'routineView/removeRoutine',
         (state, { payload: routineId }) => {
             const operationIds = state.ids
                 .map(id => selectById(state, id))

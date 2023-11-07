@@ -10,7 +10,7 @@ const extraReducers: (builder: ActionReducerMapBuilder<InstructionDataState>) =>
 = (builder) => {
     builder.addCase('game/reset', () => initialState);
     builder.addCase<string, PayloadAction<DeleteScriptProps>>(
-        'scripts/deleteScript',
+        'scriptData/deleteScript',
         (state, { payload: { scriptId } }) => {
             const instructionIds = state.ids
                 .map(id => selectById(state, id))
