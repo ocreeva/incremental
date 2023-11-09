@@ -1,20 +1,14 @@
 import { DialogSubsection } from '@/components/Dialog';
-import { assert } from '@/core';
-import { useParamSelector } from '@/hooks';
+import { IErrorDesign } from '@/types';
 
 import * as S from './OperationDialog.styles';
-import { useOperationDialogContext } from './OperationDialogContext';
-import { selectOperationErrorDesign } from '@/features/errorDesign';
 
-const OperationDialogError: React.FC
-= () => {
-    const { operationId } = useOperationDialogContext('OperationDialog');
-    assert(operationId !== undefined, "Unexpected undefined 'operationId' in OperationDialogError.");
+declare type OperationDialogErrorProps = {
+    error: IErrorDesign;
+};
 
-    const error = useParamSelector(selectOperationErrorDesign, operationId);
-    if (error === null) return null;
-
-    const { GlyphComponent, severity, text } = error;
+const OperationDialogError: React.FC<OperationDialogErrorProps>
+= ({ error: { GlyphComponent, severity, text } }) => {
 
     return (
         <DialogSubsection>

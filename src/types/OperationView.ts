@@ -1,6 +1,6 @@
 import { EntityId, EntityState } from '@reduxjs/toolkit';
 
-import { CommandId, Host, Role } from '@/constants';
+import { CommandId, ErrorCode, Host, Role } from '@/constants';
 
 import Entity from './Entity';
 
@@ -22,8 +22,8 @@ declare type OperationView = Entity & {
     delay?: number;
     /** The operation's total duration, in milliseconds. */
     duration: number;
-    /** The error impacting operation execution, if any. Errors are composed of an ErrorCode and an ErrorCause. */
-    error: number;
+    /** The errors impacting operation execution, if any. Each errors is composed of a cause and a code. */
+    errors: ErrorCode[];
     /** The parent subroutine's host at the start of the operation. */
     host: Host;
     /** The operation's progress to completion, as a percentage (0-1). */

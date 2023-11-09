@@ -4,13 +4,9 @@ import { RootState } from '@/App/store';
 import { selectOperation } from '@/features/operationView';
 import errorDesigns, { getUnhandledErrorDesign } from '@/game/errors/designs';
 import { IErrorDesign } from '@/types';
-import { ErrorCode } from '@/constants';
 
-export const selectOperationErrorDesign: (state: RootState, id: EntityId) => IErrorDesign | null
+export const selectOperationErrorDesigns: (state: RootState, id: EntityId) => IErrorDesign[]
 = createSelector(
     [selectOperation],
-    ({ error }) => {
-        if (error === ErrorCode.None) return null;
-        return errorDesigns[error] ?? getUnhandledErrorDesign(error);
-    }
+    ({ errors }) => errors.map(error => errorDesigns[error] ?? getUnhandledErrorDesign(error))
 );

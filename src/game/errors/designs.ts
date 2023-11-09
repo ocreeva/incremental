@@ -1,4 +1,4 @@
-import { ErrorCause, ErrorCode } from '@/constants';
+import { ErrorCode } from '@/constants';
 import { getErrorCause, getErrorCode } from '@/core';
 import { IErrorDesign } from '@/types';
 
@@ -24,31 +24,35 @@ const severityText: Record<Severity, string> = {
     [Severity.Error]: "Error",
 };
 
+const designs: Record<number, IErrorDesign> = {};
+
 class ErrorDesign implements IErrorDesign {
+    public readonly code: ErrorCode;
     public readonly GlyphComponent: React.FC;
     public readonly severity: string;
     public readonly text: string;
 
-    public constructor(severity: Severity, errorText: string) {
+    public constructor(code: ErrorCode, severity: Severity, errorText: string) {
+        this.code = code;
         this.GlyphComponent = severityIcon[severity];
         this.severity = severityText[severity];
         this.text = errorText;
+
+        designs[code] = this;
     }
 }
 
-const designs: Record<number, IErrorDesign> = {
-    [ErrorCode.OperationInterrupted | ErrorCause.RoutineStopped]: new ErrorDesign(Severity.Information, "Routine execution was stopped before this operation completed."),
-    [ErrorCode.OperationInterrupted | ErrorCause.RoutineTimeElapsed]: new ErrorDesign(Severity.Information, "Routine execution timed out before this operation completed."),
-    [ErrorCode.OperationUnstarted | ErrorCause.RoutineStopped]: new ErrorDesign(Severity.Information, "Routine execution was stopped before this operation started."),
-    [ErrorCode.OperationUnstarted | ErrorCause.RoutineTimeElapsed]: new ErrorDesign(Severity.Error, "Routine execution timed out before this operation was reached."),
-};
+new ErrorDesign(ErrorCode.OperationInterrupted | ErrorCode.RoutineStopped, Severity.Information, "Routine execution was stopped before this operation completed.");
+new ErrorDesign(ErrorCode.OperationInterrupted | ErrorCode.RoutineTimeElapsed, Severity.Information, "Routine execution timed out before this operation completed.");
+new ErrorDesign(ErrorCode.OperationUnstarted | ErrorCode.RoutineStopped, Severity.Information, "Routine execution was stopped before this operation started.");
+new ErrorDesign(ErrorCode.OperationUnstarted | ErrorCode.RoutineTimeElapsed, Severity.Error, "Routine execution timed out before this operation was reached.");
 
 export function getUnhandledErrorDesign(error: number): IErrorDesign {
     const errorCode = getErrorCode(error);
     const errorCause = getErrorCause(error);
-    const message = `Unhandled error (${error}, ${ErrorCode[errorCode] ?? errorCode}, ${ErrorCause[errorCause] ?? errorCause}).`;
+    const message = `Unhandled error (${error}, cause: ${ErrorCode[errorCause] ?? errorCause}, code: ${ErrorCode[errorCode] ?? errorCode}).`;
     console.error(message);
-    return new ErrorDesign(Severity.Error, message);
+    return new ErrorDesign(error, Severity.Error, message);
 }
 
 export default designs;

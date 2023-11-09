@@ -9,6 +9,7 @@ import { useParamSelector } from '@/hooks';
 import * as S from './OperationDialog.styles';
 import { useOperationDialogContext } from './OperationDialogContext';
 import OperationDialogError from './OperationDialogError';
+import { selectOperationErrorDesigns } from '@/features/errorDesign';
 
 const OperationDialog: React.FC
 = () => {
@@ -19,6 +20,8 @@ const OperationDialog: React.FC
     const { name } = useParamSelector(selectCommandDesign, commandId);
     const { name: hostName } = useParamSelector(selectHostDesign, host);
     const { name: roleName } = useParamSelector(selectRoleDesign, role);
+
+    const errors = useParamSelector(selectOperationErrorDesigns, operationId);
 
     const numberFormatOptions: Intl.NumberFormatOptions = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const durationValue = (duration / 1000).toLocaleString(undefined, numberFormatOptions);
@@ -46,7 +49,7 @@ const OperationDialog: React.FC
                 <S.Heading>Role: </S.Heading>
                 {roleName}
             </S.Information>
-            <OperationDialogError />
+            { errors.map(error => (<OperationDialogError key={error.code} error={error} />)) }
             <DialogButtons removeCancelButton={true} />
         </Dialog>
     );

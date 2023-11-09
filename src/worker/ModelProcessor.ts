@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 
-import { ErrorCause } from '@/constants';
+import { ErrorCode } from '@/constants';
 import { ModelStatus, AsyncModelMessage, ModelMessage } from '@/constants/worker';
 import { MessageService } from '@/types/worker';
 import { CreateRoutineResponse, sendUpdateMessage } from '@/worker/client';
@@ -79,7 +79,7 @@ class ModelProcessor {
             default:
                 this.game.routine.abort(
                     this.time.total,
-                    this.time.hasExpired ? ErrorCause.RoutineTimeElapsed : ErrorCause.RoutineStopped);
+                    this.time.hasExpired ? ErrorCode.RoutineTimeElapsed : ErrorCode.RoutineStopped);
                 break;
         }
 

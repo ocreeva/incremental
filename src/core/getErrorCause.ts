@@ -1,5 +1,5 @@
-import { ErrorCause } from '@/constants';
+import { ErrorCode } from '@/constants';
 
-export default function getErrorCause(error: number): ErrorCause {
-    return (error & ErrorCause.Mask) as ErrorCause;
+export default function getErrorCause(error: ErrorCode): ErrorCode {
+    return error & ErrorCode.CauseMask;
 }
