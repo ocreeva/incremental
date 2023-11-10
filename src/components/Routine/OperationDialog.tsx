@@ -8,8 +8,8 @@ import { useParamSelector } from '@/hooks';
 
 import * as S from './OperationDialog.styles';
 import { useOperationDialogContext } from './OperationDialogContext';
-import OperationDialogError from './OperationDialogError';
-import { selectOperationErrorDesigns } from '@/features/errorDesign';
+import OperationDialogMessage from './OperationDialogMessage';
+import { selectOperationMessageDesigns } from '@/features/messageDesign';
 
 const OperationDialog: React.FC
 = () => {
@@ -21,7 +21,7 @@ const OperationDialog: React.FC
     const { name: hostName } = useParamSelector(selectHostDesign, host);
     const { name: roleName } = useParamSelector(selectRoleDesign, role);
 
-    const errors = useParamSelector(selectOperationErrorDesigns, operationId);
+    const messages = useParamSelector(selectOperationMessageDesigns, operationId);
 
     const numberFormatOptions: Intl.NumberFormatOptions = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
     const durationValue = (duration / 1000).toLocaleString(undefined, numberFormatOptions);
@@ -49,7 +49,7 @@ const OperationDialog: React.FC
                 <S.Heading>Role: </S.Heading>
                 {roleName}
             </S.Information>
-            { errors.map(error => (<OperationDialogError key={error.code} error={error} />)) }
+            { messages.map(message => (<OperationDialogMessage key={message.id} message={message} />)) }
             <DialogButtons removeCancelButton={true} />
         </Dialog>
     );

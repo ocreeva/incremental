@@ -1,6 +1,6 @@
 import { EntityId } from '@reduxjs/toolkit';
 
-import { Role, Host, ErrorCode } from '@/constants';
+import { Role, Host, MessageId } from '@/constants';
 import { assert } from '@/core';
 import { ICommandModel, IDeltaValue, IGameContext, IOperationModel } from '@/types/model';
 import { DeltaValue } from '@/worker/client';
@@ -22,7 +22,7 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
             parentRoutineId,
             parentSubroutineId,
             duration: 840,
-            errors: [],
+            messages: [],
             host: Host.Hub,
             progress: 0,
             role: Role.Anon,
@@ -47,12 +47,12 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
 
     public get duration() { return this.state.duration; }
 
-    public get errors(): ReadonlyArray<ErrorCode> { return this.state.errors; }
-    public addError(error: ErrorCode): void {
-        if (this.state.errors.includes(error)) return;
+    public get messages(): ReadonlyArray<MessageId> { return this.state.messages; }
+    public addMessage(message: MessageId): void {
+        if (this.state.messages.includes(message)) return;
 
-        this.state.errors.push(error);
-        this.game.synchronization.updateOperation(this.id, { errors: this.state.errors });
+        this.state.messages.push(message);
+        this.game.synchronization.updateOperation(this.id, { messages: this.state.messages });
     }
 
     public get host() { return this.state.host; }
@@ -136,16 +136,16 @@ abstract class OperationModel<TCommandModel extends ICommandModel = ICommandMode
         this.status = ModelStatus.final;
     }
 
-    public abort(time: number, cause: ErrorCode): void {
+    public abort(time: number, cause: MessageId): void {
         this.assertStatus(ModelStatus.active, ModelStatus.pending);
 
         switch (this.status) {
             case ModelStatus.active:
-                this.addError(ErrorCode.OperationInterrupted | cause);
+                this.addMessage(MessageId.OperationInterrupted | cause);
                 break;
 
             case ModelStatus.pending:
-                this.addError(ErrorCode.OperationUnstarted | cause);
+                this.addMessage(MessageId.OperationUnstarted | cause);
                 break;
         }
 
