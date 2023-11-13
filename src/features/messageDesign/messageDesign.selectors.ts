@@ -8,5 +8,5 @@ import { IMessageDesign } from '@/types';
 export const selectOperationMessageDesigns: (state: RootState, id: EntityId) => IMessageDesign[]
 = createSelector(
     [selectOperation],
-    ({ messages }) => messages.map(message => messageDesigns[message] ?? getUnhandledMessageDesign(message))
+    (operation) => operation.messages.map(message => new (messageDesigns[message] ?? getUnhandledMessageDesign(message))(operation))
 );

@@ -1,61 +1,62 @@
-import { MessageId } from '@/constants';
+import { MessageId, MessageSeverity } from '@/constants';
 import { getMessageSubcode, getMessageCode } from '@/core';
-import { IMessageDesign } from '@/types';
+import { IMessageDesign, IMessageDesignConstructor, OperationView } from '@/types';
 
 import { ReactComponent as InformationGlyph } from './glyphs/information.svg';
 import { ReactComponent as WarningGlyph } from './glyphs/warning.svg';
 import { ReactComponent as ErrorGlyph } from './glyphs/error.svg';
 
-enum Severity {
-    Description,
-    Information,
-    Warning,
-    Error,
-}
-
-const severityIcon: Record<Severity, React.FC | null> = {
-    [Severity.Description]: null,
-    [Severity.Information]: InformationGlyph,
-    [Severity.Warning]: WarningGlyph,
-    [Severity.Error]: ErrorGlyph,
+const severityIcon: Record<MessageSeverity, React.FC | null> = {
+    [MessageSeverity.Detail]: null,
+    [MessageSeverity.Notice]: InformationGlyph,
+    [MessageSeverity.Warning]: WarningGlyph,
+    [MessageSeverity.Error]: ErrorGlyph,
 };
 
-const severityText: Record<Severity, string | null> = {
-    [Severity.Description]: null,
-    [Severity.Information]: "Notice",
-    [Severity.Warning]: "Warning",
-    [Severity.Error]: "Error",
+const severityText: Record<MessageSeverity, string | null> = {
+    [MessageSeverity.Detail]: null,
+    [MessageSeverity.Notice]: "Notice",
+    [MessageSeverity.Warning]: "Warning",
+    [MessageSeverity.Error]: "Error",
 };
 
-const designs: Record<number, IMessageDesign> = {};
+declare type OperationMessageTemplate = (operation: OperationView) => string;
 
-class MessageDesign implements IMessageDesign {
-    public readonly id: MessageId;
-    public readonly GlyphComponent: React.FC | null;
-    public readonly severity: string | null;
-    public readonly text: string;
+const designs: Record<number, IMessageDesignConstructor> = {};
 
-    public constructor(id: MessageId, severity: Severity, text: string) {
-        this.id = id;
-        this.GlyphComponent = severityIcon[severity];
-        this.severity = severityText[severity];
-        this.text = text;
-
-        designs[id] = this;
-    }
+function register(id: MessageId, template: string | OperationMessageTemplate, severityOverride?: MessageSeverity) {
+    const messageTemplate: OperationMessageTemplate = typeof template === 'string' ? _ => template : template;
+    const severity: MessageSeverity = severityOverride ?? id & MessageId.Mask_Severity;
+    designs[id] = class MessageDesign implements IMessageDesign {
+        public readonly id: MessageId;
+        public readonly GlyphComponent: React.FC | null;
+        public readonly severity: string | null;
+        public readonly text: string;
+    
+        public constructor(operation: OperationView) {
+            this.id = id;
+            this.GlyphComponent = severityIcon[severity];
+            this.severity = severityText[severity];
+            this.text = messageTemplate(operation);
+        }
+    };
 }
 
-new MessageDesign(MessageId.OperationInterrupted | MessageId.RoutineStopped, Severity.Information, "Routine execution was stopped before this operation completed.");
-new MessageDesign(MessageId.OperationInterrupted | MessageId.RoutineTimeElapsed, Severity.Information, "Routine execution timed out before this operation completed.");
-new MessageDesign(MessageId.OperationUnstarted | MessageId.RoutineStopped, Severity.Information, "Routine execution was stopped before this operation started.");
-new MessageDesign(MessageId.OperationUnstarted | MessageId.RoutineTimeElapsed, Severity.Error, "Routine execution timed out before this operation was reached.");
+register(MessageId.OperationInterrupted | MessageId.RoutineStopped, "Routine execution was stopped before this operation completed.");
+register(MessageId.OperationInterrupted | MessageId.RoutineTimeElapsed, "Routine execution timed out before this operation completed.");
+register(MessageId.OperationUnstarted | MessageId.RoutineStopped, "Routine execution was stopped before this operation started.");
+register(MessageId.OperationUnstarted | MessageId.RoutineTimeElapsed, "Routine execution timed out before this operation was reached.", MessageSeverity.Error);
 
-export function getUnhandledMessageDesign(messageId: number): IMessageDesign {
+export function getUnhandledMessageDesign(messageId: number): IMessageDesignConstructor {
     const messageCode = getMessageCode(messageId);
     const messageSubcode = getMessageSubcode(messageId);
+
     const text = `Unhandled message ID (${messageId}, code: ${MessageId[messageCode] ?? messageCode}, subcode: ${MessageId[messageSubcode] ?? messageSubcode}).`;
     console.error(text);
-    return new MessageDesign(messageId, Severity.Error, text);
+
+    // register the design for this message ID, to avoid clutter from the console log
+    register(messageId, text, MessageSeverity.Error);
+    return designs[messageId];
 }
 
 export default designs;

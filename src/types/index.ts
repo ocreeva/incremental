@@ -6,6 +6,7 @@ export type { default as ICommandDesign } from './ICommandDesign';
 export type { default as ICommandDesignConstructor } from './ICommandDesignConstructor';
 export type { default as IHostDesign } from './IHostDesign';
 export type { default as IMessageDesign } from './IMessageDesign';
+export type { default as IMessageDesignConstructor } from './IMessageDesignConstructor';
 export type { default as InstructionData, InstructionDataState } from './InstructionData';
 export type { default as IRoleDesign } from './IRoleDesign';
 export type { default as OperationView, OperationViewState } from './OperationView';
